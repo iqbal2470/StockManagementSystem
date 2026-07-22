@@ -157,6 +157,7 @@
             Controls.Add(Lable1);
             Name = "FrmBrand";
             Text = "Brands Management";
+            Load += FrmBrand_Load;
             ((System.ComponentModel.ISupportInitialize)dgvBrand).EndInit();
             ResumeLayout(false);
             PerformLayout();

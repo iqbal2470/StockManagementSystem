@@ -157,6 +157,7 @@
             Controls.Add(Lable1);
             Name = "FrmUnit";
             Text = "FrmUnit";
+            Load += FrmUnit_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUnit).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -22,12 +22,9 @@
     <Folder Include="Forms\Authentication\" />
     <Folder Include="Forms\Users\" />
     <Folder Include="Forms\Settings\" />
-    <Folder Include="Forms\Reports\" />
-    <Folder Include="Forms\Stock\" />
     <Folder Include="Forms\Orders\" />
     <Folder Include="Forms\Customers\" />
     <Folder Include="Forms\Suppliers\" />
-    <Folder Include="Forms\Products\" />
     <Folder Include="Images\" />
     <Folder Include="Migrations\" />
     <Folder Include="Models\User\" />
@@ -41,7 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -58,6 +57,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.10" />
+    <PackageReference Include="QuestPDF" Version="2026.7.1" />
+    <PackageReference Include="ZXing.Net" Version="0.16.11" />
+    <PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.14" />
   </ItemGroup>
 
   <ItemGroup>

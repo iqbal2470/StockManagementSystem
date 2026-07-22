@@ -31,6 +31,7 @@ namespace StockManagementSystem.Forms.Categories
         private async Task LoadCategories()
         {
             dgvCategory.DataSource = await _categoryService.GetAllAsync();
+            dgvCategory.AutoGenerateColumns = false;
             FormatGrid();
         }
 

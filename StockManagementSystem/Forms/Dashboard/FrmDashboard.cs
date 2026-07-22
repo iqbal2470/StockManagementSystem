@@ -2,7 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using StockManagementSystem.Forms.Brands;
 using StockManagementSystem.Forms.Categories;
+using StockManagementSystem.Forms.Products;
+using StockManagementSystem.Forms.Purchase;
+using StockManagementSystem.Forms.Reports;
+using StockManagementSystem.Forms.Sales;
+using StockManagementSystem.Forms.Stock;
 using StockManagementSystem.Forms.Units;
+using StockManagementSystem.Services.Dashboard;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,14 +26,16 @@ namespace StockManagementSystem.Forms.Dashboard
 {
     public partial class FrmDashboard : Form
     {
+        private readonly IDashboardService _dashboardService;
         private const int SidebarExpandedWidth = 250;
         private const int SidebarCollapsedWidth = 70;
         private Form? activeForm;
         private bool isSidebarExpanded = true;
         private IconButton? currentButton;
-        public FrmDashboard()
+        public FrmDashboard(IDashboardService dashboardService)
         {
             InitializeComponent();
+            _dashboardService = dashboardService;
         }
 
         private void btnMenu_Click(object sender, EventArgs e)
@@ -67,8 +78,11 @@ namespace StockManagementSystem.Forms.Dashboard
             lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
         }
 
-        private void FrmDashboard_Load(object sender, EventArgs e)
+        private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+            pnlDashboard.Visible = true;
+            pnlDesktop.Visible = false;
+
             lblTitle.Text = "Dashboard";
 
             lblUserName.Text = "Admin";
@@ -80,16 +94,179 @@ namespace StockManagementSystem.Forms.Dashboard
             SetMenuText(true);
 
             SetButtonLayout(true);
+            FormatRecentStockGrid();
+            LoadRecentStockDummyData();
+            await LoadDashboardAsync();
         }
+        private void FormatRecentStockGrid()
+        {
+            dgvRecentStock.EnableHeadersVisualStyles = false;
+
+            dgvRecentStock.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(59, 130, 246);
+            dgvRecentStock.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvRecentStock.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            dgvRecentStock.ColumnHeadersHeight = 40;
+            dgvRecentStock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            dgvRecentStock.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgvRecentStock.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
+            dgvRecentStock.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            dgvRecentStock.RowTemplate.Height = 35;
+
+            dgvRecentStock.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 250, 252);
+
+            dgvRecentStock.GridColor = Color.Gainsboro;
+
+            dgvRecentStock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void LoadRecentStockDummyData()
+        {
+            dgvRecentStock.Rows.Clear();
+
+            dgvRecentStock.Rows.Add(
+                DateTime.Now.ToString("dd MMM yyyy"),
+                "Stock In",
+                "LED Headlight",
+                20,
+                "Purchase");
+
+            dgvRecentStock.Rows.Add(
+                DateTime.Now.ToString("dd MMM yyyy"),
+                "Stock Out",
+                "Car Charger",
+                5,
+                "Sale");
+
+            dgvRecentStock.Rows.Add(
+                DateTime.Now.ToString("dd MMM yyyy"),
+                "Stock In",
+                "Seat Cover",
+                10,
+                "Purchase");
+        }
+        private async Task LoadDashboardAsync()
+        {
+            var dashboard = await _dashboardService.GetDashboardSummaryAsync();
+
+            lblTotalProducts.Text = dashboard.TotalProducts.ToString();
+
+            lblTotalCategories.Text = dashboard.TotalCategories.ToString();
+
+            lblTotalBrands.Text = dashboard.TotalBrands.ToString();
+
+            lblTotalUnits.Text = dashboard.TotalUnits.ToString();
+
+            lblPurchaseAmount.Text = dashboard.TotalPurchaseAmount.ToString("N2");
+
+            lblSalesAmount.Text = dashboard.TotalSalesAmount.ToString("N2");
+
+            lblCurrentStock.Text = dashboard.CurrentStock.ToString();
+
+            lblLowStock.Text = dashboard.LowStockProducts.ToString();
+
+
+            await LoadSalesChartAsync();
+            await LoadStockChartAsync();
+        }
+
+        private async Task LoadSalesChartAsync()
+        {
+            var data = await _dashboardService.GetSalesChartAsync();
+
+            cartesianChart1.Series = new ISeries[]
+            {
+        new LineSeries<decimal>
+        {
+            Values = data.Select(x => x.TotalSales).ToArray(),
+            Name = "Sales"
+        }
+            };
+
+            cartesianChart1.XAxes = new Axis[]
+            {
+        new Axis
+        {
+            Labels = data.Select(x => x.Month).ToArray()
+        }
+            };
+        }
+        private async Task LoadStockChartAsync()
+        {
+            var data = await _dashboardService.GetStockChartAsync();
+
+            pieChart1.Series = data
+                .Select(x => new PieSeries<int>
+                {
+                    Values = new[] { x.Total },
+                    Name = x.Status
+                })
+                .Cast<ISeries>()
+                .ToArray();
+        }
+        //private void OpenChildForm(Form childForm)
+        //{
+        //    if (activeForm != null)
+        //    {
+        //        activeForm.Close();
+        //    }
+
+        //    activeForm = childForm;
+        //    pnlDashboardCards.Visible = false;
+        //    pnlChartSection.Visible = false;
+        //    childForm.TopLevel = false;
+        //    childForm.FormBorderStyle = FormBorderStyle.None;
+        //    childForm.Dock = DockStyle.Fill;
+
+        //    //pnlDesktop.Controls.Clear();
+        //    pnlMain.Controls.Add(childForm);
+        //    pnlMain.Tag = childForm;
+
+        //    childForm.BringToFront();
+        //    childForm.Show();
+        //}
+        //private void OpenChildForm(Form childForm)
+        //{
+        //    if (activeForm != null)
+        //    {
+        //        activeForm.Close();
+        //        activeForm.Dispose();
+        //        activeForm = null;
+        //    }
+
+        //    activeForm = childForm;
+
+        //    // Dashboard Hide
+        //    pnlDashboard.Visible = false;
+
+        //    // Desktop Show
+        //    pnlDesktop.Visible = true;
+
+        //    childForm.TopLevel = false;
+        //    childForm.FormBorderStyle = FormBorderStyle.None;
+        //    childForm.Dock = DockStyle.Fill;
+
+        //    pnlDesktop.Controls.Clear();      // Sirf child forms ke liye
+        //    pnlDesktop.Controls.Add(childForm);
+
+        //    childForm.Show();
+        //    childForm.BringToFront();
+        //}
 
         private void OpenChildForm(Form childForm)
         {
             if (activeForm != null)
             {
                 activeForm.Close();
+                activeForm = null;
             }
 
             activeForm = childForm;
+
+            pnlDashboard.Visible = false;
+            pnlDesktop.Visible = true;
 
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
@@ -97,12 +274,9 @@ namespace StockManagementSystem.Forms.Dashboard
 
             pnlDesktop.Controls.Clear();
             pnlDesktop.Controls.Add(childForm);
-            pnlDesktop.Tag = childForm;
 
-            childForm.BringToFront();
             childForm.Show();
         }
-
         private void btnCategory_Click(object sender, EventArgs e)
         {
             ActivateButton(btnCategory);
@@ -111,18 +285,43 @@ namespace StockManagementSystem.Forms.Dashboard
             lblTitle.Text = "Category";
         }
 
-        private void btnDashboard_Click(object sender, EventArgs e)
+        private async void btnDashboard_Click(object sender, EventArgs e)
         {
+            //MessageBox.Show(pnlMain.Controls.Count.ToString());
+            //ActivateButton(btnDashboard);
+
+            //if (activeForm != null)
+            //{
+            //    activeForm.Close();
+            //    activeForm = null;
+            //}
+            //pnlDashboardCards.Visible = true;
+            //pnlChartSection.Visible = true;
+            ////pnlDesktop.Controls.Clear();
+
+            //lblTitle.Text = "Dashboard";
+            //await LoadDashboardAsync();
+
             ActivateButton(btnDashboard);
+
             if (activeForm != null)
             {
                 activeForm.Close();
+                activeForm.Dispose();
                 activeForm = null;
             }
 
+            // Desktop Clear
             pnlDesktop.Controls.Clear();
+            pnlDesktop.Visible = false;
+
+            // Dashboard Show
+            pnlDashboard.Visible = true;
+            pnlDashboard.BringToFront();
 
             lblTitle.Text = "Dashboard";
+
+            await LoadDashboardAsync();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -161,16 +360,16 @@ namespace StockManagementSystem.Forms.Dashboard
             btnDashboard.Text = expanded ? " Dashboard" : "";
             //btnMasters.Text = expanded ? " Masters" : "";
             btnCategory.Text = expanded ? " Category" : "";
-            //btnBrand.Text = expanded ? " Brands" : "";
-            //btnUnit.Text = expanded ? " Unit" : "";
-            //btnSupplier.Text = expanded ? " Supplier" : "";
+            btnBrand.Text = expanded ? " Brands" : "";
+            btnUnit.Text = expanded ? " Unit" : "";
+            //tnSupplier.Text = expanded ? " Supplier" : "";
             //btnCustomer.Text = expanded ? " Customer" : "";
-            //btnProduct.Text = expanded ? " Product" : "";
-            //btnPurchase.Text = expanded ? " Purchase" : "";
-            //btnSales.Text = expanded ? " Sales" : "";
-            //btnStock.Text = expanded ? " Stock" : "";
-            //btnReports.Text = expanded ? " Reports" : "";
-            //btnSettings.Text = expanded ? " Settings" : "";
+            btnProduct.Text = expanded ? " Product" : "";
+            btnPurchase.Text = expanded ? " Purchase" : "";
+            btnSales.Text = expanded ? " Sales" : "";
+            btnStock.Text = expanded ? " Stock" : "";
+            btnReports.Text = expanded ? " Reports" : "";
+            btnSetting.Text = expanded ? " Settings" : "";
             btnLogout.Text = expanded ? " Logout" : "";
         }
 
@@ -207,6 +406,9 @@ namespace StockManagementSystem.Forms.Dashboard
             ActivateButton(btnBrand);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmBrand>());
+
+
+            lblTitle.Text = "Brand";
         }
 
         private void btnUnit_Click(object sender, EventArgs e)
@@ -214,6 +416,53 @@ namespace StockManagementSystem.Forms.Dashboard
             ActivateButton(btnUnit);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmUnit>());
+
+            lblTitle.Text = "Unit";
+        }
+
+        private void btnProduct_Click(object sender, EventArgs e)
+        {
+            ActivateButton(btnProduct);
+
+            OpenChildForm(Program.Services.GetRequiredService<FrmProduct>());
+
+            lblTitle.Text = "Product";
+        }
+
+        private void btnPurchase_Click(object sender, EventArgs e)
+        {
+            ActivateButton(btnPurchase);
+
+            OpenChildForm(Program.Services.GetRequiredService<FrmPurchase>());
+
+            lblTitle.Text = "Purchase";
+        }
+
+        private void btnSales_Click(object sender, EventArgs e)
+        {
+            ActivateButton(btnSales);
+
+            OpenChildForm(Program.Services.GetRequiredService<FrmSale>());
+
+            lblTitle.Text = "Sale";
+        }
+
+        private void btnStock_Click(object sender, EventArgs e)
+        {
+            ActivateButton(btnStock);
+
+            OpenChildForm(Program.Services.GetRequiredService<FrmStock>());
+
+            lblTitle.Text = "Stock";
+        }
+
+        private void btnReports_Click(object sender, EventArgs e)
+        {
+            ActivateButton(btnReports);
+
+            OpenChildForm(Program.Services.GetRequiredService<RrmReports>());
+
+            lblTitle.Text = "Reports";
         }
     }
 }

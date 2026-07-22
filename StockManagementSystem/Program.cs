@@ -2,13 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuestPDF.Infrastructure;
 using StockManagementSystem.Data;
 using StockManagementSystem.Forms.Brands;
 using StockManagementSystem.Forms.Categories;
 using StockManagementSystem.Forms.Dashboard;
 using StockManagementSystem.Forms.Login;
+using StockManagementSystem.Forms.Products;
+using StockManagementSystem.Forms.Purchase;
+using StockManagementSystem.Forms.Reports;
+using StockManagementSystem.Forms.Sales;
+using StockManagementSystem.Forms.Stock;
 using StockManagementSystem.Forms.Units;
-
 //using StockManagementSystem.Forms.Authentication;
 using StockManagementSystem.Interfaces;
 //using StockManagementSystem.Forms.Authentication;
@@ -18,6 +23,13 @@ using StockManagementSystem.Repositories;
 using StockManagementSystem.Services.BrandServices;
 using StockManagementSystem.Services.CategoryServices;
 using StockManagementSystem.Services.CategoryServices;
+using StockManagementSystem.Services.Dashboard;
+using StockManagementSystem.Services.ProductServices;
+using StockManagementSystem.Services.PurchaseService;
+using StockManagementSystem.Services.ReportService;
+using StockManagementSystem.Services.ReportsService;
+using StockManagementSystem.Services.SaleService;
+using StockManagementSystem.Services.StockServices;
 using StockManagementSystem.Services.UnitServices;
 using StockManagementSystem.Services.UserServices;
 namespace StockManagementSystem
@@ -55,6 +67,28 @@ namespace StockManagementSystem
                     services.AddScoped<IUnitRepository, UnitRepository>();
                     services.AddScoped<IUnitService, UnitService>();
 
+                    services.AddScoped<IProductRepository, ProductRepository>();
+                    services.AddScoped<IProductService, ProductService>();
+
+                    services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+                    services.AddScoped<IPurchaseService, PurchaseService>();
+
+                    services.AddScoped<ISaleRepository, SaleRepository>();
+                    services.AddScoped<ISaleService, SaleService>();
+
+                    services.AddScoped<IStockService, StockService>();
+
+                    services.AddScoped<IReportRepository, ReportRepository>();
+                    services.AddScoped<IReportService, ReportService>();
+
+                    services.AddScoped<IDashboardRepository, DashboardRepository>();
+                    services.AddScoped<IDashboardService, DashboardService>();
+
+                    services.AddTransient<RrmReports>();
+                    services.AddTransient<FrmStock>();
+                    services.AddTransient<FrmSale>();
+                    services.AddTransient<FrmPurchase>();
+                    services.AddTransient<FrmProduct>();
                     services.AddTransient<FrmUnit>();
                     services.AddTransient<FrmLogin>();
                     services.AddTransient<FrmCategory>();
@@ -79,7 +113,7 @@ namespace StockManagementSystem
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-
+            QuestPDF.Settings.License = LicenseType.Community;
             var host = CreateHostBuilder();
 
             Services = host.Services;
