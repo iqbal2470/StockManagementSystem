@@ -1,12 +1,13 @@
-﻿using StockManagementSystem.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using StockManagementSystem.Data;
 using StockManagementSystem.Interfaces;
 using StockManagementSystem.Models.Dashboard;
+using StockManagementSystem.Models.Master;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 namespace StockManagementSystem.Repositories
 {
     public class DashboardRepository : IDashboardRepository
@@ -110,23 +111,125 @@ namespace StockManagementSystem.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<TopSellingProductModel>> GetTopSellingProductsAsync()
+        //public async Task<List<TopSellingProductModel>> GetTopSellingProductsAsync()
+        //{
+        //    return await _context.Sales
+        //        .Include(s => s.Product)
+        //        .GroupBy(s => new
+        //        {
+        //            s.ProductId,
+        //            s.Product.ProductName
+        //        })
+        //        .Select(g => new TopSellingProductModel
+        //        {
+        //            ProductName = g.Key.ProductName,
+        //            TotalQuantity = g.Sum(x => x.Quantity)
+        //        })
+        //        .OrderByDescending(x => x.TotalQuantity)
+        //        .Take(10)
+        //        .ToListAsync();
+        //}
+        //public async Task<List<TopSellingProductModel>> GetTopSellingProductsAsync()
+        //{
+        //    var list = await _context.Sales
+        //        .Include(x => x.Product)
+        //        .GroupBy(x => new
+        //        {
+        //            x.ProductId,
+        //            x.Product.ProductName,
+        //            x.Product.ImagePath
+        //        })
+        //        .Select(g => new TopSellingProductModel
+        //        {
+        //            ProductName = g.Key.ProductName,
+        //            ImagePath = g.Key.ImagePath,
+        //            TotalQuantity = g.Sum(x => x.Quantity)
+        //        })
+        //        .OrderByDescending(x => x.TotalQuantity)
+        //        .Take(10)
+        //        .ToListAsync();
+
+        //    if (list.Any())
+        //    {
+        //        int maxQty = list.Max(x => x.TotalQuantity);
+
+        //        foreach (var item in list)
+        //        {
+        //            item.Progress = maxQty == 0
+        //                ? 0
+        //                : (item.TotalQuantity * 100) / maxQty;
+        //        }
+        //    }
+
+        //    return list;
+        //}
+        public async Task<List<TopSellingProductModel>> GetTopSellingProductsAsync(string duration)
         {
-            return await _context.Sales
-                .Include(s => s.Product)
-                .GroupBy(s => new
+            IQueryable<Sale> query = _context.Sales
+                .Include(x => x.Product);
+
+            DateTime today = DateTime.Today;
+
+            switch (duration)
+            {
+                case "Today":
+                    query = query.Where(x => x.CreatedDate.Date == today);
+                    break;
+
+                case "This Week":
+
+                    DateTime startOfWeek = today.AddDays(-(int)today.DayOfWeek);
+
+                    query = query.Where(x => x.CreatedDate >= startOfWeek);
+
+                    break;
+
+                case "This Month":
+
+                    query = query.Where(x =>
+                        x.CreatedDate.Month == today.Month &&
+                        x.CreatedDate.Year == today.Year);
+
+                    break;
+
+                case "This Year":
+
+                    query = query.Where(x =>
+                        x.CreatedDate.Year == today.Year);
+
+                    break;
+            }
+
+            var list = await query
+                .GroupBy(x => new
                 {
-                    s.ProductId,
-                    s.Product.ProductName
+                    x.ProductId,
+                    x.Product.ProductName,
+                    x.Product.ImagePath
                 })
                 .Select(g => new TopSellingProductModel
                 {
                     ProductName = g.Key.ProductName,
+                    ImagePath = g.Key.ImagePath,
                     TotalQuantity = g.Sum(x => x.Quantity)
                 })
                 .OrderByDescending(x => x.TotalQuantity)
                 .Take(10)
                 .ToListAsync();
+
+            if (list.Any())
+            {
+                int maxQty = list.Max(x => x.TotalQuantity);
+
+                foreach (var item in list)
+                {
+                    item.Progress = maxQty == 0
+                        ? 0
+                        : item.TotalQuantity * 100 / maxQty;
+                }
+            }
+
+            return list;
         }
     }
 }

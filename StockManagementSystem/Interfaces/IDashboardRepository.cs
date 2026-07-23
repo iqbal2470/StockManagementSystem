@@ -18,6 +18,6 @@ namespace StockManagementSystem.Interfaces
 
         Task<List<RecentSaleModel>> GetRecentSalesAsync();
 
-        Task<List<TopSellingProductModel>> GetTopSellingProductsAsync();
+        Task<List<TopSellingProductModel>> GetTopSellingProductsAsync(string duration);
     }
 }

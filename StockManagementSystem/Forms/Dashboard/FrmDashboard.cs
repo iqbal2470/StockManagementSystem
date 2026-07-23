@@ -1,17 +1,21 @@
 ﻿using FontAwesome.Sharp;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.WinForms;
 using Microsoft.Extensions.DependencyInjection;
+using StockManagementSystem.Forms.BackupRestore;
 using StockManagementSystem.Forms.Brands;
 using StockManagementSystem.Forms.Categories;
+using StockManagementSystem.Forms.History;
 using StockManagementSystem.Forms.Products;
 using StockManagementSystem.Forms.Purchase;
 using StockManagementSystem.Forms.Reports;
 using StockManagementSystem.Forms.Sales;
 using StockManagementSystem.Forms.Stock;
 using StockManagementSystem.Forms.Units;
+using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.Dashboard;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.WinForms;
+using StockManagementSystem.Services.StockTransactionServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,16 +30,19 @@ namespace StockManagementSystem.Forms.Dashboard
 {
     public partial class FrmDashboard : Form
     {
+        private readonly IStockTransactionService _stockTransactionService;
         private readonly IDashboardService _dashboardService;
         private const int SidebarExpandedWidth = 250;
         private const int SidebarCollapsedWidth = 70;
         private Form? activeForm;
         private bool isSidebarExpanded = true;
         private IconButton? currentButton;
-        public FrmDashboard(IDashboardService dashboardService)
+        public FrmDashboard(IDashboardService dashboardService, IStockTransactionService stockTransactionService)
         {
             InitializeComponent();
+            this.MaximizeBox = false;
             _dashboardService = dashboardService;
+            _stockTransactionService = stockTransactionService;
         }
 
         private void btnMenu_Click(object sender, EventArgs e)
@@ -77,9 +84,14 @@ namespace StockManagementSystem.Forms.Dashboard
         {
             lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
         }
-
+        private bool _isFormLoaded = false;
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+            pnlDashboard.AutoScroll = true;
+            pnlDashboard.HorizontalScroll.Enabled = false;
+            pnlDashboard.HorizontalScroll.Visible = false;
+            pnlDashboard.AutoScrollMinSize = new Size(0, 1200);
+
             pnlDashboard.Visible = true;
             pnlDesktop.Visible = false;
 
@@ -95,8 +107,66 @@ namespace StockManagementSystem.Forms.Dashboard
 
             SetButtonLayout(true);
             FormatRecentStockGrid();
-            LoadRecentStockDummyData();
+            //LoadRecentStockDummyData();
+
+            await LoadRecentStockAsync();
+
+            cmbDuration.Items.Clear();
+
+            //cmbDuration.Items.Add("Top 5");
+            //cmbDuration.Items.Add("Top 10");
+            //cmbDuration.Items.Add("Top 20");
+
+            //cmbDuration.SelectedIndex = 1; // Default Top 10
+            cmbDuration.Items.Add("Today");
+            cmbDuration.Items.Add("This Week");
+            cmbDuration.Items.Add("This Month");
+            cmbDuration.Items.Add("This Year");
+            cmbDuration.SelectedIndex = 2; // Default This Month
+            await LoadTopSellingProductsAsync();
             await LoadDashboardAsync();
+
+            _isFormLoaded = true;
+        }
+
+        //private async Task LoadTopSellingProductsAsync()
+        //{
+        //    flpTopSelling.Controls.Clear();
+
+        //    //var products = await _dashboardService.GetTopSellingProductsAsync();
+        //    string duration = cmbDuration.Text;
+
+        //    var products =
+        //    await _dashboardService.GetTopSellingProductsAsync(duration);
+        //    foreach (var item in products)
+        //    {
+        //        var card = new ucTopSellingProduct();
+
+        //        card.SetData(item);
+
+        //        flpTopSelling.Controls.Add(card);
+        //    }
+        //}
+        private async Task LoadTopSellingProductsAsync()
+        {
+            flpTopSelling.Controls.Clear();
+
+            string duration = cmbDuration.Text;
+
+            var products = await _dashboardService.GetTopSellingProductsAsync(duration);
+
+            foreach (var item in products)
+            {
+                var card = new ucTopSellingProduct();
+
+                // 👇 Full Width
+                card.Width = flpTopSelling.ClientSize.Width;
+                card.Margin = new Padding(0);
+
+                card.SetData(item);
+
+                flpTopSelling.Controls.Add(card);
+            }
         }
         private void FormatRecentStockGrid()
         {
@@ -122,6 +192,32 @@ namespace StockManagementSystem.Forms.Dashboard
             dgvRecentStock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        private async Task LoadRecentStockAsync()
+        {
+            dgvRecentStock.Rows.Clear();
+
+            var transactions = await _stockTransactionService.GetRecentTransactionsAsync(10);
+
+            foreach (var item in transactions)
+            {
+                string type = item.TransactionType switch
+                {
+                    TransactionType.Purchase => "Stock In",
+                    TransactionType.Sale => "Stock Out",
+                    TransactionType.Adjustment => "Adjustment",
+                    TransactionType.OpeningStock => "Opening Stock",
+                    _ => item.TransactionType.ToString()
+                };
+
+                dgvRecentStock.Rows.Add(
+                    item.CreatedDate.ToString("dd MMM yyyy"),
+                    type,
+                    item.Product?.ProductName ?? "",
+                    item.Quantity,
+                    item.Remarks ?? ""
+                );
+            }
+        }
         private void LoadRecentStockDummyData()
         {
             dgvRecentStock.Rows.Clear();
@@ -369,8 +465,10 @@ namespace StockManagementSystem.Forms.Dashboard
             btnSales.Text = expanded ? " Sales" : "";
             btnStock.Text = expanded ? " Stock" : "";
             btnReports.Text = expanded ? " Reports" : "";
+            btnHistory.Text = expanded ? " History" : "";
             btnSetting.Text = expanded ? " Settings" : "";
-            btnLogout.Text = expanded ? " Logout" : "";
+            btnLogOut.Text = expanded ? " LogOut" : "";
+            btnBackupRestore.Text = expanded ? " Backup/Restore" : "";
         }
 
         private void SetButtonLayout(bool expanded)
@@ -379,7 +477,7 @@ namespace StockManagementSystem.Forms.Dashboard
             {
         btnDashboard,
         btnCategory,
-        btnLogout
+        btnBackupRestore
     };
 
             foreach (var button in buttons)
@@ -463,6 +561,45 @@ namespace StockManagementSystem.Forms.Dashboard
             OpenChildForm(Program.Services.GetRequiredService<RrmReports>());
 
             lblTitle.Text = "Reports";
+        }
+
+        private async void cmbDuration_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!_isFormLoaded)
+                return;
+
+            await LoadTopSellingProductsAsync();
+        }
+
+        private void flpTopSelling_SizeChanged(object sender, EventArgs e)
+        {
+            foreach (Control control in flpTopSelling.Controls)
+            {
+                control.Width = flpTopSelling.ClientSize.Width;
+            }
+        }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+            ActivateButton(btnHistory);
+
+            OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
+
+            lblTitle.Text = "History";
+        }
+
+        private void lnkViewAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+            OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
+        }
+
+        private void btnBackupRestore_Click(object sender, EventArgs e)
+        {
+            ActivateButton(btnBackupRestore);
+            OpenChildForm(Program.Services.GetRequiredService<FrmBackupRestore>());
+
+            lblTitle.Text = "Backup and Restore data";
         }
     }
 }

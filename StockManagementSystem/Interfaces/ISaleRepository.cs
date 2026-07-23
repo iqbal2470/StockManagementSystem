@@ -12,5 +12,7 @@ namespace StockManagementSystem.Interfaces
         Task<Sale?> GetLastSaleAsync();
 
         Task<List<Sale>> SearchSalesAsync(string keyword);
+
+        Task<Sale?> GetByIdAsNoTrackingAsync(int id);
     }
 }

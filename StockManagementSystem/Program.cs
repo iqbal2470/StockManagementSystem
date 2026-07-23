@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuestPDF.Infrastructure;
 using StockManagementSystem.Data;
+using StockManagementSystem.Forms.BackupRestore;
 using StockManagementSystem.Forms.Brands;
 using StockManagementSystem.Forms.Categories;
 using StockManagementSystem.Forms.Dashboard;
+using StockManagementSystem.Forms.History;
 using StockManagementSystem.Forms.Login;
 using StockManagementSystem.Forms.Products;
 using StockManagementSystem.Forms.Purchase;
@@ -20,6 +22,7 @@ using StockManagementSystem.Interfaces;
 using StockManagementSystem.Interfaces;
 using StockManagementSystem.Repositories;
 using StockManagementSystem.Repositories;
+using StockManagementSystem.Services.BackupServices;
 using StockManagementSystem.Services.BrandServices;
 using StockManagementSystem.Services.CategoryServices;
 using StockManagementSystem.Services.CategoryServices;
@@ -30,6 +33,7 @@ using StockManagementSystem.Services.ReportService;
 using StockManagementSystem.Services.ReportsService;
 using StockManagementSystem.Services.SaleService;
 using StockManagementSystem.Services.StockServices;
+using StockManagementSystem.Services.StockTransactionServices;
 using StockManagementSystem.Services.UnitServices;
 using StockManagementSystem.Services.UserServices;
 namespace StockManagementSystem
@@ -84,6 +88,14 @@ namespace StockManagementSystem
                     services.AddScoped<IDashboardRepository, DashboardRepository>();
                     services.AddScoped<IDashboardService, DashboardService>();
 
+
+                    services.AddScoped<IStockTransactionRepository, StockTransactionRepository>();
+                    services.AddScoped<IStockTransactionService, StockTransactionService>();
+
+                    services.AddScoped<IBackupService, BackupService>();
+
+                    services.AddTransient<FrmBackupRestore>();
+                    services.AddTransient<FrmHistory>();
                     services.AddTransient<RrmReports>();
                     services.AddTransient<FrmStock>();
                     services.AddTransient<FrmSale>();

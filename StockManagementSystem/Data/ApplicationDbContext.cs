@@ -21,6 +21,7 @@ namespace StockManagementSystem.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<PurchaseEntiity> Purchases { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<StockTransaction> StockTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -95,6 +96,11 @@ namespace StockManagementSystem.Data
                       .HasForeignKey(e => e.UnitId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
+            modelBuilder.Entity<StockTransaction>()
+    .HasOne(x => x.Product)
+    .WithMany()
+    .HasForeignKey(x => x.ProductId)
+    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

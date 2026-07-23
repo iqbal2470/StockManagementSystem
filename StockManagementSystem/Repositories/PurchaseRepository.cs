@@ -40,6 +40,12 @@ namespace StockManagementSystem.Repositories
                 .ToListAsync();
         }
 
+        public async Task<PurchaseEntiity?> GetByIdAsNoTrackingAsync(int id)
+        {
+            return await _context.Purchases
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
 
     }
 }

@@ -42,7 +42,7 @@
             label12 = new Label();
             label9 = new Label();
             txtQuantity = new TextBox();
-            txtSalesPrice = new Label();
+            lblsal = new Label();
             txtSalePrice = new TextBox();
             label4 = new Label();
             cmbProduct = new ComboBox();
@@ -191,14 +191,14 @@
             txtQuantity.TabIndex = 85;
             txtQuantity.TextChanged += txtQuantity_TextChanged;
             // 
-            // txtSalesPrice
+            // lblsal
             // 
-            txtSalesPrice.AutoSize = true;
-            txtSalesPrice.Location = new Point(883, 123);
-            txtSalesPrice.Name = "txtSalesPrice";
-            txtSalesPrice.Size = new Size(86, 25);
-            txtSalesPrice.TabIndex = 84;
-            txtSalesPrice.Text = "Sale Price";
+            lblsal.AutoSize = true;
+            lblsal.Location = new Point(883, 123);
+            lblsal.Name = "lblsal";
+            lblsal.Size = new Size(86, 25);
+            lblsal.TabIndex = 84;
+            lblsal.Text = "Sale Price";
             // 
             // txtSalePrice
             // 
@@ -270,7 +270,7 @@
             Controls.Add(label12);
             Controls.Add(label9);
             Controls.Add(txtQuantity);
-            Controls.Add(txtSalesPrice);
+            Controls.Add(lblsal);
             Controls.Add(txtSalePrice);
             Controls.Add(label4);
             Controls.Add(cmbProduct);
@@ -301,7 +301,7 @@
         private Label label12;
         private Label label9;
         private TextBox txtQuantity;
-        private Label txtSalesPrice;
+        private Label lblsal;
         private TextBox txtSalePrice;
         private Label label4;
         private ComboBox cmbProduct;

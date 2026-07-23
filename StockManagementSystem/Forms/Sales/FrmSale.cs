@@ -94,7 +94,7 @@ namespace StockManagementSystem.Forms.Sales
 
             int quantity = 0;
 
-            decimal.TryParse(txtSalesPrice.Text, out price);
+            decimal.TryParse(txtSalePrice.Text, out price);
 
             int.TryParse(txtQuantity.Text, out quantity);
 

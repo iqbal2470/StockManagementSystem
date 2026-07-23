@@ -39,9 +39,9 @@ namespace StockManagementSystem.Services.Dashboard
             return _repository.GetRecentSalesAsync();
         }
 
-        public Task<List<TopSellingProductModel>> GetTopSellingProductsAsync()
+        public Task<List<TopSellingProductModel>> GetTopSellingProductsAsync(string duration)
         {
-            return _repository.GetTopSellingProductsAsync();
+            return _repository.GetTopSellingProductsAsync(duration);
         }
     }
 }

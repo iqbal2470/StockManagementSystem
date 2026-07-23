@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDashboard));
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
             LiveChartsCore.Drawing.Padding padding1 = new LiveChartsCore.Drawing.Padding();
             LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
             LiveChartsCore.Drawing.Padding padding2 = new LiveChartsCore.Drawing.Padding();
@@ -41,7 +41,12 @@
             label1 = new Label();
             pnlSidebar = new Panel();
             pnlMenu = new Panel();
+            btnLogOut = new FontAwesome.Sharp.IconButton();
+            panel1 = new Panel();
+            pictureBox9 = new PictureBox();
+            btnBackupRestore = new FontAwesome.Sharp.IconButton();
             btnSetting = new FontAwesome.Sharp.IconButton();
+            btnHistory = new FontAwesome.Sharp.IconButton();
             btnReports = new FontAwesome.Sharp.IconButton();
             btnStock = new FontAwesome.Sharp.IconButton();
             btnSales = new FontAwesome.Sharp.IconButton();
@@ -49,7 +54,6 @@
             btnProduct = new FontAwesome.Sharp.IconButton();
             btnUnit = new FontAwesome.Sharp.IconButton();
             btnBrand = new FontAwesome.Sharp.IconButton();
-            btnLogout = new FontAwesome.Sharp.IconButton();
             btnCategory = new FontAwesome.Sharp.IconButton();
             btnDashboard = new FontAwesome.Sharp.IconButton();
             pnlLogo = new Panel();
@@ -62,6 +66,26 @@
             pnlMain = new Panel();
             pnlDesktop = new Panel();
             pnlDashboard = new Panel();
+            pnlBottomSection = new Panel();
+            tblBottomSection = new TableLayoutPanel();
+            pnlRecentStock = new Panel();
+            tblRecentStock = new TableLayoutPanel();
+            pnlRecentHeader = new Panel();
+            lblRecentStock = new Label();
+            dgvRecentStock = new DataGridView();
+            colDate = new DataGridViewTextBoxColumn();
+            colType = new DataGridViewTextBoxColumn();
+            colProduct = new DataGridViewTextBoxColumn();
+            colQuantity = new DataGridViewTextBoxColumn();
+            colDetails = new DataGridViewTextBoxColumn();
+            pnlRecentFooter = new Panel();
+            lnkViewAll = new LinkLabel();
+            pnlTopSelling = new Panel();
+            tblTopSelling = new TableLayoutPanel();
+            pnlTopHeader = new Panel();
+            cmbDuration = new ComboBox();
+            lblTopSelling = new Label();
+            flpTopSelling = new FlowLayoutPanel();
             pnlChartSection = new Panel();
             tblCharts = new TableLayoutPanel();
             pnlSalesChart = new Panel();
@@ -114,28 +138,25 @@
             picProducts = new PictureBox();
             timerSidebar = new System.Windows.Forms.Timer(components);
             timerClock = new System.Windows.Forms.Timer(components);
-            pnlBottomSection = new Panel();
-            tblBottomSection = new TableLayoutPanel();
-            pnlRecentStock = new Panel();
-            pnlTopSelling = new Panel();
-            tblRecentStock = new TableLayoutPanel();
-            pnlRecentHeader = new Panel();
-            lblRecentStock = new Label();
-            dgvRecentStock = new DataGridView();
-            pnlRecentFooter = new Panel();
-            lnkViewAll = new LinkLabel();
-            colDate = new DataGridViewTextBoxColumn();
-            colType = new DataGridViewTextBoxColumn();
-            colProduct = new DataGridViewTextBoxColumn();
-            colQuantity = new DataGridViewTextBoxColumn();
-            colDetails = new DataGridViewTextBoxColumn();
             pnlSidebar.SuspendLayout();
             pnlMenu.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             pnlLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlHeader.SuspendLayout();
             pnlMain.SuspendLayout();
             pnlDashboard.SuspendLayout();
+            pnlBottomSection.SuspendLayout();
+            tblBottomSection.SuspendLayout();
+            pnlRecentStock.SuspendLayout();
+            tblRecentStock.SuspendLayout();
+            pnlRecentHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvRecentStock).BeginInit();
+            pnlRecentFooter.SuspendLayout();
+            pnlTopSelling.SuspendLayout();
+            tblTopSelling.SuspendLayout();
+            pnlTopHeader.SuspendLayout();
             pnlChartSection.SuspendLayout();
             tblCharts.SuspendLayout();
             pnlSalesChart.SuspendLayout();
@@ -158,13 +179,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             pnlTotalProducts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picProducts).BeginInit();
-            pnlBottomSection.SuspendLayout();
-            tblBottomSection.SuspendLayout();
-            pnlRecentStock.SuspendLayout();
-            tblRecentStock.SuspendLayout();
-            pnlRecentHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvRecentStock).BeginInit();
-            pnlRecentFooter.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -190,7 +204,11 @@
             // pnlMenu
             // 
             pnlMenu.AutoScroll = true;
+            pnlMenu.Controls.Add(btnLogOut);
+            pnlMenu.Controls.Add(panel1);
+            pnlMenu.Controls.Add(btnBackupRestore);
             pnlMenu.Controls.Add(btnSetting);
+            pnlMenu.Controls.Add(btnHistory);
             pnlMenu.Controls.Add(btnReports);
             pnlMenu.Controls.Add(btnStock);
             pnlMenu.Controls.Add(btnSales);
@@ -198,7 +216,6 @@
             pnlMenu.Controls.Add(btnProduct);
             pnlMenu.Controls.Add(btnUnit);
             pnlMenu.Controls.Add(btnBrand);
-            pnlMenu.Controls.Add(btnLogout);
             pnlMenu.Controls.Add(btnCategory);
             pnlMenu.Controls.Add(btnDashboard);
             pnlMenu.Dock = DockStyle.Fill;
@@ -206,6 +223,72 @@
             pnlMenu.Name = "pnlMenu";
             pnlMenu.Size = new Size(250, 980);
             pnlMenu.TabIndex = 0;
+            // 
+            // btnLogOut
+            // 
+            btnLogOut.Dock = DockStyle.Top;
+            btnLogOut.FlatAppearance.BorderSize = 0;
+            btnLogOut.FlatStyle = FlatStyle.Flat;
+            btnLogOut.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnLogOut.ForeColor = SystemColors.ControlLightLight;
+            btnLogOut.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
+            btnLogOut.IconColor = Color.White;
+            btnLogOut.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLogOut.IconSize = 24;
+            btnLogOut.ImageAlign = ContentAlignment.MiddleLeft;
+            btnLogOut.Location = new Point(0, 408);
+            btnLogOut.Name = "btnLogOut";
+            btnLogOut.Padding = new Padding(15, 0, 0, 0);
+            btnLogOut.Size = new Size(250, 34);
+            btnLogOut.TabIndex = 20;
+            btnLogOut.Text = "LogOut";
+            btnLogOut.TextAlign = ContentAlignment.MiddleLeft;
+            btnLogOut.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnLogOut.UseVisualStyleBackColor = true;
+            btnLogOut.Click += btnLogout_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(pictureBox9);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 736);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(250, 244);
+            panel1.TabIndex = 19;
+            // 
+            // pictureBox9
+            // 
+            pictureBox9.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox9.Image = Properties.Resources.ChatGPT_Image_Jul_23__2026__03_25_17_PM_removebg_preview;
+            pictureBox9.Location = new Point(0, 3);
+            pictureBox9.Name = "pictureBox9";
+            pictureBox9.Size = new Size(250, 202);
+            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox9.TabIndex = 17;
+            pictureBox9.TabStop = false;
+            // 
+            // btnBackupRestore
+            // 
+            btnBackupRestore.Dock = DockStyle.Top;
+            btnBackupRestore.FlatAppearance.BorderSize = 0;
+            btnBackupRestore.FlatStyle = FlatStyle.Flat;
+            btnBackupRestore.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnBackupRestore.ForeColor = SystemColors.ControlLightLight;
+            btnBackupRestore.IconChar = FontAwesome.Sharp.IconChar.Download;
+            btnBackupRestore.IconColor = Color.White;
+            btnBackupRestore.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnBackupRestore.IconSize = 24;
+            btnBackupRestore.ImageAlign = ContentAlignment.MiddleLeft;
+            btnBackupRestore.Location = new Point(0, 374);
+            btnBackupRestore.Name = "btnBackupRestore";
+            btnBackupRestore.Padding = new Padding(15, 0, 0, 0);
+            btnBackupRestore.Size = new Size(250, 34);
+            btnBackupRestore.TabIndex = 18;
+            btnBackupRestore.Text = "Backup/Restore";
+            btnBackupRestore.TextAlign = ContentAlignment.MiddleLeft;
+            btnBackupRestore.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBackupRestore.UseVisualStyleBackColor = true;
+            btnBackupRestore.Click += btnBackupRestore_Click;
             // 
             // btnSetting
             // 
@@ -219,15 +302,38 @@
             btnSetting.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnSetting.IconSize = 24;
             btnSetting.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSetting.Location = new Point(0, 306);
+            btnSetting.Location = new Point(0, 340);
             btnSetting.Name = "btnSetting";
             btnSetting.Padding = new Padding(15, 0, 0, 0);
             btnSetting.Size = new Size(250, 34);
-            btnSetting.TabIndex = 15;
-            btnSetting.Text = "Settings\r\n";
+            btnSetting.TabIndex = 16;
+            btnSetting.Text = "Settings";
             btnSetting.TextAlign = ContentAlignment.MiddleLeft;
             btnSetting.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSetting.UseVisualStyleBackColor = true;
+            // 
+            // btnHistory
+            // 
+            btnHistory.Dock = DockStyle.Top;
+            btnHistory.FlatAppearance.BorderSize = 0;
+            btnHistory.FlatStyle = FlatStyle.Flat;
+            btnHistory.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnHistory.ForeColor = SystemColors.ControlLightLight;
+            btnHistory.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
+            btnHistory.IconColor = Color.White;
+            btnHistory.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnHistory.IconSize = 24;
+            btnHistory.ImageAlign = ContentAlignment.MiddleLeft;
+            btnHistory.Location = new Point(0, 306);
+            btnHistory.Name = "btnHistory";
+            btnHistory.Padding = new Padding(15, 0, 0, 0);
+            btnHistory.Size = new Size(250, 34);
+            btnHistory.TabIndex = 15;
+            btnHistory.Text = "History";
+            btnHistory.TextAlign = ContentAlignment.MiddleLeft;
+            btnHistory.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnHistory.UseVisualStyleBackColor = true;
+            btnHistory.Click += btnHistory_Click;
             // 
             // btnReports
             // 
@@ -390,28 +496,6 @@
             btnBrand.UseVisualStyleBackColor = true;
             btnBrand.Click += btnBrand_Click;
             // 
-            // btnLogout
-            // 
-            btnLogout.Dock = DockStyle.Bottom;
-            btnLogout.FlatAppearance.BorderSize = 0;
-            btnLogout.FlatStyle = FlatStyle.Flat;
-            btnLogout.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnLogout.ForeColor = SystemColors.ControlLightLight;
-            btnLogout.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
-            btnLogout.IconColor = Color.White;
-            btnLogout.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnLogout.IconSize = 24;
-            btnLogout.ImageAlign = ContentAlignment.MiddleLeft;
-            btnLogout.Location = new Point(0, 946);
-            btnLogout.Name = "btnLogout";
-            btnLogout.Padding = new Padding(15, 0, 0, 0);
-            btnLogout.Size = new Size(250, 34);
-            btnLogout.TabIndex = 7;
-            btnLogout.Text = "LogOut";
-            btnLogout.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnLogout.UseVisualStyleBackColor = true;
-            btnLogout.Click += btnLogout_Click;
-            // 
             // btnCategory
             // 
             btnCategory.Dock = DockStyle.Top;
@@ -469,12 +553,12 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Image = Properties.Resources.Group_4;
-            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(-28, -22);
+            pictureBox1.Margin = new Padding(0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(250, 70);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.Size = new Size(297, 126);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -574,6 +658,227 @@
             pnlDashboard.Name = "pnlDashboard";
             pnlDashboard.Size = new Size(1094, 936);
             pnlDashboard.TabIndex = 2;
+            // 
+            // pnlBottomSection
+            // 
+            pnlBottomSection.BackColor = Color.WhiteSmoke;
+            pnlBottomSection.Controls.Add(tblBottomSection);
+            pnlBottomSection.Dock = DockStyle.Fill;
+            pnlBottomSection.Location = new Point(0, 596);
+            pnlBottomSection.Name = "pnlBottomSection";
+            pnlBottomSection.Padding = new Padding(10);
+            pnlBottomSection.Size = new Size(1094, 340);
+            pnlBottomSection.TabIndex = 0;
+            // 
+            // tblBottomSection
+            // 
+            tblBottomSection.ColumnCount = 2;
+            tblBottomSection.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tblBottomSection.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tblBottomSection.Controls.Add(pnlRecentStock, 0, 0);
+            tblBottomSection.Controls.Add(pnlTopSelling, 1, 0);
+            tblBottomSection.Dock = DockStyle.Fill;
+            tblBottomSection.Location = new Point(10, 10);
+            tblBottomSection.Name = "tblBottomSection";
+            tblBottomSection.RowCount = 1;
+            tblBottomSection.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tblBottomSection.Size = new Size(1074, 320);
+            tblBottomSection.TabIndex = 0;
+            // 
+            // pnlRecentStock
+            // 
+            pnlRecentStock.BackColor = Color.White;
+            pnlRecentStock.BorderStyle = BorderStyle.FixedSingle;
+            pnlRecentStock.Controls.Add(tblRecentStock);
+            pnlRecentStock.Dock = DockStyle.Fill;
+            pnlRecentStock.Location = new Point(10, 10);
+            pnlRecentStock.Margin = new Padding(10);
+            pnlRecentStock.Name = "pnlRecentStock";
+            pnlRecentStock.Padding = new Padding(10);
+            pnlRecentStock.Size = new Size(624, 300);
+            pnlRecentStock.TabIndex = 0;
+            // 
+            // tblRecentStock
+            // 
+            tblRecentStock.ColumnCount = 1;
+            tblRecentStock.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tblRecentStock.Controls.Add(pnlRecentHeader, 0, 0);
+            tblRecentStock.Controls.Add(dgvRecentStock, 0, 1);
+            tblRecentStock.Controls.Add(pnlRecentFooter, 0, 2);
+            tblRecentStock.Dock = DockStyle.Fill;
+            tblRecentStock.Location = new Point(10, 10);
+            tblRecentStock.Name = "tblRecentStock";
+            tblRecentStock.RowCount = 3;
+            tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tblRecentStock.Size = new Size(602, 278);
+            tblRecentStock.TabIndex = 0;
+            // 
+            // pnlRecentHeader
+            // 
+            pnlRecentHeader.Controls.Add(lblRecentStock);
+            pnlRecentHeader.Dock = DockStyle.Fill;
+            pnlRecentHeader.Location = new Point(3, 3);
+            pnlRecentHeader.Name = "pnlRecentHeader";
+            pnlRecentHeader.Size = new Size(596, 39);
+            pnlRecentHeader.TabIndex = 0;
+            // 
+            // lblRecentStock
+            // 
+            lblRecentStock.AutoSize = true;
+            lblRecentStock.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRecentStock.Location = new Point(10, 10);
+            lblRecentStock.Name = "lblRecentStock";
+            lblRecentStock.Size = new Size(273, 30);
+            lblRecentStock.TabIndex = 0;
+            lblRecentStock.Text = "Recent Stock Movements";
+            // 
+            // dgvRecentStock
+            // 
+            dgvRecentStock.AllowUserToAddRows = false;
+            dgvRecentStock.AllowUserToDeleteRows = false;
+            dgvRecentStock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvRecentStock.BorderStyle = BorderStyle.None;
+            dgvRecentStock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRecentStock.Columns.AddRange(new DataGridViewColumn[] { colDate, colType, colProduct, colQuantity, colDetails });
+            dgvRecentStock.Dock = DockStyle.Fill;
+            dgvRecentStock.Location = new Point(3, 48);
+            dgvRecentStock.MultiSelect = false;
+            dgvRecentStock.Name = "dgvRecentStock";
+            dgvRecentStock.ReadOnly = true;
+            dgvRecentStock.RowHeadersVisible = false;
+            dgvRecentStock.RowHeadersWidth = 62;
+            dgvRecentStock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvRecentStock.Size = new Size(596, 192);
+            dgvRecentStock.TabIndex = 1;
+            // 
+            // colDate
+            // 
+            colDate.HeaderText = "Date";
+            colDate.MinimumWidth = 8;
+            colDate.Name = "colDate";
+            colDate.ReadOnly = true;
+            // 
+            // colType
+            // 
+            colType.HeaderText = "Type";
+            colType.MinimumWidth = 8;
+            colType.Name = "colType";
+            colType.ReadOnly = true;
+            // 
+            // colProduct
+            // 
+            colProduct.HeaderText = "Product";
+            colProduct.MinimumWidth = 8;
+            colProduct.Name = "colProduct";
+            colProduct.ReadOnly = true;
+            // 
+            // colQuantity
+            // 
+            colQuantity.HeaderText = "Quantity";
+            colQuantity.MinimumWidth = 8;
+            colQuantity.Name = "colQuantity";
+            colQuantity.ReadOnly = true;
+            // 
+            // colDetails
+            // 
+            colDetails.HeaderText = "Details";
+            colDetails.MinimumWidth = 8;
+            colDetails.Name = "colDetails";
+            colDetails.ReadOnly = true;
+            // 
+            // pnlRecentFooter
+            // 
+            pnlRecentFooter.Controls.Add(lnkViewAll);
+            pnlRecentFooter.Dock = DockStyle.Fill;
+            pnlRecentFooter.Location = new Point(3, 246);
+            pnlRecentFooter.Name = "pnlRecentFooter";
+            pnlRecentFooter.Size = new Size(596, 29);
+            pnlRecentFooter.TabIndex = 2;
+            // 
+            // lnkViewAll
+            // 
+            lnkViewAll.AutoSize = true;
+            lnkViewAll.Location = new Point(10, 5);
+            lnkViewAll.Name = "lnkViewAll";
+            lnkViewAll.Size = new Size(221, 25);
+            lnkViewAll.TabIndex = 0;
+            lnkViewAll.TabStop = true;
+            lnkViewAll.Text = "View All Stock Movements";
+            lnkViewAll.LinkClicked += lnkViewAll_LinkClicked;
+            // 
+            // pnlTopSelling
+            // 
+            pnlTopSelling.BackColor = Color.White;
+            pnlTopSelling.BorderStyle = BorderStyle.FixedSingle;
+            pnlTopSelling.Controls.Add(tblTopSelling);
+            pnlTopSelling.Dock = DockStyle.Fill;
+            pnlTopSelling.Location = new Point(654, 10);
+            pnlTopSelling.Margin = new Padding(10);
+            pnlTopSelling.Name = "pnlTopSelling";
+            pnlTopSelling.Padding = new Padding(10);
+            pnlTopSelling.Size = new Size(410, 300);
+            pnlTopSelling.TabIndex = 1;
+            // 
+            // tblTopSelling
+            // 
+            tblTopSelling.ColumnCount = 1;
+            tblTopSelling.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tblTopSelling.Controls.Add(pnlTopHeader, 0, 0);
+            tblTopSelling.Controls.Add(flpTopSelling, 0, 1);
+            tblTopSelling.Dock = DockStyle.Fill;
+            tblTopSelling.Location = new Point(10, 10);
+            tblTopSelling.Name = "tblTopSelling";
+            tblTopSelling.RowCount = 2;
+            tblTopSelling.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tblTopSelling.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tblTopSelling.Size = new Size(388, 278);
+            tblTopSelling.TabIndex = 0;
+            // 
+            // pnlTopHeader
+            // 
+            pnlTopHeader.Controls.Add(cmbDuration);
+            pnlTopHeader.Controls.Add(lblTopSelling);
+            pnlTopHeader.Dock = DockStyle.Fill;
+            pnlTopHeader.Location = new Point(3, 3);
+            pnlTopHeader.Name = "pnlTopHeader";
+            pnlTopHeader.Size = new Size(382, 44);
+            pnlTopHeader.TabIndex = 0;
+            // 
+            // cmbDuration
+            // 
+            cmbDuration.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cmbDuration.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDuration.FormattingEnabled = true;
+            cmbDuration.Location = new Point(262, 6);
+            cmbDuration.Name = "cmbDuration";
+            cmbDuration.Size = new Size(110, 33);
+            cmbDuration.TabIndex = 1;
+            cmbDuration.SelectedIndexChanged += cmbDuration_SelectedIndexChanged;
+            // 
+            // lblTopSelling
+            // 
+            lblTopSelling.AutoSize = true;
+            lblTopSelling.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblTopSelling.Location = new Point(10, 12);
+            lblTopSelling.Name = "lblTopSelling";
+            lblTopSelling.Size = new Size(225, 30);
+            lblTopSelling.TabIndex = 0;
+            lblTopSelling.Text = "Top Selling Products";
+            // 
+            // flpTopSelling
+            // 
+            flpTopSelling.AutoScroll = true;
+            flpTopSelling.Dock = DockStyle.Fill;
+            flpTopSelling.FlowDirection = FlowDirection.TopDown;
+            flpTopSelling.Location = new Point(3, 53);
+            flpTopSelling.Name = "flpTopSelling";
+            flpTopSelling.Padding = new Padding(5);
+            flpTopSelling.Size = new Size(382, 222);
+            flpTopSelling.TabIndex = 1;
+            flpTopSelling.WrapContents = false;
+            flpTopSelling.SizeChanged += flpTopSelling_SizeChanged;
             // 
             // pnlChartSection
             // 
@@ -1237,166 +1542,6 @@
             timerClock.Interval = 1000;
             timerClock.Tick += timerClock_Tick;
             // 
-            // pnlBottomSection
-            // 
-            pnlBottomSection.BackColor = Color.WhiteSmoke;
-            pnlBottomSection.Controls.Add(tblBottomSection);
-            pnlBottomSection.Dock = DockStyle.Fill;
-            pnlBottomSection.Location = new Point(0, 596);
-            pnlBottomSection.Name = "pnlBottomSection";
-            pnlBottomSection.Padding = new Padding(10);
-            pnlBottomSection.Size = new Size(1094, 340);
-            pnlBottomSection.TabIndex = 0;
-            // 
-            // tblBottomSection
-            // 
-            tblBottomSection.ColumnCount = 2;
-            tblBottomSection.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            tblBottomSection.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tblBottomSection.Controls.Add(pnlRecentStock, 0, 0);
-            tblBottomSection.Controls.Add(pnlTopSelling, 1, 0);
-            tblBottomSection.Dock = DockStyle.Fill;
-            tblBottomSection.Location = new Point(10, 10);
-            tblBottomSection.Name = "tblBottomSection";
-            tblBottomSection.RowCount = 1;
-            tblBottomSection.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblBottomSection.Size = new Size(1074, 320);
-            tblBottomSection.TabIndex = 0;
-            // 
-            // pnlRecentStock
-            // 
-            pnlRecentStock.BackColor = Color.White;
-            pnlRecentStock.BorderStyle = BorderStyle.FixedSingle;
-            pnlRecentStock.Controls.Add(tblRecentStock);
-            pnlRecentStock.Dock = DockStyle.Fill;
-            pnlRecentStock.Location = new Point(10, 10);
-            pnlRecentStock.Margin = new Padding(10);
-            pnlRecentStock.Name = "pnlRecentStock";
-            pnlRecentStock.Padding = new Padding(10);
-            pnlRecentStock.Size = new Size(624, 300);
-            pnlRecentStock.TabIndex = 0;
-            // 
-            // pnlTopSelling
-            // 
-            pnlTopSelling.BackColor = Color.White;
-            pnlTopSelling.BorderStyle = BorderStyle.FixedSingle;
-            pnlTopSelling.Dock = DockStyle.Fill;
-            pnlTopSelling.Location = new Point(654, 10);
-            pnlTopSelling.Margin = new Padding(10);
-            pnlTopSelling.Name = "pnlTopSelling";
-            pnlTopSelling.Padding = new Padding(10);
-            pnlTopSelling.Size = new Size(410, 300);
-            pnlTopSelling.TabIndex = 1;
-            // 
-            // tblRecentStock
-            // 
-            tblRecentStock.ColumnCount = 1;
-            tblRecentStock.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tblRecentStock.Controls.Add(pnlRecentHeader, 0, 0);
-            tblRecentStock.Controls.Add(dgvRecentStock, 0, 1);
-            tblRecentStock.Controls.Add(pnlRecentFooter, 0, 2);
-            tblRecentStock.Dock = DockStyle.Fill;
-            tblRecentStock.Location = new Point(10, 10);
-            tblRecentStock.Name = "tblRecentStock";
-            tblRecentStock.RowCount = 3;
-            tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tblRecentStock.Size = new Size(602, 278);
-            tblRecentStock.TabIndex = 0;
-            // 
-            // pnlRecentHeader
-            // 
-            pnlRecentHeader.Controls.Add(lblRecentStock);
-            pnlRecentHeader.Dock = DockStyle.Fill;
-            pnlRecentHeader.Location = new Point(3, 3);
-            pnlRecentHeader.Name = "pnlRecentHeader";
-            pnlRecentHeader.Size = new Size(596, 39);
-            pnlRecentHeader.TabIndex = 0;
-            // 
-            // lblRecentStock
-            // 
-            lblRecentStock.AutoSize = true;
-            lblRecentStock.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblRecentStock.Location = new Point(10, 10);
-            lblRecentStock.Name = "lblRecentStock";
-            lblRecentStock.Size = new Size(273, 30);
-            lblRecentStock.TabIndex = 0;
-            lblRecentStock.Text = "Recent Stock Movements";
-            // 
-            // dgvRecentStock
-            // 
-            dgvRecentStock.AllowUserToAddRows = false;
-            dgvRecentStock.AllowUserToDeleteRows = false;
-            dgvRecentStock.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvRecentStock.BorderStyle = BorderStyle.None;
-            dgvRecentStock.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRecentStock.Columns.AddRange(new DataGridViewColumn[] { colDate, colType, colProduct, colQuantity, colDetails });
-            dgvRecentStock.Dock = DockStyle.Fill;
-            dgvRecentStock.Location = new Point(3, 48);
-            dgvRecentStock.MultiSelect = false;
-            dgvRecentStock.Name = "dgvRecentStock";
-            dgvRecentStock.ReadOnly = true;
-            dgvRecentStock.RowHeadersVisible = false;
-            dgvRecentStock.RowHeadersWidth = 62;
-            dgvRecentStock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRecentStock.Size = new Size(596, 192);
-            dgvRecentStock.TabIndex = 1;
-            // 
-            // pnlRecentFooter
-            // 
-            pnlRecentFooter.Controls.Add(lnkViewAll);
-            pnlRecentFooter.Dock = DockStyle.Fill;
-            pnlRecentFooter.Location = new Point(3, 246);
-            pnlRecentFooter.Name = "pnlRecentFooter";
-            pnlRecentFooter.Size = new Size(596, 29);
-            pnlRecentFooter.TabIndex = 2;
-            // 
-            // lnkViewAll
-            // 
-            lnkViewAll.AutoSize = true;
-            lnkViewAll.Location = new Point(10, 5);
-            lnkViewAll.Name = "lnkViewAll";
-            lnkViewAll.Size = new Size(221, 25);
-            lnkViewAll.TabIndex = 0;
-            lnkViewAll.TabStop = true;
-            lnkViewAll.Text = "View All Stock Movements";
-            // 
-            // colDate
-            // 
-            colDate.HeaderText = "Date";
-            colDate.MinimumWidth = 8;
-            colDate.Name = "colDate";
-            colDate.ReadOnly = true;
-            // 
-            // colType
-            // 
-            colType.HeaderText = "Type";
-            colType.MinimumWidth = 8;
-            colType.Name = "colType";
-            colType.ReadOnly = true;
-            // 
-            // colProduct
-            // 
-            colProduct.HeaderText = "Product";
-            colProduct.MinimumWidth = 8;
-            colProduct.Name = "colProduct";
-            colProduct.ReadOnly = true;
-            // 
-            // colQuantity
-            // 
-            colQuantity.HeaderText = "Quantity";
-            colQuantity.MinimumWidth = 8;
-            colQuantity.Name = "colQuantity";
-            colQuantity.ReadOnly = true;
-            // 
-            // colDetails
-            // 
-            colDetails.HeaderText = "Details";
-            colDetails.MinimumWidth = 8;
-            colDetails.Name = "colDetails";
-            colDetails.ReadOnly = true;
-            // 
             // FrmDashboard
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -1414,12 +1559,27 @@
             Load += FrmDashboard_Load;
             pnlSidebar.ResumeLayout(false);
             pnlMenu.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
             pnlLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlMain.ResumeLayout(false);
             pnlDashboard.ResumeLayout(false);
+            pnlBottomSection.ResumeLayout(false);
+            tblBottomSection.ResumeLayout(false);
+            pnlRecentStock.ResumeLayout(false);
+            tblRecentStock.ResumeLayout(false);
+            pnlRecentHeader.ResumeLayout(false);
+            pnlRecentHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvRecentStock).EndInit();
+            pnlRecentFooter.ResumeLayout(false);
+            pnlRecentFooter.PerformLayout();
+            pnlTopSelling.ResumeLayout(false);
+            tblTopSelling.ResumeLayout(false);
+            pnlTopHeader.ResumeLayout(false);
+            pnlTopHeader.PerformLayout();
             pnlChartSection.ResumeLayout(false);
             tblCharts.ResumeLayout(false);
             pnlSalesChart.ResumeLayout(false);
@@ -1453,15 +1613,6 @@
             pnlTotalProducts.ResumeLayout(false);
             pnlTotalProducts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picProducts).EndInit();
-            pnlBottomSection.ResumeLayout(false);
-            tblBottomSection.ResumeLayout(false);
-            pnlRecentStock.ResumeLayout(false);
-            tblRecentStock.ResumeLayout(false);
-            pnlRecentHeader.ResumeLayout(false);
-            pnlRecentHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvRecentStock).EndInit();
-            pnlRecentFooter.ResumeLayout(false);
-            pnlRecentFooter.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1480,7 +1631,6 @@
         private System.Windows.Forms.Timer timerSidebar;
         private System.Windows.Forms.Timer timerClock;
         private FontAwesome.Sharp.IconButton btnDashboard;
-        private FontAwesome.Sharp.IconButton btnLogout;
         private FontAwesome.Sharp.IconButton btnCategory;
         private FontAwesome.Sharp.IconButton btnMenu;
         private PictureBox pictureBox1;
@@ -1491,7 +1641,7 @@
         private FontAwesome.Sharp.IconButton btnProduct;
         private FontAwesome.Sharp.IconButton btnStock;
         private FontAwesome.Sharp.IconButton btnReports;
-        private FontAwesome.Sharp.IconButton btnSetting;
+        private FontAwesome.Sharp.IconButton btnHistory;
         private Panel pnlDashboardCards;
         private TableLayoutPanel tblDashboardCards;
         private Panel pnlTotalProducts;
@@ -1559,5 +1709,15 @@
         private DataGridViewTextBoxColumn colQuantity;
         private DataGridViewTextBoxColumn colDetails;
         private LinkLabel lnkViewAll;
+        private TableLayoutPanel tblTopSelling;
+        private Panel pnlTopHeader;
+        private ComboBox cmbDuration;
+        private Label lblTopSelling;
+        private FlowLayoutPanel flpTopSelling;
+        private FontAwesome.Sharp.IconButton btnSetting;
+        private PictureBox pictureBox9;
+        private FontAwesome.Sharp.IconButton btnBackupRestore;
+        private Panel panel1;
+        private FontAwesome.Sharp.IconButton btnLogOut;
     }
 }

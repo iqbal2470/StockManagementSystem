@@ -17,6 +17,6 @@ namespace StockManagementSystem.Services.Dashboard
 
         Task<List<RecentSaleModel>> GetRecentSalesAsync();
 
-        Task<List<TopSellingProductModel>> GetTopSellingProductsAsync();
+        Task<List<TopSellingProductModel>> GetTopSellingProductsAsync(string duration);
     }
 }

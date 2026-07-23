@@ -36,5 +36,12 @@ namespace StockManagementSystem.Repositories
                     x.Product.ProductName.Contains(keyword))
                 .ToListAsync();
         }
+
+        public async Task<Sale?> GetByIdAsNoTrackingAsync(int id)
+        {
+            return await _context.Sales
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
