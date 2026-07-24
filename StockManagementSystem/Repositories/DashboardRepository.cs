@@ -40,41 +40,122 @@ namespace StockManagementSystem.Repositories
                 CurrentStock =
                     await _context.Products.SumAsync(x => (int?)x.CurrentStock) ?? 0,
 
+                //LowStockProducts =
+                //    await _context.Products.CountAsync(x => x.CurrentStock <= x.MinimumStock)
                 LowStockProducts =
-                    await _context.Products.CountAsync(x => x.CurrentStock <= x.MinimumStock)
+    await _context.Products.CountAsync(x =>
+        x.CurrentStock > 0 &&
+        x.CurrentStock < x.MinimumStock)
             };
         }
-
-        public async Task<List<SalesChartModel>> GetSalesChartAsync()
+        public async Task<List<SalesChartModel>> GetSalesChartAsync(string dt)
         {
-            var sixMonthsAgo = new DateTime(
-                DateTime.Now.AddMonths(-5).Year,
-                DateTime.Now.AddMonths(-5).Month,
-                1);
+            dt = dt?.Trim() ?? "This Month";
 
-            var data = await _context.Sales
-                .Where(s => s.SaleDate >= sixMonthsAgo)
-                .GroupBy(s => new
-                {
-                    s.SaleDate.Year,
-                    s.SaleDate.Month
-                })
-                .OrderBy(g => g.Key.Year)
-                .ThenBy(g => g.Key.Month)
-                .Select(g => new
-                {
-                    g.Key.Year,
-                    g.Key.Month,
-                    TotalSales = g.Sum(x => x.TotalAmount)
-                })
-                .ToListAsync();
-
-            return data.Select(x => new SalesChartModel
+            switch (dt)
             {
-                Month = new DateTime(x.Year, x.Month, 1).ToString("MMM"),
-                TotalSales = x.TotalSales
-            }).ToList();
+                case "Today":
+                    {
+                        var today = DateTime.Today;
+
+                        return await _context.Sales
+                            .Where(x => x.SaleDate.Date == today)
+                            .GroupBy(x => x.SaleDate.Hour)
+                            .OrderBy(x => x.Key)
+                            .Select(g => new SalesChartModel
+                            {
+                                Month = $"{g.Key:00}:00",
+                                TotalSales = g.Sum(x => x.TotalAmount)
+                            })
+                            .ToListAsync();
+                    }
+
+                case "This Week":
+                    {
+                        var today = DateTime.Today;
+
+                        // Monday
+                        int diff = (7 + (today.DayOfWeek - DayOfWeek.Monday)) % 7;
+                        var weekStart = today.AddDays(-diff);
+                        var weekEnd = weekStart.AddDays(7);
+
+                        return await _context.Sales
+                            .Where(x => x.SaleDate >= weekStart && x.SaleDate < weekEnd)
+                            .GroupBy(x => x.SaleDate.DayOfWeek)
+                            .OrderBy(x => x.Key)
+                            .Select(g => new SalesChartModel
+                            {
+                                Month = g.Key.ToString().Substring(0, 3),
+                                TotalSales = g.Sum(x => x.TotalAmount)
+                            })
+                            .ToListAsync();
+                    }
+
+                case "This Year":
+                    {
+                        int year = DateTime.Today.Year;
+
+                        return await _context.Sales
+                            .Where(x => x.SaleDate.Year == year)
+                            .GroupBy(x => x.SaleDate.Month)
+                            .OrderBy(x => x.Key)
+                            .Select(g => new SalesChartModel
+                            {
+                                Month = new DateTime(year, g.Key, 1).ToString("MMM"),
+                                TotalSales = g.Sum(x => x.TotalAmount)
+                            })
+                            .ToListAsync();
+                    }
+
+                default: // This Month
+                    {
+                        var today = DateTime.Today;
+
+                        return await _context.Sales
+                            .Where(x => x.SaleDate.Month == today.Month &&
+                                        x.SaleDate.Year == today.Year)
+                            .GroupBy(x => x.SaleDate.Day)
+                            .OrderBy(x => x.Key)
+                            .Select(g => new SalesChartModel
+                            {
+                                //Month = g.Key.ToString(),
+                                Month = new DateTime(today.Year, today.Month, g.Key).ToString("dd MMM"),
+                                TotalSales = g.Sum(x => x.TotalAmount)
+                            })
+                            .ToListAsync();
+                    }
+            }
         }
+        //public async Task<List<SalesChartModel>> GetSalesChartAsync()
+        //{
+        //    var sixMonthsAgo = new DateTime(
+        //        DateTime.Now.AddMonths(-5).Year,
+        //        DateTime.Now.AddMonths(-5).Month,
+        //        1);
+
+        //    var data = await _context.Sales
+        //        .Where(s => s.SaleDate >= sixMonthsAgo)
+        //        .GroupBy(s => new
+        //        {
+        //            s.SaleDate.Year,
+        //            s.SaleDate.Month
+        //        })
+        //        .OrderBy(g => g.Key.Year)
+        //        .ThenBy(g => g.Key.Month)
+        //        .Select(g => new
+        //        {
+        //            g.Key.Year,
+        //            g.Key.Month,
+        //            TotalSales = g.Sum(x => x.TotalAmount)
+        //        })
+        //        .ToListAsync();
+
+        //    return data.Select(x => new SalesChartModel
+        //    {
+        //        Month = new DateTime(x.Year, x.Month, 1).ToString("MMM"),
+        //        TotalSales = x.TotalSales
+        //    }).ToList();
+        //}
         public async Task<List<StockChartModel>> GetStockChartAsync()
         {
             int inStock = await _context.Products.CountAsync(p =>

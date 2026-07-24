@@ -1,4 +1,5 @@
-﻿using StockManagementSystem.Models.Master;
+﻿using StockManagementSystem.Models.Common;
+using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.ProductServices;
 using StockManagementSystem.Services.SaleService;
 using System;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 namespace StockManagementSystem.Forms.Sales
 {
 
-    public partial class FrmSale : Form
+    public partial class FrmSale : BaseForm
     {
 
         private readonly ISaleService _saleService;

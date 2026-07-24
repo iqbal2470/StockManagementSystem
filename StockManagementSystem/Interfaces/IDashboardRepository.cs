@@ -12,7 +12,7 @@ namespace StockManagementSystem.Interfaces
     {
         Task<DashboardSummaryModel> GetDashboardSummaryAsync();
 
-        Task<List<SalesChartModel>> GetSalesChartAsync();
+        Task<List<SalesChartModel>> GetSalesChartAsync(string dt);
 
         Task<List<StockChartModel>> GetStockChartAsync();
 

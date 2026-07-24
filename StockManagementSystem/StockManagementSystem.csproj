@@ -34,7 +34,6 @@
     <Folder Include="Models\Supplier\" />
     <Folder Include="Models\Product\" />
     <Folder Include="Reports\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>

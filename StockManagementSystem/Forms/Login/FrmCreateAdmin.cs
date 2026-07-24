@@ -1,4 +1,5 @@
 ﻿using StockManagementSystem.Helpers;
+using StockManagementSystem.Models.Common;
 using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.UserServices;
 using System;
@@ -13,7 +14,7 @@ using System.Windows.Forms;
 
 namespace StockManagementSystem.Forms.Login
 {
-    public partial class FrmCreateAdmin : Form
+    public partial class FrmCreateAdmin : BaseForm
     {
         private readonly IUserService _userService;
         public FrmCreateAdmin(IUserService userService)
@@ -21,6 +22,7 @@ namespace StockManagementSystem.Forms.Login
             InitializeComponent();
             _userService = userService;
         }
+        private bool _showPassword = false;
 
         private async void btnCreate_Click(object sender, EventArgs e)
         {
@@ -94,6 +96,56 @@ namespace StockManagementSystem.Forms.Login
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+            }
+        }
+
+        private void FrmCreateAdmin_Load(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = true;
+            pnlCreateAdmin.Left = (this.ClientSize.Width - pnlCreateAdmin.Width) / 2;
+            pnlCreateAdmin.Top = (this.ClientSize.Height - pnlCreateAdmin.Height) / 2;
+        }
+
+        private void FrmCreateAdmin_Resize(object sender, EventArgs e)
+        {
+            pnlCreateAdmin.Left = (this.ClientSize.Width - pnlCreateAdmin.Width) / 2;
+            pnlCreateAdmin.Top = (this.ClientSize.Height - pnlCreateAdmin.Height) / 2;
+        }
+
+        private void pnlCreateAdmin_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void picShowPassword_Click(object sender, EventArgs e)
+        {
+            _showPassword = !_showPassword;
+
+            txtPassword.UseSystemPasswordChar = !_showPassword;
+
+            if (_showPassword)
+            {
+                picShowPassword.Image = Properties.Resources.eye_open;   // Open Eye Icon
+            }
+            else
+            {
+                picShowPassword.Image = Properties.Resources.eye_close;  // Closed Eye Icon
+            }
+        }
+
+        private void picShowConfirmPassword_Click(object sender, EventArgs e)
+        {
+            _showPassword = !_showPassword;
+
+            txtConfirmPassword.UseSystemPasswordChar = !_showPassword;
+
+            if (_showPassword)
+            {
+                picShowConfirmPassword.Image = Properties.Resources.eye_open;   // Open Eye Icon
+            }
+            else
+            {
+                picShowConfirmPassword.Image = Properties.Resources.eye_close;  // Closed Eye Icon
             }
         }
     }

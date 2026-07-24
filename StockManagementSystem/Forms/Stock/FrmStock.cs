@@ -1,4 +1,5 @@
-﻿using StockManagementSystem.Services.StockServices;
+﻿using StockManagementSystem.Models.Common;
+using StockManagementSystem.Services.StockServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 
 namespace StockManagementSystem.Forms.Stock
 {
-    public partial class FrmStock : Form
+    public partial class FrmStock : BaseForm
     {
         private readonly IStockService _stockService;
         public FrmStock(IStockService stockService)

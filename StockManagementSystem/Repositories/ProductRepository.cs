@@ -56,7 +56,7 @@ namespace StockManagementSystem.Repositories
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
                 .Include(x => x.Unit)
-                .Where(x => x.CurrentStock <= x.MinimumStock)
+                .Where(x => x.CurrentStock < x.MinimumStock)
                 .ToListAsync();
         }
 
@@ -79,7 +79,7 @@ namespace StockManagementSystem.Repositories
         public async Task<int> GetLowStockCountAsync()
         {
             return await _context.Products
-                .CountAsync(x => x.CurrentStock <= x.MinimumStock);
+                .CountAsync(x => x.CurrentStock < x.MinimumStock);
         }
 
         public async Task<int> GetOutOfStockCountAsync()
@@ -91,7 +91,8 @@ namespace StockManagementSystem.Repositories
         public async Task<int> GetInStockCountAsync()
         {
             return await _context.Products
-                .CountAsync(x => x.CurrentStock > 0);
+                .CountAsync(x => x.CurrentStock >= x.MinimumStock);
+            //.CountAsync(x => x.CurrentStock > 0);
         }
     }
 }

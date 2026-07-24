@@ -1,4 +1,5 @@
-﻿using StockManagementSystem.Models.Master;
+﻿using StockManagementSystem.Models.Common;
+using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.ProductServices;
 using StockManagementSystem.Services.PurchaseService;
 using System;
@@ -13,7 +14,7 @@ using System.Windows.Forms;
 
 namespace StockManagementSystem.Forms.Purchase
 {
-    public partial class FrmPurchase : Form
+    public partial class FrmPurchase : BaseForm
     {
 
         private readonly IPurchaseService _purchaseService;

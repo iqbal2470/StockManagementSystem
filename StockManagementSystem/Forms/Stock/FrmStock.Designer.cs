@@ -216,7 +216,7 @@
             Controls.Add(btnUpdate);
             Controls.Add(btnSave);
             Name = "FrmStock";
-            Text = "FrmStock";
+            Text = "Master Stock";
             Load += FrmStock_Load;
             ((System.ComponentModel.ISupportInitialize)dgvStock).EndInit();
             ResumeLayout(false);

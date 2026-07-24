@@ -1,4 +1,5 @@
-﻿using StockManagementSystem.Models.Master;
+﻿using StockManagementSystem.Models.Common;
+using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.BrandServices;
 using StockManagementSystem.Services.CategoryServices;
 using StockManagementSystem.Services.ProductServices;
@@ -18,7 +19,7 @@ using ZXing.Windows.Compatibility;
 
 namespace StockManagementSystem.Forms.Products
 {
-    public partial class FrmProduct : Form
+    public partial class FrmProduct : BaseForm
     {
         private string _imagePath = "";
         private int _productId = 0;

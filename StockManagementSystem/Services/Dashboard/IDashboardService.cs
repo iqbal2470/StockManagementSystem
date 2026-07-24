@@ -11,7 +11,8 @@ namespace StockManagementSystem.Services.Dashboard
     {
         Task<DashboardSummaryModel> GetDashboardSummaryAsync();
 
-        Task<List<SalesChartModel>> GetSalesChartAsync();
+        //Task<List<SalesChartModel>> GetSalesChartAsync();
+        Task<List<SalesChartModel>> GetSalesChartAsync(string dt);
 
         Task<List<StockChartModel>> GetStockChartAsync();
 

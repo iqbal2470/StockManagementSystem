@@ -1,4 +1,7 @@
 ﻿using ClosedXML.Excel;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using StockManagementSystem.Models.Common;
 using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.StockTransactionServices;
 using System;
@@ -11,14 +14,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 
 
 
 namespace StockManagementSystem.Forms.History
 {
-    public partial class FrmHistory : Form
+    public partial class FrmHistory : BaseForm
     {
         private List<StockTransaction> _filteredHistoryList = new();
         private List<StockTransaction> _historyList = new();

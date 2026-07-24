@@ -278,7 +278,7 @@
             Controls.Add(label1);
             Controls.Add(txtSaleNo);
             Name = "FrmSale";
-            Text = "FrmSale";
+            Text = "Master Sale";
             Load += FrmSale_Load;
             ((System.ComponentModel.ISupportInitialize)dgvSales).EndInit();
             ResumeLayout(false);

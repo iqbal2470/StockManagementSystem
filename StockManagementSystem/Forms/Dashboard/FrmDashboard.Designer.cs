@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend3 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDashboard));
-            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
-            LiveChartsCore.Drawing.Padding padding1 = new LiveChartsCore.Drawing.Padding();
-            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
-            LiveChartsCore.Drawing.Padding padding2 = new LiveChartsCore.Drawing.Padding();
-            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend2 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
-            LiveChartsCore.Drawing.Padding padding3 = new LiveChartsCore.Drawing.Padding();
-            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip2 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
-            LiveChartsCore.Drawing.Padding padding4 = new LiveChartsCore.Drawing.Padding();
+            LiveChartsCore.Drawing.Padding padding5 = new LiveChartsCore.Drawing.Padding();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip3 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
+            LiveChartsCore.Drawing.Padding padding6 = new LiveChartsCore.Drawing.Padding();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend4 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
+            LiveChartsCore.Drawing.Padding padding7 = new LiveChartsCore.Drawing.Padding();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip4 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
+            LiveChartsCore.Drawing.Padding padding8 = new LiveChartsCore.Drawing.Padding();
             label1 = new Label();
             pnlSidebar = new Panel();
             pnlMenu = new Panel();
@@ -59,12 +59,17 @@
             pnlLogo = new Panel();
             pictureBox1 = new PictureBox();
             pnlHeader = new Panel();
-            btnMenu = new FontAwesome.Sharp.IconButton();
-            lblDateTime = new Label();
+            panel10 = new Panel();
+            pictureBox8 = new PictureBox();
             lblUserName = new Label();
             lblTitle = new Label();
+            label19 = new Label();
+            btnMenu = new FontAwesome.Sharp.IconButton();
+            lblDateTime = new Label();
             pnlMain = new Panel();
             pnlDesktop = new Panel();
+            pnlFooter = new Panel();
+            label18 = new Label();
             pnlDashboard = new Panel();
             pnlBottomSection = new Panel();
             tblBottomSection = new TableLayoutPanel();
@@ -92,50 +97,72 @@
             cartesianChart1 = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
             label15 = new Label();
             pnlStockChart = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
             pieChart1 = new LiveChartsCore.SkiaSharpView.WinForms.PieChart();
+            flpStockLegend = new FlowLayoutPanel();
+            pnlInStock = new Panel();
+            lblInStockValue = new Label();
+            lblInStock = new Label();
+            pnlGreen = new Panel();
+            pnlLowStocks = new Panel();
+            lblLowStockValue = new Label();
+            lblLowStocks = new Label();
+            panel11 = new Panel();
+            pnlOutStock = new Panel();
+            lblOutStockValue = new Label();
+            lblOutStock = new Label();
+            panel12 = new Panel();
             label17 = new Label();
             pnlDashboardCards = new Panel();
             tblDashboardCards = new TableLayoutPanel();
             pnlTotalBrands = new Panel();
+            panel9 = new Panel();
+            pictureBox7 = new PictureBox();
             label13 = new Label();
             lblTotalBrands = new Label();
             label16 = new Label();
-            pictureBox8 = new PictureBox();
             pnlLowStock = new Panel();
+            panel8 = new Panel();
+            pictureBox6 = new PictureBox();
             label11 = new Label();
             lblLowStock = new Label();
             label14 = new Label();
-            pictureBox7 = new PictureBox();
             pnlCurrentStock = new Panel();
+            panel7 = new Panel();
+            pictureBox5 = new PictureBox();
             label9 = new Label();
             lblCurrentStock = new Label();
             label12 = new Label();
-            pictureBox6 = new PictureBox();
             pnlTotalSales = new Panel();
+            panel6 = new Panel();
+            pictureBox4 = new PictureBox();
             label7 = new Label();
             lblSalesAmount = new Label();
             label10 = new Label();
-            pictureBox5 = new PictureBox();
             pnlTotalPurchase = new Panel();
+            panel5 = new Panel();
+            pictureBox3 = new PictureBox();
             label5 = new Label();
             lblPurchaseAmount = new Label();
             label8 = new Label();
-            pictureBox4 = new PictureBox();
             pnlTotalUnits = new Panel();
+            panel4 = new Panel();
+            pictureBox2 = new PictureBox();
             label3 = new Label();
             lblTotalUnits = new Label();
             label6 = new Label();
-            pictureBox3 = new PictureBox();
             pnlTotalCategories = new Panel();
+            panel3 = new Panel();
+            pictureBox10 = new PictureBox();
             label2 = new Label();
             lblTotalCategories = new Label();
             label4 = new Label();
-            pictureBox2 = new PictureBox();
             pnlTotalProducts = new Panel();
+            panel2 = new Panel();
+            picProducts = new PictureBox();
             lblProductDesc = new Label();
             lblTotalProducts = new Label();
             lblProductsTitle = new Label();
-            picProducts = new PictureBox();
             timerSidebar = new System.Windows.Forms.Timer(components);
             timerClock = new System.Windows.Forms.Timer(components);
             pnlSidebar.SuspendLayout();
@@ -145,7 +172,11 @@
             pnlLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlHeader.SuspendLayout();
+            panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             pnlMain.SuspendLayout();
+            pnlDesktop.SuspendLayout();
+            pnlFooter.SuspendLayout();
             pnlDashboard.SuspendLayout();
             pnlBottomSection.SuspendLayout();
             tblBottomSection.SuspendLayout();
@@ -161,23 +192,36 @@
             tblCharts.SuspendLayout();
             pnlSalesChart.SuspendLayout();
             pnlStockChart.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            flpStockLegend.SuspendLayout();
+            pnlInStock.SuspendLayout();
+            pnlLowStocks.SuspendLayout();
+            pnlOutStock.SuspendLayout();
             pnlDashboardCards.SuspendLayout();
             tblDashboardCards.SuspendLayout();
             pnlTotalBrands.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
-            pnlLowStock.SuspendLayout();
+            panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
-            pnlCurrentStock.SuspendLayout();
+            pnlLowStock.SuspendLayout();
+            panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            pnlTotalSales.SuspendLayout();
+            pnlCurrentStock.SuspendLayout();
+            panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
-            pnlTotalPurchase.SuspendLayout();
+            pnlTotalSales.SuspendLayout();
+            panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            pnlTotalUnits.SuspendLayout();
+            pnlTotalPurchase.SuspendLayout();
+            panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            pnlTotalCategories.SuspendLayout();
+            pnlTotalUnits.SuspendLayout();
+            panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            pnlTotalCategories.SuspendLayout();
+            panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
             pnlTotalProducts.SuspendLayout();
+            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picProducts).BeginInit();
             SuspendLayout();
             // 
@@ -553,7 +597,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Image = Properties.Resources.ChatGPT_Image_Jul_23__2026__03_25_17_PM_removebg_preview;
             pictureBox1.Location = new Point(-28, -22);
             pictureBox1.Margin = new Padding(0);
             pictureBox1.Name = "pictureBox1";
@@ -565,15 +609,72 @@
             // pnlHeader
             // 
             pnlHeader.BackColor = Color.White;
+            pnlHeader.Controls.Add(panel10);
+            pnlHeader.Controls.Add(lblTitle);
+            pnlHeader.Controls.Add(label19);
             pnlHeader.Controls.Add(btnMenu);
             pnlHeader.Controls.Add(lblDateTime);
-            pnlHeader.Controls.Add(lblUserName);
-            pnlHeader.Controls.Add(lblTitle);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(250, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(1114, 60);
+            pnlHeader.Size = new Size(1114, 70);
             pnlHeader.TabIndex = 2;
+            // 
+            // panel10
+            // 
+            panel10.Controls.Add(pictureBox8);
+            panel10.Controls.Add(lblUserName);
+            panel10.Dock = DockStyle.Right;
+            panel10.Location = new Point(943, 0);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(171, 70);
+            panel10.TabIndex = 10;
+            // 
+            // pictureBox8
+            // 
+            pictureBox8.BackColor = Color.Transparent;
+            pictureBox8.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox8.Image = Properties.Resources.profile;
+            pictureBox8.Location = new Point(30, 21);
+            pictureBox8.Name = "pictureBox8";
+            pictureBox8.Size = new Size(30, 30);
+            pictureBox8.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox8.TabIndex = 0;
+            pictureBox8.TabStop = false;
+            // 
+            // lblUserName
+            // 
+            lblUserName.AutoSize = true;
+            lblUserName.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblUserName.Location = new Point(71, 23);
+            lblUserName.Name = "lblUserName";
+            lblUserName.Size = new Size(68, 25);
+            lblUserName.TabIndex = 1;
+            lblUserName.Text = "Admin";
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.BackColor = Color.Transparent;
+            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(31, 41, 55);
+            lblTitle.Location = new Point(30, 2);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(159, 38);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Dashboard";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.BackColor = Color.Transparent;
+            label19.Font = new Font("Segoe UI", 10F);
+            label19.ForeColor = Color.Gray;
+            label19.Location = new Point(32, 38);
+            label19.Name = "label19";
+            label19.Size = new Size(570, 28);
+            label19.TabIndex = 8;
+            label19.Text = "Welcome back, Admin! Here's what's happening with your store.";
             // 
             // btnMenu
             // 
@@ -593,39 +694,24 @@
             btnMenu.Location = new Point(0, 0);
             btnMenu.Name = "btnMenu";
             btnMenu.Padding = new Padding(15, 0, 0, 0);
-            btnMenu.Size = new Size(55, 60);
+            btnMenu.Size = new Size(55, 70);
             btnMenu.TabIndex = 7;
             btnMenu.TextAlign = ContentAlignment.MiddleLeft;
             btnMenu.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnMenu.UseVisualStyleBackColor = true;
+            btnMenu.Visible = false;
             btnMenu.Click += btnMenu_Click;
             // 
             // lblDateTime
             // 
             lblDateTime.AutoSize = true;
-            lblDateTime.Location = new Point(813, 21);
+            lblDateTime.BorderStyle = BorderStyle.FixedSingle;
+            lblDateTime.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            lblDateTime.Location = new Point(806, 24);
             lblDateTime.Name = "lblDateTime";
-            lblDateTime.Size = new Size(102, 25);
+            lblDateTime.Size = new Size(96, 23);
             lblDateTime.TabIndex = 2;
             lblDateTime.Text = "21 Jul 2026";
-            // 
-            // lblUserName
-            // 
-            lblUserName.AutoSize = true;
-            lblUserName.Location = new Point(660, 21);
-            lblUserName.Name = "lblUserName";
-            lblUserName.Size = new Size(65, 25);
-            lblUserName.TabIndex = 1;
-            lblUserName.Text = "Admin";
-            // 
-            // lblTitle
-            // 
-            lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(367, 21);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(100, 25);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Dashboard";
             // 
             // pnlMain
             // 
@@ -634,19 +720,39 @@
             pnlMain.Controls.Add(pnlDesktop);
             pnlMain.Controls.Add(pnlDashboard);
             pnlMain.Dock = DockStyle.Fill;
-            pnlMain.Location = new Point(250, 60);
+            pnlMain.Location = new Point(250, 70);
             pnlMain.Name = "pnlMain";
-            pnlMain.Padding = new Padding(10);
-            pnlMain.Size = new Size(1114, 990);
+            pnlMain.Padding = new Padding(10, 10, 10, 40);
+            pnlMain.Size = new Size(1114, 980);
             pnlMain.TabIndex = 3;
             // 
             // pnlDesktop
             // 
+            pnlDesktop.Controls.Add(pnlFooter);
             pnlDesktop.Dock = DockStyle.Fill;
-            pnlDesktop.Location = new Point(10, 946);
+            pnlDesktop.Location = new Point(10, 913);
             pnlDesktop.Name = "pnlDesktop";
-            pnlDesktop.Size = new Size(1094, 34);
+            pnlDesktop.Size = new Size(1094, 27);
             pnlDesktop.TabIndex = 3;
+            // 
+            // pnlFooter
+            // 
+            pnlFooter.Controls.Add(label18);
+            pnlFooter.Dock = DockStyle.Fill;
+            pnlFooter.Location = new Point(0, 0);
+            pnlFooter.Name = "pnlFooter";
+            pnlFooter.Size = new Size(1094, 27);
+            pnlFooter.TabIndex = 0;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.ForeColor = SystemColors.MenuHighlight;
+            label18.Location = new Point(283, 5);
+            label18.Name = "label18";
+            label18.Size = new Size(526, 25);
+            label18.TabIndex = 0;
+            label18.Text = "© 2026 Car Accessories Store | Version 1.0.0 | All Rights Reserved";
             // 
             // pnlDashboard
             // 
@@ -656,7 +762,7 @@
             pnlDashboard.Dock = DockStyle.Top;
             pnlDashboard.Location = new Point(10, 10);
             pnlDashboard.Name = "pnlDashboard";
-            pnlDashboard.Size = new Size(1094, 936);
+            pnlDashboard.Size = new Size(1094, 903);
             pnlDashboard.TabIndex = 2;
             // 
             // pnlBottomSection
@@ -666,8 +772,7 @@
             pnlBottomSection.Dock = DockStyle.Fill;
             pnlBottomSection.Location = new Point(0, 596);
             pnlBottomSection.Name = "pnlBottomSection";
-            pnlBottomSection.Padding = new Padding(10);
-            pnlBottomSection.Size = new Size(1094, 340);
+            pnlBottomSection.Size = new Size(1094, 307);
             pnlBottomSection.TabIndex = 0;
             // 
             // tblBottomSection
@@ -678,11 +783,11 @@
             tblBottomSection.Controls.Add(pnlRecentStock, 0, 0);
             tblBottomSection.Controls.Add(pnlTopSelling, 1, 0);
             tblBottomSection.Dock = DockStyle.Fill;
-            tblBottomSection.Location = new Point(10, 10);
+            tblBottomSection.Location = new Point(0, 0);
             tblBottomSection.Name = "tblBottomSection";
             tblBottomSection.RowCount = 1;
             tblBottomSection.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblBottomSection.Size = new Size(1074, 320);
+            tblBottomSection.Size = new Size(1094, 307);
             tblBottomSection.TabIndex = 0;
             // 
             // pnlRecentStock
@@ -695,7 +800,7 @@
             pnlRecentStock.Margin = new Padding(10);
             pnlRecentStock.Name = "pnlRecentStock";
             pnlRecentStock.Padding = new Padding(10);
-            pnlRecentStock.Size = new Size(624, 300);
+            pnlRecentStock.Size = new Size(636, 287);
             pnlRecentStock.TabIndex = 0;
             // 
             // tblRecentStock
@@ -712,7 +817,7 @@
             tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tblRecentStock.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tblRecentStock.Size = new Size(602, 278);
+            tblRecentStock.Size = new Size(614, 265);
             tblRecentStock.TabIndex = 0;
             // 
             // pnlRecentHeader
@@ -721,7 +826,7 @@
             pnlRecentHeader.Dock = DockStyle.Fill;
             pnlRecentHeader.Location = new Point(3, 3);
             pnlRecentHeader.Name = "pnlRecentHeader";
-            pnlRecentHeader.Size = new Size(596, 39);
+            pnlRecentHeader.Size = new Size(608, 39);
             pnlRecentHeader.TabIndex = 0;
             // 
             // lblRecentStock
@@ -750,7 +855,7 @@
             dgvRecentStock.RowHeadersVisible = false;
             dgvRecentStock.RowHeadersWidth = 62;
             dgvRecentStock.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRecentStock.Size = new Size(596, 192);
+            dgvRecentStock.Size = new Size(608, 179);
             dgvRecentStock.TabIndex = 1;
             // 
             // colDate
@@ -792,9 +897,9 @@
             // 
             pnlRecentFooter.Controls.Add(lnkViewAll);
             pnlRecentFooter.Dock = DockStyle.Fill;
-            pnlRecentFooter.Location = new Point(3, 246);
+            pnlRecentFooter.Location = new Point(3, 233);
             pnlRecentFooter.Name = "pnlRecentFooter";
-            pnlRecentFooter.Size = new Size(596, 29);
+            pnlRecentFooter.Size = new Size(608, 29);
             pnlRecentFooter.TabIndex = 2;
             // 
             // lnkViewAll
@@ -814,11 +919,11 @@
             pnlTopSelling.BorderStyle = BorderStyle.FixedSingle;
             pnlTopSelling.Controls.Add(tblTopSelling);
             pnlTopSelling.Dock = DockStyle.Fill;
-            pnlTopSelling.Location = new Point(654, 10);
+            pnlTopSelling.Location = new Point(666, 10);
             pnlTopSelling.Margin = new Padding(10);
             pnlTopSelling.Name = "pnlTopSelling";
             pnlTopSelling.Padding = new Padding(10);
-            pnlTopSelling.Size = new Size(410, 300);
+            pnlTopSelling.Size = new Size(418, 287);
             pnlTopSelling.TabIndex = 1;
             // 
             // tblTopSelling
@@ -833,7 +938,7 @@
             tblTopSelling.RowCount = 2;
             tblTopSelling.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tblTopSelling.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblTopSelling.Size = new Size(388, 278);
+            tblTopSelling.Size = new Size(396, 265);
             tblTopSelling.TabIndex = 0;
             // 
             // pnlTopHeader
@@ -843,7 +948,7 @@
             pnlTopHeader.Dock = DockStyle.Fill;
             pnlTopHeader.Location = new Point(3, 3);
             pnlTopHeader.Name = "pnlTopHeader";
-            pnlTopHeader.Size = new Size(382, 44);
+            pnlTopHeader.Size = new Size(390, 44);
             pnlTopHeader.TabIndex = 0;
             // 
             // cmbDuration
@@ -851,7 +956,7 @@
             cmbDuration.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbDuration.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDuration.FormattingEnabled = true;
-            cmbDuration.Location = new Point(262, 6);
+            cmbDuration.Location = new Point(270, 6);
             cmbDuration.Name = "cmbDuration";
             cmbDuration.Size = new Size(110, 33);
             cmbDuration.TabIndex = 1;
@@ -875,7 +980,7 @@
             flpTopSelling.Location = new Point(3, 53);
             flpTopSelling.Name = "flpTopSelling";
             flpTopSelling.Padding = new Padding(5);
-            flpTopSelling.Size = new Size(382, 222);
+            flpTopSelling.Size = new Size(390, 209);
             flpTopSelling.TabIndex = 1;
             flpTopSelling.WrapContents = false;
             flpTopSelling.SizeChanged += flpTopSelling_SizeChanged;
@@ -887,23 +992,22 @@
             pnlChartSection.Dock = DockStyle.Top;
             pnlChartSection.Location = new Point(0, 295);
             pnlChartSection.Name = "pnlChartSection";
-            pnlChartSection.Padding = new Padding(10);
             pnlChartSection.Size = new Size(1094, 301);
             pnlChartSection.TabIndex = 1;
             // 
             // tblCharts
             // 
             tblCharts.ColumnCount = 2;
-            tblCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 65F));
-            tblCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
+            tblCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62.065815F));
+            tblCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 37.934185F));
             tblCharts.Controls.Add(pnlSalesChart, 0, 0);
             tblCharts.Controls.Add(pnlStockChart, 1, 0);
             tblCharts.Dock = DockStyle.Fill;
-            tblCharts.Location = new Point(10, 10);
+            tblCharts.Location = new Point(0, 0);
             tblCharts.Name = "tblCharts";
             tblCharts.RowCount = 1;
             tblCharts.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tblCharts.Size = new Size(1074, 281);
+            tblCharts.Size = new Size(1094, 301);
             tblCharts.TabIndex = 0;
             // 
             // pnlSalesChart
@@ -916,7 +1020,7 @@
             pnlSalesChart.Location = new Point(10, 10);
             pnlSalesChart.Margin = new Padding(10);
             pnlSalesChart.Name = "pnlSalesChart";
-            pnlSalesChart.Size = new Size(678, 261);
+            pnlSalesChart.Size = new Size(659, 281);
             pnlSalesChart.TabIndex = 0;
             // 
             // cartesianChart1
@@ -924,40 +1028,40 @@
             cartesianChart1.AutoUpdateEnabled = true;
             cartesianChart1.ChartTheme = null;
             cartesianChart1.Dock = DockStyle.Bottom;
-            skDefaultLegend1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
-            skDefaultLegend1.Content = null;
-            skDefaultLegend1.IsValid = false;
-            skDefaultLegend1.Opacity = 1F;
-            padding1.Bottom = 0F;
-            padding1.Left = 0F;
-            padding1.Right = 0F;
-            padding1.Top = 0F;
-            skDefaultLegend1.Padding = padding1;
-            skDefaultLegend1.RemoveOnCompleted = false;
-            skDefaultLegend1.RotateTransform = 0F;
-            skDefaultLegend1.X = 0F;
-            skDefaultLegend1.Y = 0F;
-            cartesianChart1.Legend = skDefaultLegend1;
-            cartesianChart1.Location = new Point(0, 34);
+            skDefaultLegend3.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultLegend3.Content = null;
+            skDefaultLegend3.IsValid = false;
+            skDefaultLegend3.Opacity = 1F;
+            padding5.Bottom = 0F;
+            padding5.Left = 0F;
+            padding5.Right = 0F;
+            padding5.Top = 0F;
+            skDefaultLegend3.Padding = padding5;
+            skDefaultLegend3.RemoveOnCompleted = false;
+            skDefaultLegend3.RotateTransform = 0F;
+            skDefaultLegend3.X = 0F;
+            skDefaultLegend3.Y = 0F;
+            cartesianChart1.Legend = skDefaultLegend3;
+            cartesianChart1.Location = new Point(0, 54);
             cartesianChart1.MatchAxesScreenDataRatio = false;
             cartesianChart1.Name = "cartesianChart1";
-            cartesianChart1.Size = new Size(676, 225);
+            cartesianChart1.Size = new Size(657, 225);
             cartesianChart1.TabIndex = 1;
-            skDefaultTooltip1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
-            skDefaultTooltip1.Content = null;
-            skDefaultTooltip1.IsValid = false;
-            skDefaultTooltip1.Opacity = 1F;
-            padding2.Bottom = 0F;
-            padding2.Left = 0F;
-            padding2.Right = 0F;
-            padding2.Top = 0F;
-            skDefaultTooltip1.Padding = padding2;
-            skDefaultTooltip1.RemoveOnCompleted = false;
-            skDefaultTooltip1.RotateTransform = 0F;
-            skDefaultTooltip1.Wedge = 10;
-            skDefaultTooltip1.X = 0F;
-            skDefaultTooltip1.Y = 0F;
-            cartesianChart1.Tooltip = skDefaultTooltip1;
+            skDefaultTooltip3.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultTooltip3.Content = null;
+            skDefaultTooltip3.IsValid = false;
+            skDefaultTooltip3.Opacity = 1F;
+            padding6.Bottom = 0F;
+            padding6.Left = 0F;
+            padding6.Right = 0F;
+            padding6.Top = 0F;
+            skDefaultTooltip3.Padding = padding6;
+            skDefaultTooltip3.RemoveOnCompleted = false;
+            skDefaultTooltip3.RotateTransform = 0F;
+            skDefaultTooltip3.Wedge = 10;
+            skDefaultTooltip3.X = 0F;
+            skDefaultTooltip3.Y = 0F;
+            cartesianChart1.Tooltip = skDefaultTooltip3;
             cartesianChart1.TooltipFindingStrategy = LiveChartsCore.Measure.TooltipFindingStrategy.Automatic;
             cartesianChart1.UpdaterThrottler = TimeSpan.Parse("00:00:00.0500000");
             // 
@@ -965,7 +1069,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label15.Location = new Point(240, 1);
+            label15.Location = new Point(4, 1);
             label15.Name = "label15";
             label15.Size = new Size(170, 30);
             label15.TabIndex = 0;
@@ -975,60 +1079,206 @@
             // 
             pnlStockChart.BackColor = Color.White;
             pnlStockChart.BorderStyle = BorderStyle.FixedSingle;
-            pnlStockChart.Controls.Add(pieChart1);
+            pnlStockChart.Controls.Add(tableLayoutPanel1);
             pnlStockChart.Controls.Add(label17);
             pnlStockChart.Dock = DockStyle.Fill;
-            pnlStockChart.Location = new Point(708, 10);
+            pnlStockChart.Location = new Point(689, 10);
             pnlStockChart.Margin = new Padding(10);
             pnlStockChart.Name = "pnlStockChart";
-            pnlStockChart.Size = new Size(356, 261);
+            pnlStockChart.Size = new Size(395, 281);
             pnlStockChart.TabIndex = 1;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 51.9083977F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48.0916023F));
+            tableLayoutPanel1.Controls.Add(pieChart1, 0, 0);
+            tableLayoutPanel1.Controls.Add(flpStockLegend, 1, 0);
+            tableLayoutPanel1.Dock = DockStyle.Bottom;
+            tableLayoutPanel1.Location = new Point(0, 34);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(393, 245);
+            tableLayoutPanel1.TabIndex = 3;
             // 
             // pieChart1
             // 
             pieChart1.AutoUpdateEnabled = true;
             pieChart1.ChartTheme = null;
-            pieChart1.Dock = DockStyle.Bottom;
-            skDefaultLegend2.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
-            skDefaultLegend2.Content = null;
-            skDefaultLegend2.IsValid = false;
-            skDefaultLegend2.Opacity = 1F;
-            padding3.Bottom = 0F;
-            padding3.Left = 0F;
-            padding3.Right = 0F;
-            padding3.Top = 0F;
-            skDefaultLegend2.Padding = padding3;
-            skDefaultLegend2.RemoveOnCompleted = false;
-            skDefaultLegend2.RotateTransform = 0F;
-            skDefaultLegend2.X = 0F;
-            skDefaultLegend2.Y = 0F;
-            pieChart1.Legend = skDefaultLegend2;
-            pieChart1.Location = new Point(0, 34);
+            pieChart1.Dock = DockStyle.Fill;
+            skDefaultLegend4.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultLegend4.Content = null;
+            skDefaultLegend4.IsValid = false;
+            skDefaultLegend4.Opacity = 1F;
+            padding7.Bottom = 0F;
+            padding7.Left = 0F;
+            padding7.Right = 0F;
+            padding7.Top = 0F;
+            skDefaultLegend4.Padding = padding7;
+            skDefaultLegend4.RemoveOnCompleted = false;
+            skDefaultLegend4.RotateTransform = 0F;
+            skDefaultLegend4.X = 0F;
+            skDefaultLegend4.Y = 0F;
+            pieChart1.Legend = skDefaultLegend4;
+            pieChart1.Location = new Point(3, 3);
             pieChart1.Name = "pieChart1";
-            pieChart1.Size = new Size(354, 225);
+            pieChart1.Size = new Size(198, 239);
             pieChart1.TabIndex = 2;
-            skDefaultTooltip2.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
-            skDefaultTooltip2.Content = null;
-            skDefaultTooltip2.IsValid = false;
-            skDefaultTooltip2.Opacity = 1F;
-            padding4.Bottom = 0F;
-            padding4.Left = 0F;
-            padding4.Right = 0F;
-            padding4.Top = 0F;
-            skDefaultTooltip2.Padding = padding4;
-            skDefaultTooltip2.RemoveOnCompleted = false;
-            skDefaultTooltip2.RotateTransform = 0F;
-            skDefaultTooltip2.Wedge = 10;
-            skDefaultTooltip2.X = 0F;
-            skDefaultTooltip2.Y = 0F;
-            pieChart1.Tooltip = skDefaultTooltip2;
+            skDefaultTooltip4.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultTooltip4.Content = null;
+            skDefaultTooltip4.IsValid = false;
+            skDefaultTooltip4.Opacity = 1F;
+            padding8.Bottom = 0F;
+            padding8.Left = 0F;
+            padding8.Right = 0F;
+            padding8.Top = 0F;
+            skDefaultTooltip4.Padding = padding8;
+            skDefaultTooltip4.RemoveOnCompleted = false;
+            skDefaultTooltip4.RotateTransform = 0F;
+            skDefaultTooltip4.Wedge = 10;
+            skDefaultTooltip4.X = 0F;
+            skDefaultTooltip4.Y = 0F;
+            pieChart1.Tooltip = skDefaultTooltip4;
             pieChart1.UpdaterThrottler = TimeSpan.Parse("00:00:00.0500000");
+            // 
+            // flpStockLegend
+            // 
+            flpStockLegend.Controls.Add(pnlInStock);
+            flpStockLegend.Controls.Add(pnlLowStocks);
+            flpStockLegend.Controls.Add(pnlOutStock);
+            flpStockLegend.Dock = DockStyle.Fill;
+            flpStockLegend.FlowDirection = FlowDirection.TopDown;
+            flpStockLegend.Location = new Point(207, 3);
+            flpStockLegend.Name = "flpStockLegend";
+            flpStockLegend.Padding = new Padding(10, 30, 10, 10);
+            flpStockLegend.Size = new Size(183, 239);
+            flpStockLegend.TabIndex = 3;
+            flpStockLegend.WrapContents = false;
+            // 
+            // pnlInStock
+            // 
+            pnlInStock.Controls.Add(lblInStockValue);
+            pnlInStock.Controls.Add(lblInStock);
+            pnlInStock.Controls.Add(pnlGreen);
+            pnlInStock.Location = new Point(10, 38);
+            pnlInStock.Margin = new Padding(0, 8, 0, 8);
+            pnlInStock.Name = "pnlInStock";
+            pnlInStock.Size = new Size(233, 40);
+            pnlInStock.TabIndex = 0;
+            // 
+            // lblInStockValue
+            // 
+            lblInStockValue.AutoSize = true;
+            lblInStockValue.Location = new Point(124, 8);
+            lblInStockValue.Name = "lblInStockValue";
+            lblInStockValue.Size = new Size(86, 25);
+            lblInStockValue.TabIndex = 2;
+            lblInStockValue.Text = "0 (0.00%)";
+            lblInStockValue.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblInStock
+            // 
+            lblInStock.AutoSize = true;
+            lblInStock.Font = new Font("Segoe UI", 8F);
+            lblInStock.Location = new Point(16, 8);
+            lblInStock.Name = "lblInStock";
+            lblInStock.Size = new Size(64, 21);
+            lblInStock.TabIndex = 1;
+            lblInStock.Text = "In Stock";
+            // 
+            // pnlGreen
+            // 
+            pnlGreen.BackColor = Color.Green;
+            pnlGreen.Location = new Point(0, 15);
+            pnlGreen.Name = "pnlGreen";
+            pnlGreen.Size = new Size(12, 12);
+            pnlGreen.TabIndex = 0;
+            // 
+            // pnlLowStocks
+            // 
+            pnlLowStocks.Controls.Add(lblLowStockValue);
+            pnlLowStocks.Controls.Add(lblLowStocks);
+            pnlLowStocks.Controls.Add(panel11);
+            pnlLowStocks.Location = new Point(10, 94);
+            pnlLowStocks.Margin = new Padding(0, 8, 0, 8);
+            pnlLowStocks.Name = "pnlLowStocks";
+            pnlLowStocks.Size = new Size(220, 40);
+            pnlLowStocks.TabIndex = 1;
+            // 
+            // lblLowStockValue
+            // 
+            lblLowStockValue.AutoSize = true;
+            lblLowStockValue.Location = new Point(124, 8);
+            lblLowStockValue.Name = "lblLowStockValue";
+            lblLowStockValue.Size = new Size(96, 25);
+            lblLowStockValue.TabIndex = 5;
+            lblLowStockValue.Text = "9 (15.52%)";
+            lblLowStockValue.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblLowStocks
+            // 
+            lblLowStocks.AutoSize = true;
+            lblLowStocks.Font = new Font("Segoe UI", 8F);
+            lblLowStocks.Location = new Point(16, 7);
+            lblLowStocks.Name = "lblLowStocks";
+            lblLowStocks.Size = new Size(80, 21);
+            lblLowStocks.TabIndex = 4;
+            lblLowStocks.Text = "Low Stock";
+            // 
+            // panel11
+            // 
+            panel11.BackColor = Color.FromArgb(255, 128, 0);
+            panel11.Location = new Point(0, 14);
+            panel11.Name = "panel11";
+            panel11.Size = new Size(12, 12);
+            panel11.TabIndex = 3;
+            // 
+            // pnlOutStock
+            // 
+            pnlOutStock.Controls.Add(lblOutStockValue);
+            pnlOutStock.Controls.Add(lblOutStock);
+            pnlOutStock.Controls.Add(panel12);
+            pnlOutStock.Location = new Point(10, 150);
+            pnlOutStock.Margin = new Padding(0, 8, 0, 8);
+            pnlOutStock.Name = "pnlOutStock";
+            pnlOutStock.Size = new Size(220, 40);
+            pnlOutStock.TabIndex = 2;
+            // 
+            // lblOutStockValue
+            // 
+            lblOutStockValue.AutoSize = true;
+            lblOutStockValue.Location = new Point(124, 8);
+            lblOutStockValue.Name = "lblOutStockValue";
+            lblOutStockValue.Size = new Size(96, 25);
+            lblOutStockValue.TabIndex = 8;
+            lblOutStockValue.Text = "7 (12.07%)";
+            lblOutStockValue.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // lblOutStock
+            // 
+            lblOutStock.AutoSize = true;
+            lblOutStock.Font = new Font("Segoe UI", 8F);
+            lblOutStock.Location = new Point(16, 8);
+            lblOutStock.Name = "lblOutStock";
+            lblOutStock.Size = new Size(98, 21);
+            lblOutStock.TabIndex = 7;
+            lblOutStock.Text = "Out Of Stock";
+            // 
+            // panel12
+            // 
+            panel12.BackColor = Color.FromArgb(192, 0, 0);
+            panel12.Location = new Point(0, 15);
+            panel12.Name = "panel12";
+            panel12.Size = new Size(12, 12);
+            panel12.TabIndex = 6;
             // 
             // label17
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.Location = new Point(95, 1);
+            label17.Location = new Point(3, 1);
             label17.Name = "label17";
             label17.Size = new Size(139, 30);
             label17.TabIndex = 1;
@@ -1072,10 +1322,10 @@
             // 
             pnlTotalBrands.AutoSize = true;
             pnlTotalBrands.BorderStyle = BorderStyle.FixedSingle;
+            pnlTotalBrands.Controls.Add(panel9);
             pnlTotalBrands.Controls.Add(label13);
             pnlTotalBrands.Controls.Add(lblTotalBrands);
             pnlTotalBrands.Controls.Add(label16);
-            pnlTotalBrands.Controls.Add(pictureBox8);
             pnlTotalBrands.Dock = DockStyle.Fill;
             pnlTotalBrands.ForeColor = Color.DimGray;
             pnlTotalBrands.Location = new Point(829, 157);
@@ -1083,6 +1333,28 @@
             pnlTotalBrands.Name = "pnlTotalBrands";
             pnlTotalBrands.Size = new Size(255, 128);
             pnlTotalBrands.TabIndex = 14;
+            // 
+            // panel9
+            // 
+            panel9.Controls.Add(pictureBox7);
+            panel9.Location = new Point(15, 18);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(55, 55);
+            panel9.TabIndex = 7;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.BackColor = Color.MintCream;
+            pictureBox7.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox7.Dock = DockStyle.Fill;
+            pictureBox7.Image = Properties.Resources.brand;
+            pictureBox7.Location = new Point(0, 0);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Padding = new Padding(10);
+            pictureBox7.Size = new Size(55, 55);
+            pictureBox7.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox7.TabIndex = 0;
+            pictureBox7.TabStop = false;
             // 
             // label13
             // 
@@ -1116,24 +1388,14 @@
             label16.TabIndex = 1;
             label16.Text = "Total Brands";
             // 
-            // pictureBox8
-            // 
-            pictureBox8.BackColor = Color.AliceBlue;
-            pictureBox8.Location = new Point(15, 18);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(55, 55);
-            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox8.TabIndex = 0;
-            pictureBox8.TabStop = false;
-            // 
             // pnlLowStock
             // 
             pnlLowStock.AutoSize = true;
             pnlLowStock.BorderStyle = BorderStyle.FixedSingle;
+            pnlLowStock.Controls.Add(panel8);
             pnlLowStock.Controls.Add(label11);
             pnlLowStock.Controls.Add(lblLowStock);
             pnlLowStock.Controls.Add(label14);
-            pnlLowStock.Controls.Add(pictureBox7);
             pnlLowStock.Dock = DockStyle.Fill;
             pnlLowStock.ForeColor = Color.DimGray;
             pnlLowStock.Location = new Point(556, 157);
@@ -1141,6 +1403,28 @@
             pnlLowStock.Name = "pnlLowStock";
             pnlLowStock.Size = new Size(253, 128);
             pnlLowStock.TabIndex = 13;
+            // 
+            // panel8
+            // 
+            panel8.Controls.Add(pictureBox6);
+            panel8.Location = new Point(15, 18);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(55, 55);
+            panel8.TabIndex = 7;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.BackColor = Color.Cornsilk;
+            pictureBox6.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox6.Dock = DockStyle.Fill;
+            pictureBox6.Image = Properties.Resources.warning;
+            pictureBox6.Location = new Point(0, 0);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Padding = new Padding(10);
+            pictureBox6.Size = new Size(55, 55);
+            pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox6.TabIndex = 0;
+            pictureBox6.TabStop = false;
             // 
             // label11
             // 
@@ -1174,24 +1458,14 @@
             label14.TabIndex = 1;
             label14.Text = "Low Stock";
             // 
-            // pictureBox7
-            // 
-            pictureBox7.BackColor = Color.AliceBlue;
-            pictureBox7.Location = new Point(15, 18);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(55, 55);
-            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox7.TabIndex = 0;
-            pictureBox7.TabStop = false;
-            // 
             // pnlCurrentStock
             // 
             pnlCurrentStock.AutoSize = true;
             pnlCurrentStock.BorderStyle = BorderStyle.FixedSingle;
+            pnlCurrentStock.Controls.Add(panel7);
             pnlCurrentStock.Controls.Add(label9);
             pnlCurrentStock.Controls.Add(lblCurrentStock);
             pnlCurrentStock.Controls.Add(label12);
-            pnlCurrentStock.Controls.Add(pictureBox6);
             pnlCurrentStock.Dock = DockStyle.Fill;
             pnlCurrentStock.ForeColor = Color.DimGray;
             pnlCurrentStock.Location = new Point(283, 157);
@@ -1199,6 +1473,28 @@
             pnlCurrentStock.Name = "pnlCurrentStock";
             pnlCurrentStock.Size = new Size(253, 128);
             pnlCurrentStock.TabIndex = 12;
+            // 
+            // panel7
+            // 
+            panel7.Controls.Add(pictureBox5);
+            panel7.Location = new Point(15, 18);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(55, 55);
+            panel7.TabIndex = 7;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.BackColor = Color.LavenderBlush;
+            pictureBox5.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox5.Dock = DockStyle.Fill;
+            pictureBox5.Image = Properties.Resources.box;
+            pictureBox5.Location = new Point(0, 0);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Padding = new Padding(10);
+            pictureBox5.Size = new Size(55, 55);
+            pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox5.TabIndex = 0;
+            pictureBox5.TabStop = false;
             // 
             // label9
             // 
@@ -1232,24 +1528,14 @@
             label12.TabIndex = 1;
             label12.Text = "Current Stock";
             // 
-            // pictureBox6
-            // 
-            pictureBox6.BackColor = Color.AliceBlue;
-            pictureBox6.Location = new Point(15, 18);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(55, 55);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 0;
-            pictureBox6.TabStop = false;
-            // 
             // pnlTotalSales
             // 
             pnlTotalSales.AutoSize = true;
             pnlTotalSales.BorderStyle = BorderStyle.FixedSingle;
+            pnlTotalSales.Controls.Add(panel6);
             pnlTotalSales.Controls.Add(label7);
             pnlTotalSales.Controls.Add(lblSalesAmount);
             pnlTotalSales.Controls.Add(label10);
-            pnlTotalSales.Controls.Add(pictureBox5);
             pnlTotalSales.Dock = DockStyle.Fill;
             pnlTotalSales.ForeColor = Color.DimGray;
             pnlTotalSales.Location = new Point(10, 157);
@@ -1257,6 +1543,28 @@
             pnlTotalSales.Name = "pnlTotalSales";
             pnlTotalSales.Size = new Size(253, 128);
             pnlTotalSales.TabIndex = 11;
+            // 
+            // panel6
+            // 
+            panel6.Controls.Add(pictureBox4);
+            panel6.Location = new Point(15, 18);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(55, 55);
+            panel6.TabIndex = 7;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.BackColor = Color.MistyRose;
+            pictureBox4.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox4.Dock = DockStyle.Fill;
+            pictureBox4.Image = Properties.Resources.rupee_symbol;
+            pictureBox4.Location = new Point(0, 0);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Padding = new Padding(10);
+            pictureBox4.Size = new Size(55, 55);
+            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox4.TabIndex = 0;
+            pictureBox4.TabStop = false;
             // 
             // label7
             // 
@@ -1290,24 +1598,14 @@
             label10.TabIndex = 1;
             label10.Text = "Total Sales";
             // 
-            // pictureBox5
-            // 
-            pictureBox5.BackColor = Color.AliceBlue;
-            pictureBox5.Location = new Point(15, 18);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(55, 55);
-            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox5.TabIndex = 0;
-            pictureBox5.TabStop = false;
-            // 
             // pnlTotalPurchase
             // 
             pnlTotalPurchase.AutoSize = true;
             pnlTotalPurchase.BorderStyle = BorderStyle.FixedSingle;
+            pnlTotalPurchase.Controls.Add(panel5);
             pnlTotalPurchase.Controls.Add(label5);
             pnlTotalPurchase.Controls.Add(lblPurchaseAmount);
             pnlTotalPurchase.Controls.Add(label8);
-            pnlTotalPurchase.Controls.Add(pictureBox4);
             pnlTotalPurchase.Dock = DockStyle.Fill;
             pnlTotalPurchase.ForeColor = Color.DimGray;
             pnlTotalPurchase.Location = new Point(829, 10);
@@ -1315,6 +1613,28 @@
             pnlTotalPurchase.Name = "pnlTotalPurchase";
             pnlTotalPurchase.Size = new Size(255, 127);
             pnlTotalPurchase.TabIndex = 10;
+            // 
+            // panel5
+            // 
+            panel5.Controls.Add(pictureBox3);
+            panel5.Location = new Point(15, 18);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(55, 55);
+            panel5.TabIndex = 7;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackColor = Color.FromArgb(220, 240, 222);
+            pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox3.Dock = DockStyle.Fill;
+            pictureBox3.Image = Properties.Resources.back_in_store;
+            pictureBox3.Location = new Point(0, 0);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Padding = new Padding(10);
+            pictureBox3.Size = new Size(55, 55);
+            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox3.TabIndex = 0;
+            pictureBox3.TabStop = false;
             // 
             // label5
             // 
@@ -1348,24 +1668,14 @@
             label8.TabIndex = 1;
             label8.Text = "Total Purchase";
             // 
-            // pictureBox4
-            // 
-            pictureBox4.BackColor = Color.AliceBlue;
-            pictureBox4.Location = new Point(15, 18);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(55, 55);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 0;
-            pictureBox4.TabStop = false;
-            // 
             // pnlTotalUnits
             // 
             pnlTotalUnits.AutoSize = true;
             pnlTotalUnits.BorderStyle = BorderStyle.FixedSingle;
+            pnlTotalUnits.Controls.Add(panel4);
             pnlTotalUnits.Controls.Add(label3);
             pnlTotalUnits.Controls.Add(lblTotalUnits);
             pnlTotalUnits.Controls.Add(label6);
-            pnlTotalUnits.Controls.Add(pictureBox3);
             pnlTotalUnits.Dock = DockStyle.Fill;
             pnlTotalUnits.ForeColor = Color.DimGray;
             pnlTotalUnits.Location = new Point(556, 10);
@@ -1373,6 +1683,28 @@
             pnlTotalUnits.Name = "pnlTotalUnits";
             pnlTotalUnits.Size = new Size(253, 127);
             pnlTotalUnits.TabIndex = 9;
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(pictureBox2);
+            panel4.Location = new Point(15, 18);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(55, 55);
+            panel4.TabIndex = 6;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackColor = Color.Lavender;
+            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox2.Dock = DockStyle.Fill;
+            pictureBox2.Image = Properties.Resources.pencil_and_ruler;
+            pictureBox2.Location = new Point(0, 0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Padding = new Padding(10);
+            pictureBox2.Size = new Size(55, 55);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 0;
+            pictureBox2.TabStop = false;
             // 
             // label3
             // 
@@ -1406,24 +1738,14 @@
             label6.TabIndex = 1;
             label6.Text = "Total Units";
             // 
-            // pictureBox3
-            // 
-            pictureBox3.BackColor = Color.AliceBlue;
-            pictureBox3.Location = new Point(15, 18);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(55, 55);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 0;
-            pictureBox3.TabStop = false;
-            // 
             // pnlTotalCategories
             // 
             pnlTotalCategories.AutoSize = true;
             pnlTotalCategories.BorderStyle = BorderStyle.FixedSingle;
+            pnlTotalCategories.Controls.Add(panel3);
             pnlTotalCategories.Controls.Add(label2);
             pnlTotalCategories.Controls.Add(lblTotalCategories);
             pnlTotalCategories.Controls.Add(label4);
-            pnlTotalCategories.Controls.Add(pictureBox2);
             pnlTotalCategories.Dock = DockStyle.Fill;
             pnlTotalCategories.ForeColor = Color.DimGray;
             pnlTotalCategories.Location = new Point(283, 10);
@@ -1431,6 +1753,28 @@
             pnlTotalCategories.Name = "pnlTotalCategories";
             pnlTotalCategories.Size = new Size(253, 127);
             pnlTotalCategories.TabIndex = 8;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(pictureBox10);
+            panel3.Location = new Point(15, 18);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(55, 55);
+            panel3.TabIndex = 5;
+            // 
+            // pictureBox10
+            // 
+            pictureBox10.BackColor = SystemColors.GradientInactiveCaption;
+            pictureBox10.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox10.Dock = DockStyle.Fill;
+            pictureBox10.Image = Properties.Resources.list;
+            pictureBox10.Location = new Point(0, 0);
+            pictureBox10.Name = "pictureBox10";
+            pictureBox10.Padding = new Padding(10);
+            pictureBox10.Size = new Size(55, 55);
+            pictureBox10.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox10.TabIndex = 0;
+            pictureBox10.TabStop = false;
             // 
             // label2
             // 
@@ -1464,24 +1808,14 @@
             label4.TabIndex = 1;
             label4.Text = "Total Categories";
             // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.AliceBlue;
-            pictureBox2.Location = new Point(15, 18);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(55, 55);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 0;
-            pictureBox2.TabStop = false;
-            // 
             // pnlTotalProducts
             // 
             pnlTotalProducts.AutoSize = true;
             pnlTotalProducts.BorderStyle = BorderStyle.FixedSingle;
+            pnlTotalProducts.Controls.Add(panel2);
             pnlTotalProducts.Controls.Add(lblProductDesc);
             pnlTotalProducts.Controls.Add(lblTotalProducts);
             pnlTotalProducts.Controls.Add(lblProductsTitle);
-            pnlTotalProducts.Controls.Add(picProducts);
             pnlTotalProducts.Dock = DockStyle.Fill;
             pnlTotalProducts.ForeColor = Color.DimGray;
             pnlTotalProducts.Location = new Point(10, 10);
@@ -1489,6 +1823,28 @@
             pnlTotalProducts.Name = "pnlTotalProducts";
             pnlTotalProducts.Size = new Size(253, 127);
             pnlTotalProducts.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(picProducts);
+            panel2.Location = new Point(15, 20);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(55, 55);
+            panel2.TabIndex = 4;
+            // 
+            // picProducts
+            // 
+            picProducts.BackColor = Color.AliceBlue;
+            picProducts.BackgroundImageLayout = ImageLayout.Stretch;
+            picProducts.Dock = DockStyle.Fill;
+            picProducts.Image = Properties.Resources.parcel;
+            picProducts.Location = new Point(0, 0);
+            picProducts.Name = "picProducts";
+            picProducts.Padding = new Padding(10);
+            picProducts.Size = new Size(55, 55);
+            picProducts.SizeMode = PictureBoxSizeMode.StretchImage;
+            picProducts.TabIndex = 0;
+            picProducts.TabStop = false;
             // 
             // lblProductDesc
             // 
@@ -1522,19 +1878,9 @@
             lblProductsTitle.TabIndex = 1;
             lblProductsTitle.Text = "Total Products";
             // 
-            // picProducts
-            // 
-            picProducts.BackColor = Color.AliceBlue;
-            picProducts.Location = new Point(15, 18);
-            picProducts.Name = "picProducts";
-            picProducts.Size = new Size(55, 55);
-            picProducts.SizeMode = PictureBoxSizeMode.Zoom;
-            picProducts.TabIndex = 0;
-            picProducts.TabStop = false;
-            // 
             // timerSidebar
             // 
-            timerSidebar.Interval = 10;
+            timerSidebar.Interval = 5;
             timerSidebar.Tick += timerSidebar_Tick;
             // 
             // timerClock
@@ -1554,7 +1900,7 @@
             MinimumSize = new Size(1200, 700);
             Name = "FrmDashboard";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FrmDashboard";
+            Text = "Car Accessories Management Store";
             WindowState = FormWindowState.Maximized;
             Load += FrmDashboard_Load;
             pnlSidebar.ResumeLayout(false);
@@ -1565,7 +1911,13 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
+            panel10.ResumeLayout(false);
+            panel10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             pnlMain.ResumeLayout(false);
+            pnlDesktop.ResumeLayout(false);
+            pnlFooter.ResumeLayout(false);
+            pnlFooter.PerformLayout();
             pnlDashboard.ResumeLayout(false);
             pnlBottomSection.ResumeLayout(false);
             tblBottomSection.ResumeLayout(false);
@@ -1586,32 +1938,48 @@
             pnlSalesChart.PerformLayout();
             pnlStockChart.ResumeLayout(false);
             pnlStockChart.PerformLayout();
+            tableLayoutPanel1.ResumeLayout(false);
+            flpStockLegend.ResumeLayout(false);
+            pnlInStock.ResumeLayout(false);
+            pnlInStock.PerformLayout();
+            pnlLowStocks.ResumeLayout(false);
+            pnlLowStocks.PerformLayout();
+            pnlOutStock.ResumeLayout(false);
+            pnlOutStock.PerformLayout();
             pnlDashboardCards.ResumeLayout(false);
             tblDashboardCards.ResumeLayout(false);
             tblDashboardCards.PerformLayout();
             pnlTotalBrands.ResumeLayout(false);
             pnlTotalBrands.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            panel9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             pnlLowStock.ResumeLayout(false);
             pnlLowStock.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            panel8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             pnlCurrentStock.ResumeLayout(false);
             pnlCurrentStock.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            panel7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             pnlTotalSales.ResumeLayout(false);
             pnlTotalSales.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            panel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             pnlTotalPurchase.ResumeLayout(false);
             pnlTotalPurchase.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             pnlTotalUnits.ResumeLayout(false);
             pnlTotalUnits.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             pnlTotalCategories.ResumeLayout(false);
             pnlTotalCategories.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
             pnlTotalProducts.ResumeLayout(false);
             pnlTotalProducts.PerformLayout();
+            panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picProducts).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -1653,37 +2021,30 @@
         private Label label2;
         private Label lblTotalCategories;
         private Label label4;
-        private PictureBox pictureBox2;
         private Panel pnlCurrentStock;
         private Label label9;
         private Label lblCurrentStock;
         private Label label12;
-        private PictureBox pictureBox6;
         private Panel pnlTotalSales;
         private Label label7;
         private Label lblSalesAmount;
         private Label label10;
-        private PictureBox pictureBox5;
         private Panel pnlTotalPurchase;
         private Label label5;
         private Label lblPurchaseAmount;
         private Label label8;
-        private PictureBox pictureBox4;
         private Panel pnlTotalUnits;
         private Label label3;
         private Label lblTotalUnits;
         private Label label6;
-        private PictureBox pictureBox3;
         private Panel pnlTotalBrands;
         private Label label13;
         private Label lblTotalBrands;
         private Label label16;
-        private PictureBox pictureBox8;
         private Panel pnlLowStock;
         private Label label11;
         private Label lblLowStock;
         private Label label14;
-        private PictureBox pictureBox7;
         private Panel pnlChartSection;
         private TableLayoutPanel tblCharts;
         private Panel pnlSalesChart;
@@ -1719,5 +2080,39 @@
         private FontAwesome.Sharp.IconButton btnBackupRestore;
         private Panel panel1;
         private FontAwesome.Sharp.IconButton btnLogOut;
+        private Panel panel2;
+        private Panel panel9;
+        private PictureBox pictureBox7;
+        private Panel panel8;
+        private PictureBox pictureBox6;
+        private Panel panel7;
+        private PictureBox pictureBox5;
+        private Panel panel6;
+        private PictureBox pictureBox4;
+        private Panel panel5;
+        private PictureBox pictureBox3;
+        private Panel panel4;
+        private PictureBox pictureBox2;
+        private Panel panel3;
+        private PictureBox pictureBox10;
+        private Panel pnlFooter;
+        private Label label18;
+        private Label label19;
+        private Panel panel10;
+        private PictureBox pictureBox8;
+        private TableLayoutPanel tableLayoutPanel1;
+        private FlowLayoutPanel flpStockLegend;
+        private Panel pnlInStock;
+        private Label lblInStock;
+        private Panel pnlGreen;
+        private Panel pnlLowStocks;
+        private Panel pnlOutStock;
+        private Label lblInStockValue;
+        private Label lblLowStockValue;
+        private Label lblLowStocks;
+        private Panel panel11;
+        private Label lblOutStockValue;
+        private Label lblOutStock;
+        private Panel panel12;
     }
 }

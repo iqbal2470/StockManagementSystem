@@ -173,7 +173,7 @@
             Controls.Add(cmbReportType);
             Controls.Add(dgvReport);
             Name = "RrmReports";
-            Text = "RrmReports";
+            Text = "Master Reports";
             Load += RrmReports_Load;
             ((System.ComponentModel.ISupportInitialize)dgvReport).EndInit();
             ResumeLayout(false);

@@ -278,7 +278,7 @@
             Controls.Add(label1);
             Controls.Add(txtPurchaseNo);
             Name = "FrmPurchase";
-            Text = "FrmPurchase";
+            Text = "Purchase Master";
             Load += FrmPurchase_Load;
             ((System.ComponentModel.ISupportInitialize)dgvPurchases).EndInit();
             ResumeLayout(false);

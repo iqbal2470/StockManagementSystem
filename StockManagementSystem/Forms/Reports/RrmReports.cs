@@ -1,21 +1,22 @@
-﻿using StockManagementSystem.Services.ReportsService;
+﻿using ClosedXML.Excel;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using StockManagementSystem.Models.Common;
+using StockManagementSystem.Services.ReportsService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ClosedXML.Excel;
-using System.Data;
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 namespace StockManagementSystem.Forms.Reports
 {
-    public partial class RrmReports : Form
+    public partial class RrmReports : BaseForm
     {
         private readonly IReportService _reportService;
         public RrmReports(IReportService reportService)

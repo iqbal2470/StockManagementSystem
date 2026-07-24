@@ -24,9 +24,14 @@ namespace StockManagementSystem.Services.Dashboard
 
 
 
-        public Task<List<SalesChartModel>> GetSalesChartAsync()
+        //public Task<List<SalesChartModel>> GetSalesChartAsync()
+        //{
+        //    return _repository.GetSalesChartAsync();
+        //}
+
+        public Task<List<SalesChartModel>> GetSalesChartAsync(string dt)
         {
-            return _repository.GetSalesChartAsync();
+            return _repository.GetSalesChartAsync(dt);
         }
 
         public Task<List<StockChartModel>> GetStockChartAsync()

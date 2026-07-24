@@ -42,6 +42,7 @@
             colReference = new DataGridViewTextBoxColumn();
             colRemarks = new DataGridViewTextBoxColumn();
             pnlDate = new Panel();
+            btnPdf = new FontAwesome.Sharp.IconButton();
             btnExport = new FontAwesome.Sharp.IconButton();
             dtpTo = new DateTimePicker();
             dtpFrom = new DateTimePicker();
@@ -57,7 +58,6 @@
             pnlHeader = new Panel();
             btnRefresh = new FontAwesome.Sharp.IconButton();
             lblTitle = new Label();
-            btnPdf = new FontAwesome.Sharp.IconButton();
             pnlMain.SuspendLayout();
             pnlGrid.SuspendLayout();
             pnlFooter.SuspendLayout();
@@ -200,6 +200,19 @@
             pnlDate.Padding = new Padding(10);
             pnlDate.Size = new Size(770, 60);
             pnlDate.TabIndex = 2;
+            // 
+            // btnPdf
+            // 
+            btnPdf.IconChar = FontAwesome.Sharp.IconChar.None;
+            btnPdf.IconColor = Color.Black;
+            btnPdf.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnPdf.Location = new Point(636, 13);
+            btnPdf.Name = "btnPdf";
+            btnPdf.Size = new Size(112, 34);
+            btnPdf.TabIndex = 13;
+            btnPdf.Text = "Export Pdf";
+            btnPdf.UseVisualStyleBackColor = true;
+            btnPdf.Click += btnPdf_Click;
             // 
             // btnExport
             // 
@@ -362,19 +375,6 @@
             lblTitle.TabIndex = 0;
             lblTitle.Text = "History";
             // 
-            // btnPdf
-            // 
-            btnPdf.IconChar = FontAwesome.Sharp.IconChar.None;
-            btnPdf.IconColor = Color.Black;
-            btnPdf.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnPdf.Location = new Point(636, 13);
-            btnPdf.Name = "btnPdf";
-            btnPdf.Size = new Size(112, 34);
-            btnPdf.TabIndex = 13;
-            btnPdf.Text = "Export Pdf";
-            btnPdf.UseVisualStyleBackColor = true;
-            btnPdf.Click += btnPdf_Click;
-            // 
             // FrmHistory
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -384,7 +384,7 @@
             Controls.Add(pnlMain);
             Name = "FrmHistory";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "History";
+            Text = "Master History";
             Load += FrmHistory_Load;
             pnlMain.ResumeLayout(false);
             pnlGrid.ResumeLayout(false);

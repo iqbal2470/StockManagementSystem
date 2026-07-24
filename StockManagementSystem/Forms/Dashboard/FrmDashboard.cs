@@ -13,6 +13,7 @@ using StockManagementSystem.Forms.Reports;
 using StockManagementSystem.Forms.Sales;
 using StockManagementSystem.Forms.Stock;
 using StockManagementSystem.Forms.Units;
+using StockManagementSystem.Models.Common;
 using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.Dashboard;
 using StockManagementSystem.Services.StockTransactionServices;
@@ -28,7 +29,7 @@ using System.Windows.Forms;
 
 namespace StockManagementSystem.Forms.Dashboard
 {
-    public partial class FrmDashboard : Form
+    public partial class FrmDashboard : BaseForm
     {
         private readonly IStockTransactionService _stockTransactionService;
         private readonly IDashboardService _dashboardService;
@@ -47,17 +48,37 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private void btnMenu_Click(object sender, EventArgs e)
         {
+            //if (isSidebarExpanded)
+            //{
+            //    // Collapse
+            //    pnlSidebar.Width = SidebarCollapsedWidth;
+            //    isSidebarExpanded = false;
+
+            //    SetMenuText(false);
+            //    SetButtonLayout(false);
+            //}
+            //else
+            //{
+            //    // Expand
+            //    pnlSidebar.Width = SidebarExpandedWidth;
+            //    isSidebarExpanded = true;
+
+            //    SetMenuText(true);
+            //    SetButtonLayout(true);
+            //}
             timerSidebar.Start();
         }
-
+        const int AnimationSpeed = 25;
         private void timerSidebar_Tick(object sender, EventArgs e)
         {
+            pnlSidebar.SuspendLayout();
             if (isSidebarExpanded)
             {
-                pnlSidebar.Width -= 10;
+                pnlSidebar.Width -= AnimationSpeed;
 
                 if (pnlSidebar.Width <= SidebarCollapsedWidth)
                 {
+                    pnlSidebar.Width = SidebarCollapsedWidth;
                     timerSidebar.Stop();
                     isSidebarExpanded = false;
                     SetMenuText(false);
@@ -67,10 +88,11 @@ namespace StockManagementSystem.Forms.Dashboard
             }
             else
             {
-                pnlSidebar.Width += 10;
+                pnlSidebar.Width += AnimationSpeed;
 
                 if (pnlSidebar.Width >= SidebarExpandedWidth)
                 {
+                    pnlSidebar.Width = SidebarExpandedWidth;
                     timerSidebar.Stop();
                     isSidebarExpanded = true;
 
@@ -78,15 +100,24 @@ namespace StockManagementSystem.Forms.Dashboard
                     SetButtonLayout(true);
                 }
             }
+            pnlSidebar.ResumeLayout();
         }
 
         private void timerClock_Tick(object sender, EventArgs e)
         {
             lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
+            //dtpDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
         }
         private bool _isFormLoaded = false;
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+        //    MessageBox.Show(
+        //$"Form Height = {this.Height}\n" +
+        //$"Desktop Height = {pnlDesktop.Height}\n" +
+        //$"Dashboard Height = {pnlDashboard.Height}\n" +
+        //$"Footer Top = {pnlFooter.Top}\n" +
+        //$"Footer Bottom = {pnlFooter.Bottom}"
+    //);
             pnlDashboard.AutoScroll = true;
             pnlDashboard.HorizontalScroll.Enabled = false;
             pnlDashboard.HorizontalScroll.Visible = false;
@@ -125,10 +156,15 @@ namespace StockManagementSystem.Forms.Dashboard
             cmbDuration.SelectedIndex = 2; // Default This Month
             await LoadTopSellingProductsAsync();
             await LoadDashboardAsync();
-
+            await LoadRecentStockAsync();
             _isFormLoaded = true;
         }
-
+        public async Task RefreshDashboardAsync()
+        {
+            await LoadDashboardAsync();
+            await LoadRecentStockAsync();
+            await LoadTopSellingProductsAsync();
+        }
         //private async Task LoadTopSellingProductsAsync()
         //{
         //    flpTopSelling.Controls.Clear();
@@ -264,13 +300,14 @@ namespace StockManagementSystem.Forms.Dashboard
             lblLowStock.Text = dashboard.LowStockProducts.ToString();
 
 
-            await LoadSalesChartAsync();
+            //await LoadSalesChartAsync();
+            await LoadSalesChartAsync(cmbDuration.Text);
             await LoadStockChartAsync();
         }
 
-        private async Task LoadSalesChartAsync()
+        private async Task LoadSalesChartAsync(string dt)
         {
-            var data = await _dashboardService.GetSalesChartAsync();
+            var data = await _dashboardService.GetSalesChartAsync(dt);
 
             cartesianChart1.Series = new ISeries[]
             {
@@ -289,18 +326,60 @@ namespace StockManagementSystem.Forms.Dashboard
         }
             };
         }
+        //private async Task LoadStockChartAsync()
+        //{
+        //    var data = await _dashboardService.GetStockChartAsync();
+
+        //    pieChart1.Series = data
+        //        .Select(x => new PieSeries<int>
+        //        {
+        //            Values = new[] { x.Total },
+        //            Name = x.Status
+        //        })
+        //        .Cast<ISeries>()
+        //        .ToArray();
+        //}
+
         private async Task LoadStockChartAsync()
         {
             var data = await _dashboardService.GetStockChartAsync();
+
+            int total = data.Sum(x => x.Total);
+
+            var inStock = data.FirstOrDefault(x => x.Status == "In Stock");
+            var lowStock = data.FirstOrDefault(x => x.Status == "Low Stock");
+            var outStock = data.FirstOrDefault(x => x.Status == "Out of Stock");
 
             pieChart1.Series = data
                 .Select(x => new PieSeries<int>
                 {
                     Values = new[] { x.Total },
-                    Name = x.Status
+                    Name = x.Status,
+
+                    InnerRadius = 60,      // Donut Chart
+
+                    DataLabelsSize = 0      // Chart ke upar values mat dikhao
                 })
                 .Cast<ISeries>()
                 .ToArray();
+
+            if (total > 0)
+            {
+                lblInStockValue.Text =
+                    $"{inStock?.Total ?? 0} ({((inStock?.Total ?? 0) * 100.0 / total):0.00}%)";
+
+                lblLowStockValue.Text =
+                    $"{lowStock?.Total ?? 0} ({((lowStock?.Total ?? 0) * 100.0 / total):0.00}%)";
+
+                lblOutStockValue.Text =
+                    $"{outStock?.Total ?? 0} ({((outStock?.Total ?? 0) * 100.0 / total):0.00}%)";
+            }
+            else
+            {
+                lblInStockValue.Text = "0 (0.00%)";
+                lblLowStockValue.Text = "0 (0.00%)";
+                lblOutStockValue.Text = "0 (0.00%)";
+            }
         }
         //private void OpenChildForm(Form childForm)
         //{
@@ -417,7 +496,8 @@ namespace StockManagementSystem.Forms.Dashboard
 
             lblTitle.Text = "Dashboard";
 
-            await LoadDashboardAsync();
+            //await LoadDashboardAsync();
+            await RefreshDashboardAsync();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -569,6 +649,7 @@ namespace StockManagementSystem.Forms.Dashboard
                 return;
 
             await LoadTopSellingProductsAsync();
+            await LoadSalesChartAsync(cmbDuration.Text);
         }
 
         private void flpTopSelling_SizeChanged(object sender, EventArgs e)

@@ -1,9 +1,10 @@
 using StockManagementSystem.Helpers;
+using StockManagementSystem.Models.Common;
 using StockManagementSystem.Services.UserServices;
 
 namespace StockManagementSystem
 {
-    public partial class FrmLogin : Form
+    public partial class FrmLogin : BaseForm
     {
         private readonly IUserService _userService;
         public FrmLogin(IUserService userService)
@@ -11,11 +12,11 @@ namespace StockManagementSystem
             InitializeComponent();
             _userService = userService;
         }
-
-        private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
-        {
-            txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
-        }
+        private bool _showPassword = false;
+        //private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    txtPassword.UseSystemPasswordChar = !chkShowPassword.Checked;
+        //}
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
@@ -93,9 +94,44 @@ namespace StockManagementSystem
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-          
+
             txtPassword.UseSystemPasswordChar = true;
-        
+            pnlLogin.Left = (this.ClientSize.Width - pnlLogin.Width) / 2;
+            pnlLogin.Top = (this.ClientSize.Height - pnlLogin.Height) / 2;
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void picShowPassword_Click(object sender, EventArgs e)
+        {
+            _showPassword = !_showPassword;
+
+            txtPassword.UseSystemPasswordChar = !_showPassword;
+
+            if (_showPassword)
+            {
+                picShowPassword.Image = Properties.Resources.eye_open;   // Open Eye Icon
+            }
+            else
+            {
+                picShowPassword.Image = Properties.Resources.eye_close;  // Closed Eye Icon
+            }
+        }
+
+        private void FrmLogin_Resize(object sender, EventArgs e)
+        {
+            pnlLogin.Left = (this.ClientSize.Width - pnlLogin.Width) / 2;
+            pnlLogin.Top = (this.ClientSize.Height - pnlLogin.Height) / 2;
+        }
+
+        private void FrmLogin_Shown(object sender, EventArgs e)
+        {
+            this.ActiveControl = txtUserName;
+            txtUserName.Focus();
         }
     }
 }
