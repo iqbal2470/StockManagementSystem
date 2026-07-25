@@ -35,8 +35,8 @@ namespace StockManagementSystem.Forms.Units
         private async void FrmUnit_Load(object sender, EventArgs e)
         {
 
-            dgvUnit.AutoGenerateColumns = false;
-            dgvUnit.DataSource = await _unitService.GetAllAsync();
+            //dgvUnit.AutoGenerateColumns = false;
+            //dgvUnit.DataSource = await _unitService.GetAllAsync();
             await LoadUnits();
             await LoadDashboardCards();
         }

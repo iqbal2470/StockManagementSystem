@@ -20,6 +20,15 @@ namespace StockManagementSystem.Repositories
             _context = context;
         }
 
+        public new async Task<List<Sale>> GetAllAsync()
+        {
+            return await _context.Sales
+                .Include(x => x.Product)
+                .AsNoTracking()
+                .OrderByDescending(x => x.Id)
+                .ToListAsync();
+        }
+
         public async Task<Sale?> GetLastSaleAsync()
         {
             return await _context.Sales

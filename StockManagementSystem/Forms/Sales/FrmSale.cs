@@ -27,44 +27,212 @@ namespace StockManagementSystem.Forms.Sales
             InitializeComponent();
             _saleService = saleService;
             _productService = productService;
+
+            dgvSales.RowPostPaint += dgvSales_RowPostPaint;
+            dgvSales.CellFormatting += dgvSales_CellFormatting;
         }
 
         private async void FrmSale_Load(object sender, EventArgs e)
         {
-            await LoadProducts();
 
-            await LoadSales();
+            try
+            {
+                FormatGrid();
+                await LoadProducts();
+                await LoadSales();
 
-            await ClearForm();
+                txtSaleNo.Text = await _saleService.GenerateSaleNumberAsync();
 
+                dgvSales.ClearSelection();
+                await ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //await LoadProducts();
+
+            //await LoadSales();
+
+            //await ClearForm();
+
+            //dgvSales.ClearSelection();
+        }
+
+        private void FormatGrid()
+        {
+            dgvSales.AutoGenerateColumns = false;
+            dgvSales.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSales.MultiSelect = false;
+            dgvSales.ReadOnly = true;
+            dgvSales.AllowUserToAddRows = false;
+            dgvSales.AllowUserToDeleteRows = false;
+            dgvSales.AllowUserToResizeRows = false;
+            dgvSales.RowHeadersVisible = false;
+            dgvSales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            if (dgvSales.Columns["Id"] != null)
+                dgvSales.Columns["Id"].Visible = false;
+
+            if (dgvSales.Columns["colProductId"] != null)
+                dgvSales.Columns["colProductId"].Visible = false;
+
+            dgvSales.EnableHeadersVisualStyles = false;
+            dgvSales.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvSales.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            dgvSales.ColumnHeadersHeight = 45;
+            dgvSales.RowTemplate.Height = 40;
+
+            dgvSales.DefaultCellStyle.SelectionBackColor = Color.FromArgb(235, 243, 255);
+            dgvSales.DefaultCellStyle.SelectionForeColor = Color.Black;
+        }
+
+        private void dgvSales_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (dgvSales.Columns.Contains("colSrNo"))
+            {
+                dgvSales.Rows[e.RowIndex].Cells["colSrNo"].Value = (e.RowIndex + 1).ToString();
+            }
+        }
+
+        private void dgvSales_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            string columnName = dgvSales.Columns[e.ColumnIndex].Name;
+
+            // 1. Product Name Display (Nested Property)
+            if (columnName == "colProductName")
+            {
+                var sale = dgvSales.Rows[e.RowIndex].DataBoundItem as Sale;
+                if (sale != null && sale.Product != null)
+                {
+                    e.Value = sale.Product.ProductName;
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 2. Sale Date
+            if (columnName == "colSaleDate")
+            {
+                if (e.Value != null)
+                {
+                    e.Value = Convert.ToDateTime(e.Value).ToString("dd-MM-yyyy");
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 3. Created Date
+            if (columnName == "colCreatedDate")
+            {
+                if (e.Value != null && e.Value != DBNull.Value && Convert.ToDateTime(e.Value) != default)
+                {
+                    e.Value = Convert.ToDateTime(e.Value).ToString("dd-MM-yyyy hh:mm tt");
+                    e.FormattingApplied = true;
+                }
+                else
+                {
+                    e.Value = "-";
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 4. Updated Date
+            if (columnName == "colUpdatedDate")
+            {
+                if (e.Value != null && e.Value != DBNull.Value && Convert.ToDateTime(e.Value) != default)
+                {
+                    e.Value = Convert.ToDateTime(e.Value).ToString("dd-MM-yyyy hh:mm tt");
+                    e.FormattingApplied = true;
+                }
+                else
+                {
+                    e.Value = "-";
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 5. Sale Price Formatting
+            if (columnName == "colSalePrice")
+            {
+                if (e.Value != null)
+                {
+                    e.Value = Convert.ToDecimal(e.Value).ToString("0.00");
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 6. Quantity Formatting
+            if (columnName == "colQuantity")
+            {
+                if (e.Value != null)
+                {
+                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                    e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+            }
+
+            // 7. Total Amount Formatting & Styling
+            if (columnName == "colTotalAmount")
+            {
+                if (e.Value != null)
+                {
+                    decimal total = Convert.ToDecimal(e.Value);
+                    e.Value = total.ToString("0.00");
+                    e.CellStyle.ForeColor = Color.DarkGreen;
+                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private async Task LoadSales()
+        {
+            //FormatGrid();
+
+            var sales = await _saleService.GetAllSalesAsync();
+
+            dgvSales.DataSource = null;
+            dgvSales.DataSource = sales;
+            dgvSales.Refresh();
             dgvSales.ClearSelection();
         }
 
         private async Task LoadProducts()
         {
             var products = await _productService.GetAllProductsAsync();
-
+            cmbProduct.DataSource = null;
             cmbProduct.DataSource = products;
-
             cmbProduct.DisplayMember = "ProductName";
-
             cmbProduct.ValueMember = "Id";
-
             cmbProduct.SelectedIndex = -1;
         }
 
-        private async Task LoadSales()
-        {
-            var sales = await _saleService.GetAllSalesAsync();
+        //private async Task LoadProducts()
+        //{
+        //    var products = await _productService.GetAllProductsAsync();
 
-            dgvSales.AutoGenerateColumns = true;
+        //    cmbProduct.DataSource = products;
 
-            dgvSales.DataSource = null;
+        //    cmbProduct.DisplayMember = "ProductName";
 
-            dgvSales.DataSource = sales;
+        //    cmbProduct.ValueMember = "Id";
 
-            dgvSales.ClearSelection();
-        }
+        //    cmbProduct.SelectedIndex = -1;
+        //}
+
+        //private async Task LoadSales()
+        //{
+        //    var sales = await _saleService.GetAllSalesAsync();
+
+        //    dgvSales.AutoGenerateColumns = true;
+
+        //    dgvSales.DataSource = null;
+
+        //    dgvSales.DataSource = sales;
+
+        //    dgvSales.ClearSelection();
+        //}
 
         private async Task ClearForm()
         {
@@ -145,7 +313,8 @@ namespace StockManagementSystem.Forms.Sales
                     SalePrice = price,
                     Quantity = quantity,
                     TotalAmount = Convert.ToDecimal(txtTotalAmount.Text),
-                    Remarks = rtxtRemarks.Text.Trim()
+                    Remarks = rtxtRemarks.Text.Trim(),
+                    CreatedDate = DateTime.Now
                 };
 
                 await _saleService.AddSaleAsync(sale);
@@ -158,7 +327,7 @@ namespace StockManagementSystem.Forms.Sales
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -187,7 +356,7 @@ namespace StockManagementSystem.Forms.Sales
 
                 cmbProduct.SelectedValue = sale.ProductId;
 
-                txtSalePrice.Text = sale.SalePrice.ToString();
+                txtSalePrice.Text = sale.SalePrice.ToString("0.00");
 
                 txtQuantity.Text = sale.Quantity.ToString();
 
@@ -197,7 +366,7 @@ namespace StockManagementSystem.Forms.Sales
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -207,7 +376,28 @@ namespace StockManagementSystem.Forms.Sales
             {
                 if (_saleId == 0)
                 {
-                    MessageBox.Show("Please select a sale.");
+                    MessageBox.Show("Please select a sale first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (cmbProduct.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a product.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbProduct.Focus();
+                    return;
+                }
+
+                if (!decimal.TryParse(txtSalePrice.Text, out decimal price) || price <= 0)
+                {
+                    MessageBox.Show("Enter a valid sale price.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSalePrice.Focus();
+                    return;
+                }
+
+                if (!int.TryParse(txtQuantity.Text, out int quantity) || quantity <= 0)
+                {
+                    MessageBox.Show("Enter a valid quantity.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtQuantity.Focus();
                     return;
                 }
 
@@ -220,7 +410,8 @@ namespace StockManagementSystem.Forms.Sales
                     SalePrice = Convert.ToDecimal(txtSalePrice.Text),
                     Quantity = Convert.ToInt32(txtQuantity.Text),
                     TotalAmount = Convert.ToDecimal(txtTotalAmount.Text),
-                    Remarks = rtxtRemarks.Text.Trim()
+                    Remarks = rtxtRemarks.Text.Trim(),
+                    UpdatedDate = DateTime.Now
                 };
 
                 await _saleService.UpdateSaleAsync(sale);
@@ -279,11 +470,34 @@ namespace StockManagementSystem.Forms.Sales
 
         private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            var sales = await _saleService.SearchSalesAsync(txtSearch.Text);
+            //var sales = await _saleService.SearchSalesAsync(txtSearch.Text);
 
-            dgvSales.DataSource = null;
+            //dgvSales.DataSource = null;
 
-            dgvSales.DataSource = sales;
+            //dgvSales.DataSource = sales;
+
+            try
+            {
+                string keyword = txtSearch.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(keyword))
+                {
+                    await LoadSales();
+                    return;
+                }
+
+                dgvSales.DataSource = null;
+                dgvSales.DataSource = await _saleService.SearchSalesAsync(keyword);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void pnlMain_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

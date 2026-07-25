@@ -30,6 +30,12 @@
         {
             txtSearch = new TextBox();
             dgvUnit = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            colSrNo = new DataGridViewTextBoxColumn();
+            colUnitName = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
+            colCreatedDate = new DataGridViewTextBoxColumn();
+            colUpdatedDate = new DataGridViewTextBoxColumn();
             btnClose = new Button();
             btnDelete = new Button();
             btnUpdate = new Button();
@@ -37,6 +43,17 @@
             btnNew = new Button();
             txtUnitName = new TextBox();
             pnlMain = new Panel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            panel9 = new Panel();
+            panel11 = new Panel();
+            panel10 = new Panel();
+            label5 = new Label();
+            panel4 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            panel6 = new Panel();
+            panel7 = new Panel();
+            panel8 = new Panel();
+            label2 = new Label();
             panel1 = new Panel();
             tlpDesktop = new TableLayoutPanel();
             pnlInActiveBrands = new Panel();
@@ -57,25 +74,17 @@
             lblProductDesc = new Label();
             lblTotalUnit = new Label();
             lblProductsTitle = new Label();
-            panel4 = new Panel();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            panel6 = new Panel();
-            panel7 = new Panel();
-            panel8 = new Panel();
-            label2 = new Label();
-            panel9 = new Panel();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            panel10 = new Panel();
-            label5 = new Label();
-            panel11 = new Panel();
-            Id = new DataGridViewTextBoxColumn();
-            colSrNo = new DataGridViewTextBoxColumn();
-            colUnitName = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
-            colCreatedDate = new DataGridViewTextBoxColumn();
-            colUpdatedDate = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvUnit).BeginInit();
             pnlMain.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            panel9.SuspendLayout();
+            panel11.SuspendLayout();
+            panel10.SuspendLayout();
+            panel4.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            panel6.SuspendLayout();
+            panel7.SuspendLayout();
+            panel8.SuspendLayout();
             panel1.SuspendLayout();
             tlpDesktop.SuspendLayout();
             pnlInActiveBrands.SuspendLayout();
@@ -87,19 +96,11 @@
             pnlTotalBrands.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picProducts).BeginInit();
-            panel4.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
-            panel6.SuspendLayout();
-            panel7.SuspendLayout();
-            panel8.SuspendLayout();
-            panel9.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
-            panel10.SuspendLayout();
-            panel11.SuspendLayout();
             SuspendLayout();
             // 
             // txtSearch
             // 
+            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.Location = new Point(582, 17);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Search here.....";
@@ -116,12 +117,60 @@
             dgvUnit.Location = new Point(0, 0);
             dgvUnit.MultiSelect = false;
             dgvUnit.Name = "dgvUnit";
+            dgvUnit.ReadOnly = true;
             dgvUnit.RowHeadersWidth = 62;
             dgvUnit.RowTemplate.ReadOnly = true;
             dgvUnit.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUnit.Size = new Size(1003, 306);
             dgvUnit.TabIndex = 31;
-            dgvUnit.CellContentClick += dgvUnit_CellClick;
+            dgvUnit.CellClick += dgvUnit_CellClick;
+            // 
+            // Id
+            // 
+            Id.DataPropertyName = "Id";
+            Id.HeaderText = "Id";
+            Id.MinimumWidth = 8;
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            // 
+            // colSrNo
+            // 
+            colSrNo.HeaderText = "#";
+            colSrNo.MinimumWidth = 8;
+            colSrNo.Name = "colSrNo";
+            colSrNo.ReadOnly = true;
+            // 
+            // colUnitName
+            // 
+            colUnitName.DataPropertyName = "UnitName";
+            colUnitName.HeaderText = "Unit Name";
+            colUnitName.MinimumWidth = 8;
+            colUnitName.Name = "colUnitName";
+            colUnitName.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.DataPropertyName = "IsActive";
+            colStatus.HeaderText = "Status";
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            // 
+            // colCreatedDate
+            // 
+            colCreatedDate.DataPropertyName = "CreatedDate";
+            colCreatedDate.HeaderText = "CreatedDate";
+            colCreatedDate.MinimumWidth = 8;
+            colCreatedDate.Name = "colCreatedDate";
+            colCreatedDate.ReadOnly = true;
+            // 
+            // colUpdatedDate
+            // 
+            colUpdatedDate.DataPropertyName = "UpdatedDate";
+            colUpdatedDate.HeaderText = "UpdatedDate";
+            colUpdatedDate.MinimumWidth = 8;
+            colUpdatedDate.Name = "colUpdatedDate";
+            colUpdatedDate.ReadOnly = true;
             // 
             // btnClose
             // 
@@ -213,6 +262,133 @@
             pnlMain.Name = "pnlMain";
             pnlMain.Size = new Size(1031, 626);
             pnlMain.TabIndex = 34;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.Controls.Add(panel9, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(0, 234);
+            tableLayoutPanel2.Margin = new Padding(10);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.Padding = new Padding(10, 0, 10, 10);
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.Size = new Size(1031, 392);
+            tableLayoutPanel2.TabIndex = 37;
+            // 
+            // panel9
+            // 
+            panel9.BorderStyle = BorderStyle.FixedSingle;
+            panel9.Controls.Add(panel11);
+            panel9.Controls.Add(panel10);
+            panel9.Dock = DockStyle.Fill;
+            panel9.Location = new Point(13, 3);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(1005, 376);
+            panel9.TabIndex = 36;
+            // 
+            // panel11
+            // 
+            panel11.Controls.Add(dgvUnit);
+            panel11.Dock = DockStyle.Fill;
+            panel11.Location = new Point(0, 68);
+            panel11.Name = "panel11";
+            panel11.Size = new Size(1003, 306);
+            panel11.TabIndex = 35;
+            // 
+            // panel10
+            // 
+            panel10.BackColor = Color.AliceBlue;
+            panel10.Controls.Add(label5);
+            panel10.Controls.Add(txtSearch);
+            panel10.Dock = DockStyle.Top;
+            panel10.Location = new Point(0, 0);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(1003, 68);
+            panel10.TabIndex = 34;
+            // 
+            // label5
+            // 
+            label5.AccessibleName = "";
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label5.Location = new Point(24, 21);
+            label5.Name = "label5";
+            label5.Size = new Size(169, 25);
+            label5.TabIndex = 25;
+            label5.Text = "Master Brands List";
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.White;
+            panel4.Controls.Add(tableLayoutPanel1);
+            panel4.Dock = DockStyle.Top;
+            panel4.Location = new Point(0, 150);
+            panel4.Name = "panel4";
+            panel4.Padding = new Padding(5);
+            panel4.Size = new Size(1031, 84);
+            panel4.TabIndex = 35;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(panel6, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(5, 5);
+            tableLayoutPanel1.Margin = new Padding(10);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(1021, 74);
+            tableLayoutPanel1.TabIndex = 0;
+            // 
+            // panel6
+            // 
+            panel6.BorderStyle = BorderStyle.FixedSingle;
+            panel6.Controls.Add(panel7);
+            panel6.Controls.Add(panel8);
+            panel6.Dock = DockStyle.Fill;
+            panel6.Location = new Point(10, 10);
+            panel6.Margin = new Padding(10);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(1001, 54);
+            panel6.TabIndex = 0;
+            // 
+            // panel7
+            // 
+            panel7.Controls.Add(btnNew);
+            panel7.Controls.Add(btnSave);
+            panel7.Controls.Add(btnUpdate);
+            panel7.Controls.Add(btnDelete);
+            panel7.Dock = DockStyle.Right;
+            panel7.Location = new Point(469, 0);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(530, 52);
+            panel7.TabIndex = 1;
+            // 
+            // panel8
+            // 
+            panel8.Controls.Add(label2);
+            panel8.Controls.Add(txtUnitName);
+            panel8.Dock = DockStyle.Left;
+            panel8.Location = new Point(0, 0);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(469, 52);
+            panel8.TabIndex = 0;
+            // 
+            // label2
+            // 
+            label2.AccessibleName = "";
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label2.Location = new Point(22, 12);
+            label2.Name = "label2";
+            label2.Size = new Size(103, 25);
+            label2.TabIndex = 12;
+            label2.Text = "Unit Name";
             // 
             // panel1
             // 
@@ -454,180 +630,6 @@
             lblProductsTitle.TabIndex = 1;
             lblProductsTitle.Text = "Total Units";
             // 
-            // panel4
-            // 
-            panel4.BackColor = Color.White;
-            panel4.Controls.Add(tableLayoutPanel1);
-            panel4.Dock = DockStyle.Top;
-            panel4.Location = new Point(0, 150);
-            panel4.Name = "panel4";
-            panel4.Padding = new Padding(5);
-            panel4.Size = new Size(1031, 84);
-            panel4.TabIndex = 35;
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(panel6, 0, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(5, 5);
-            tableLayoutPanel1.Margin = new Padding(10);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1021, 74);
-            tableLayoutPanel1.TabIndex = 0;
-            // 
-            // panel6
-            // 
-            panel6.BorderStyle = BorderStyle.FixedSingle;
-            panel6.Controls.Add(panel7);
-            panel6.Controls.Add(panel8);
-            panel6.Dock = DockStyle.Fill;
-            panel6.Location = new Point(10, 10);
-            panel6.Margin = new Padding(10);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(1001, 54);
-            panel6.TabIndex = 0;
-            // 
-            // panel7
-            // 
-            panel7.Controls.Add(btnNew);
-            panel7.Controls.Add(btnSave);
-            panel7.Controls.Add(btnUpdate);
-            panel7.Controls.Add(btnDelete);
-            panel7.Dock = DockStyle.Right;
-            panel7.Location = new Point(469, 0);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(530, 52);
-            panel7.TabIndex = 1;
-            // 
-            // panel8
-            // 
-            panel8.Controls.Add(label2);
-            panel8.Controls.Add(txtUnitName);
-            panel8.Dock = DockStyle.Left;
-            panel8.Location = new Point(0, 0);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(469, 52);
-            panel8.TabIndex = 0;
-            // 
-            // label2
-            // 
-            label2.AccessibleName = "";
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label2.Location = new Point(22, 12);
-            label2.Name = "label2";
-            label2.Size = new Size(103, 25);
-            label2.TabIndex = 12;
-            label2.Text = "Unit Name";
-            // 
-            // panel9
-            // 
-            panel9.BorderStyle = BorderStyle.FixedSingle;
-            panel9.Controls.Add(panel11);
-            panel9.Controls.Add(panel10);
-            panel9.Dock = DockStyle.Fill;
-            panel9.Location = new Point(13, 3);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(1005, 376);
-            panel9.TabIndex = 36;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 1;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Controls.Add(panel9, 0, 0);
-            tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(0, 234);
-            tableLayoutPanel2.Margin = new Padding(10);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.Padding = new Padding(10, 0, 10, 10);
-            tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(1031, 392);
-            tableLayoutPanel2.TabIndex = 37;
-            // 
-            // panel10
-            // 
-            panel10.BackColor = Color.AliceBlue;
-            panel10.Controls.Add(label5);
-            panel10.Controls.Add(txtSearch);
-            panel10.Dock = DockStyle.Top;
-            panel10.Location = new Point(0, 0);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(1003, 68);
-            panel10.TabIndex = 34;
-            // 
-            // label5
-            // 
-            label5.AccessibleName = "";
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label5.Location = new Point(24, 21);
-            label5.Name = "label5";
-            label5.Size = new Size(169, 25);
-            label5.TabIndex = 25;
-            label5.Text = "Master Brands List";
-            // 
-            // panel11
-            // 
-            panel11.Controls.Add(dgvUnit);
-            panel11.Dock = DockStyle.Fill;
-            panel11.Location = new Point(0, 68);
-            panel11.Name = "panel11";
-            panel11.Size = new Size(1003, 306);
-            panel11.TabIndex = 35;
-            // 
-            // Id
-            // 
-            Id.DataPropertyName = "Id";
-            Id.HeaderText = "Id";
-            Id.MinimumWidth = 8;
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            // 
-            // colSrNo
-            // 
-            colSrNo.HeaderText = "#";
-            colSrNo.MinimumWidth = 8;
-            colSrNo.Name = "colSrNo";
-            colSrNo.ReadOnly = true;
-            // 
-            // colUnitName
-            // 
-            colUnitName.DataPropertyName = "UnitName";
-            colUnitName.HeaderText = "Unit Name";
-            colUnitName.MinimumWidth = 8;
-            colUnitName.Name = "colUnitName";
-            colUnitName.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            colStatus.DataPropertyName = "Status";
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
-            // 
-            // colCreatedDate
-            // 
-            colCreatedDate.DataPropertyName = "CreatedDate";
-            colCreatedDate.HeaderText = "CreatedDate";
-            colCreatedDate.MinimumWidth = 8;
-            colCreatedDate.Name = "colCreatedDate";
-            colCreatedDate.ReadOnly = true;
-            // 
-            // colUpdatedDate
-            // 
-            colUpdatedDate.DataPropertyName = "UpdatedDate";
-            colUpdatedDate.HeaderText = "UpdatedDate";
-            colUpdatedDate.MinimumWidth = 8;
-            colUpdatedDate.Name = "colUpdatedDate";
-            colUpdatedDate.ReadOnly = true;
-            // 
             // FrmUnit
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -639,6 +641,17 @@
             Load += FrmUnit_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUnit).EndInit();
             pnlMain.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            panel9.ResumeLayout(false);
+            panel11.ResumeLayout(false);
+            panel10.ResumeLayout(false);
+            panel10.PerformLayout();
+            panel4.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            panel6.ResumeLayout(false);
+            panel7.ResumeLayout(false);
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
             panel1.ResumeLayout(false);
             tlpDesktop.ResumeLayout(false);
             tlpDesktop.PerformLayout();
@@ -654,17 +667,6 @@
             pnlTotalBrands.PerformLayout();
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picProducts).EndInit();
-            panel4.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
-            panel6.ResumeLayout(false);
-            panel7.ResumeLayout(false);
-            panel8.ResumeLayout(false);
-            panel8.PerformLayout();
-            panel9.ResumeLayout(false);
-            tableLayoutPanel2.ResumeLayout(false);
-            panel10.ResumeLayout(false);
-            panel10.PerformLayout();
-            panel11.ResumeLayout(false);
             ResumeLayout(false);
         }
 

@@ -24,5 +24,10 @@ namespace StockManagementSystem.Services.ProductServices
         Task<List<Product>> SearchProductsAsync(string keyword);
 
         Task<string> GenerateBarcodeAsync();
+
+        Task<int> GetTotalProductsCountAsync();
+        Task<int> GetInStockCountAsync();
+        Task<int> GetLowStockCountAsync();
+        Task<int> GetOutOfStockCountAsync();
     }
 }

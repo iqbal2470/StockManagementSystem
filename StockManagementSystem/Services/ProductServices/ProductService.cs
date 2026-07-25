@@ -21,7 +21,7 @@ namespace StockManagementSystem.Services.ProductServices
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            return await _productRepository.GetAllAsync();
+            return await _productRepository.GetAllProductsAsync();
         }
 
         public async Task<Product?> GetProductByIdAsync(int id)
@@ -200,6 +200,27 @@ namespace StockManagementSystem.Services.ProductServices
             barcode++;
 
             return barcode.ToString();
+        }
+
+
+        public async Task<int> GetTotalProductsCountAsync()
+        {
+            return await _productRepository.GetTotalProductsCountAsync();
+        }
+
+        public async Task<int> GetInStockCountAsync()
+        {
+            return await _productRepository.GetInStockCountAsync();
+        }
+
+        public async Task<int> GetLowStockCountAsync()
+        {
+            return await _productRepository.GetLowStockCountAsync();
+        }
+
+        public async Task<int> GetOutOfStockCountAsync()
+        {
+            return await _productRepository.GetOutOfStockCountAsync();
         }
     }
 }

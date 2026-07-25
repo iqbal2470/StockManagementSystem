@@ -9,6 +9,7 @@ namespace StockManagementSystem.Interfaces
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
+        Task<List<Product>> GetAllProductsAsync();
         Task<Product?> GetLastProductAsync();
 
         Task<List<Product>> SearchProductsAsync(string keyword);

@@ -85,6 +85,12 @@ namespace StockManagementSystem.Services.SaleService
 
             await _productRepository.UpdateAsync(product);
 
+            // FIX 2: Explicitly ensure CreatedDate is set if not already set
+            if (sale.CreatedDate == default)
+            {
+                sale.CreatedDate = DateTime.Now;
+            }
+
             await _saleRepository.AddAsync(sale);
 
             await _stockTransactionService.AddTransactionAsync(
@@ -182,12 +188,12 @@ namespace StockManagementSystem.Services.SaleService
 
                 // Apply new sale
                 product.CurrentStock -= sale.Quantity;
-                MessageBox.Show(
-$@"Before={previousStock}
-Old={oldSale.Quantity}
-New={sale.Quantity}
-AfterReverse={previousStock + oldSale.Quantity}
-Final={product.CurrentStock}");
+//                MessageBox.Show(
+//$@"Before={previousStock}
+//Old={oldSale.Quantity}
+//New={sale.Quantity}
+//AfterReverse={previousStock + oldSale.Quantity}
+//Final={product.CurrentStock}");
                 await _productRepository.UpdateAsync(product);
 
                 await _stockTransactionService.AddTransactionAsync(
@@ -271,6 +277,8 @@ Final={product.CurrentStock}");
             dbSale.Quantity = sale.Quantity;
             dbSale.TotalAmount = sale.TotalAmount;
             dbSale.Remarks = sale.Remarks;
+
+            dbSale.UpdatedDate =  DateTime.Now;
 
             await _saleRepository.UpdateAsync(dbSale);
         }

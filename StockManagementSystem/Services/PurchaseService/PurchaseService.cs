@@ -231,6 +231,8 @@ namespace StockManagementSystem.Services.PurchaseService
             dbPurchase.TotalAmount = purchase.TotalAmount;
             dbPurchase.Remarks = purchase.Remarks;
 
+            dbPurchase.UpdatedDate = DateTime.Now;
+
             await _purchaseRepository.UpdateAsync(dbPurchase);
         }
 

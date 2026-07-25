@@ -26,6 +26,99 @@ namespace StockManagementSystem.Forms.Purchase
             InitializeComponent();
             _purchaseService = purchaseService;
             _productService = productService;
+
+            dgvPurchases.RowPostPaint += dgvPurchases_RowPostPaint;
+            dgvPurchases.CellFormatting += dgvPurchases_CellFormatting;
+        }
+
+        private void dgvPurchases_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            if (dgvPurchases.Columns.Contains("colSrNo"))
+            {
+                dgvPurchases.Rows[e.RowIndex].Cells["colSrNo"].Value = (e.RowIndex + 1).ToString();
+            }
+        }
+
+        private void dgvPurchases_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            string columnName = dgvPurchases.Columns[e.ColumnIndex].Name;
+
+            // 1. Product Name Display (Nested Navigation Property)
+            if (columnName == "colProductName")
+            {
+                var purchase = dgvPurchases.Rows[e.RowIndex].DataBoundItem as PurchaseEntiity;
+                if (purchase != null && purchase.Product != null)
+                {
+                    e.Value = purchase.Product.ProductName;
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 2. Date Formatting
+            if (columnName == "colPurchaseDate")
+            {
+                if (e.Value != null)
+                {
+                    e.Value = Convert.ToDateTime(e.Value).ToString("dd-MM-yyyy");
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 3. Purchase Price Formatting
+            if (columnName == "colPurchasePrice")
+            {
+                if (e.Value != null)
+                {
+                    e.Value = Convert.ToDecimal(e.Value).ToString("0.00");
+                    e.FormattingApplied = true;
+                }
+            }
+
+            if (columnName == "colCreatedDate")
+            {
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    e.Value = Convert.ToDateTime(e.Value).ToString("dd-MM-yyyy hh:mm tt");
+                    e.FormattingApplied = true;
+                }
+            }
+
+          
+            if (columnName == "colUpdatedDate")
+            {
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    e.Value = Convert.ToDateTime(e.Value).ToString("dd-MM-yyyy hh:mm tt");
+                    e.FormattingApplied = true;
+                }
+            }
+
+            // 4. Quantity Formatting & Color
+            if (columnName == "colQuantity")
+            {
+                if (e.Value != null)
+                {
+                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                    e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+            }
+
+            // 5. Total Amount Formatting & Highlight
+            if (columnName == "colTotalAmount")
+            {
+                if (e.Value != null)
+                {
+                    decimal total = Convert.ToDecimal(e.Value);
+                    e.Value = total.ToString("0.00");
+
+                    // Text Bold and Green Color for Total Amount
+                    e.CellStyle.ForeColor = Color.DarkGreen;
+                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         private async void FrmPurchase_Load(object sender, EventArgs e)
@@ -48,49 +141,77 @@ namespace StockManagementSystem.Forms.Purchase
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void FormatGrid()
+        {
+            dgvPurchases.AutoGenerateColumns = false;
+            dgvPurchases.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPurchases.MultiSelect = false;
+            dgvPurchases.ReadOnly = true;
+            dgvPurchases.AllowUserToAddRows = false;
+            dgvPurchases.AllowUserToDeleteRows = false;
+            dgvPurchases.AllowUserToResizeRows = false;
+            dgvPurchases.RowHeadersVisible = false;
+            dgvPurchases.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            if (dgvPurchases.Columns["Id"] != null)
+                dgvPurchases.Columns["Id"].Visible = false;
+
+            dgvPurchases.Columns["colProductId"].Visible = false;
+            dgvPurchases.EnableHeadersVisualStyles = false;
+            dgvPurchases.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvPurchases.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            dgvPurchases.ColumnHeadersHeight = 45;
+            dgvPurchases.RowTemplate.Height = 40;
+
+            dgvPurchases.DefaultCellStyle.SelectionBackColor = Color.FromArgb(235, 243, 255);
+            dgvPurchases.DefaultCellStyle.SelectionForeColor = Color.Black;
+        }
+
+        private async Task LoadPurchases()
+        {
+            FormatGrid();
+
+            var purchases = await _purchaseService.GetAllPurchasesAsync();
+
+            dgvPurchases.DataSource = null;
+            dgvPurchases.DataSource = purchases;
+
+            dgvPurchases.ClearSelection();
+        }
+
+
+
         //private async Task LoadPurchases()
         //{
         //    var purchases = await _purchaseService.GetAllPurchasesAsync();
 
         //    dgvPurchases.AutoGenerateColumns = true;
-
         //    dgvPurchases.DataSource = null;
-
         //    dgvPurchases.DataSource = purchases;
+
+        //    // Hide unwanted columns
+        //    dgvPurchases.Columns["Id"].Visible = false;
+        //    dgvPurchases.Columns["ProductId"].Visible = false;
+        //    dgvPurchases.Columns["Product"].Visible = false;
+        //    dgvPurchases.Columns["CreatedDate"].Visible = false;
+        //    dgvPurchases.Columns["UpdatedDate"].Visible = false;
+        //    dgvPurchases.Columns["IsDeleted"].Visible = false;
+
+        //    // Header Text
+        //    dgvPurchases.Columns["PurchaseNo"].HeaderText = "Purchase No";
+        //    dgvPurchases.Columns["PurchaseDate"].HeaderText = "Date";
+        //    dgvPurchases.Columns["PurchasePrice"].HeaderText = "Price";
+        //    dgvPurchases.Columns["Quantity"].HeaderText = "Qty";
+        //    dgvPurchases.Columns["TotalAmount"].HeaderText = "Total";
+        //    dgvPurchases.Columns["Remarks"].HeaderText = "Remarks";
+
+        //    // Format
+        //    dgvPurchases.Columns["PurchasePrice"].DefaultCellStyle.Format = "N2";
+        //    dgvPurchases.Columns["TotalAmount"].DefaultCellStyle.Format = "N2";
 
         //    dgvPurchases.ClearSelection();
         //}
-
-        private async Task LoadPurchases()
-        {
-            var purchases = await _purchaseService.GetAllPurchasesAsync();
-
-            dgvPurchases.AutoGenerateColumns = true;
-            dgvPurchases.DataSource = null;
-            dgvPurchases.DataSource = purchases;
-
-            // Hide unwanted columns
-            dgvPurchases.Columns["Id"].Visible = false;
-            dgvPurchases.Columns["ProductId"].Visible = false;
-            dgvPurchases.Columns["Product"].Visible = false;
-            dgvPurchases.Columns["CreatedDate"].Visible = false;
-            dgvPurchases.Columns["UpdatedDate"].Visible = false;
-            dgvPurchases.Columns["IsDeleted"].Visible = false;
-
-            // Header Text
-            dgvPurchases.Columns["PurchaseNo"].HeaderText = "Purchase No";
-            dgvPurchases.Columns["PurchaseDate"].HeaderText = "Date";
-            dgvPurchases.Columns["PurchasePrice"].HeaderText = "Price";
-            dgvPurchases.Columns["Quantity"].HeaderText = "Qty";
-            dgvPurchases.Columns["TotalAmount"].HeaderText = "Total";
-            dgvPurchases.Columns["Remarks"].HeaderText = "Remarks";
-
-            // Format
-            dgvPurchases.Columns["PurchasePrice"].DefaultCellStyle.Format = "N2";
-            dgvPurchases.Columns["TotalAmount"].DefaultCellStyle.Format = "N2";
-
-            dgvPurchases.ClearSelection();
-        }
         private async Task ClearForm()
         {
             _purchaseId = 0;
@@ -149,11 +270,29 @@ namespace StockManagementSystem.Forms.Purchase
 
         private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            var purchases = await _purchaseService.SearchPurchasesAsync(txtSearch.Text);
+            //var purchases = await _purchaseService.SearchPurchasesAsync(txtSearch.Text);
 
-            dgvPurchases.DataSource = null;
+            //dgvPurchases.DataSource = null;
 
-            dgvPurchases.DataSource = purchases;
+            //dgvPurchases.DataSource = purchases;
+
+            try
+            {
+                string keyword = txtSearch.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(keyword))
+                {
+                    await LoadPurchases();
+                    return;
+                }
+
+                dgvPurchases.DataSource = null;
+                dgvPurchases.DataSource = await _purchaseService.SearchPurchasesAsync(keyword);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -229,40 +368,69 @@ namespace StockManagementSystem.Forms.Purchase
 
         private async void dgvPurchases_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            //try
+            //{
+            //    if (e.RowIndex < 0)
+            //        return;
+
+            //    var purchase = dgvPurchases.Rows[e.RowIndex].DataBoundItem as PurchaseEntiity;
+
+            //    if (purchase == null)
+            //        return;
+
+            //    purchase = await _purchaseService.GetPurchaseByIdAsync(purchase.Id);
+
+            //    if (purchase == null)
+            //        return;
+
+            //    _purchaseId = purchase.Id;
+
+            //    txtPurchaseNo.Text = purchase.PurchaseNo;
+
+            //    dtpPurchaseDate.Value = purchase.PurchaseDate;
+
+            //    cmbProduct.SelectedValue = purchase.ProductId;
+
+            //    txtPurchasePrice.Text = purchase.PurchasePrice.ToString();
+
+            //    txtQuantity.Text = purchase.Quantity.ToString();
+
+            //    txtTotalAmount.Text = purchase.TotalAmount.ToString("0.00");
+
+            //    rtxtRemarks.Text = purchase.Remarks;
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+
             try
             {
                 if (e.RowIndex < 0)
                     return;
 
-                var purchase = dgvPurchases.Rows[e.RowIndex].DataBoundItem as PurchaseEntiity;
+                var purchaseItem = dgvPurchases.Rows[e.RowIndex].DataBoundItem as PurchaseEntiity;
 
-                if (purchase == null)
+                if (purchaseItem == null)
                     return;
 
-                purchase = await _purchaseService.GetPurchaseByIdAsync(purchase.Id);
+                var purchase = await _purchaseService.GetPurchaseByIdAsync(purchaseItem.Id);
 
                 if (purchase == null)
                     return;
 
                 _purchaseId = purchase.Id;
-
                 txtPurchaseNo.Text = purchase.PurchaseNo;
-
                 dtpPurchaseDate.Value = purchase.PurchaseDate;
-
                 cmbProduct.SelectedValue = purchase.ProductId;
-
-                txtPurchasePrice.Text = purchase.PurchasePrice.ToString();
-
+                txtPurchasePrice.Text = purchase.PurchasePrice.ToString("0.00");
                 txtQuantity.Text = purchase.Quantity.ToString();
-
                 txtTotalAmount.Text = purchase.TotalAmount.ToString("0.00");
-
                 rtxtRemarks.Text = purchase.Remarks;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -309,9 +477,9 @@ namespace StockManagementSystem.Forms.Purchase
                     PurchasePrice = Convert.ToDecimal(txtPurchasePrice.Text),
                     Quantity = Convert.ToInt32(txtQuantity.Text),
                     TotalAmount = Convert.ToDecimal(txtTotalAmount.Text),
-                    Remarks = rtxtRemarks.Text.Trim()
+                    Remarks = rtxtRemarks.Text.Trim(),
+                    UpdatedDate = DateTime.Now
                 };
-
                 await _purchaseService.UpdatePurchaseAsync(purchase);
 
                 MessageBox.Show("Purchase updated successfully.",
