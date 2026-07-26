@@ -73,7 +73,7 @@
             colUnit = new DataGridViewTextBoxColumn();
             colPurchasePrice = new DataGridViewTextBoxColumn();
             colSalePrice = new DataGridViewTextBoxColumn();
-            CurrentStock = new DataGridViewTextBoxColumn();
+            colCurrentStock = new DataGridViewTextBoxColumn();
             colMinimumStock = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
             colCreatedDate = new DataGridViewTextBoxColumn();
@@ -411,6 +411,7 @@
             label13.Size = new Size(45, 21);
             label13.TabIndex = 26;
             label13.Text = "Path";
+            label13.Visible = false;
             // 
             // btnBrowseImage
             // 
@@ -529,7 +530,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProducts.Columns.AddRange(new DataGridViewColumn[] { Id, colSrNo, colImage, colProductCode, colProductName, colCategory, colBrand, colUnit, colPurchasePrice, colSalePrice, CurrentStock, colMinimumStock, colStatus, colCreatedDate, colUpdatedDate });
+            dgvProducts.Columns.AddRange(new DataGridViewColumn[] { Id, colSrNo, colImage, colProductCode, colProductName, colCategory, colBrand, colUnit, colPurchasePrice, colSalePrice, colCurrentStock, colMinimumStock, colStatus, colCreatedDate, colUpdatedDate });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -637,13 +638,14 @@
             colSalePrice.ReadOnly = true;
             colSalePrice.Width = 150;
             // 
-            // CurrentStock
+            // colCurrentStock
             // 
-            CurrentStock.HeaderText = "Stock";
-            CurrentStock.MinimumWidth = 8;
-            CurrentStock.Name = "CurrentStock";
-            CurrentStock.ReadOnly = true;
-            CurrentStock.Width = 150;
+            colCurrentStock.DataPropertyName = "CurrentStock";
+            colCurrentStock.HeaderText = "Stock";
+            colCurrentStock.MinimumWidth = 8;
+            colCurrentStock.Name = "colCurrentStock";
+            colCurrentStock.ReadOnly = true;
+            colCurrentStock.Width = 150;
             // 
             // colMinimumStock
             // 
@@ -1550,5 +1552,6 @@
         private DataGridViewTextBoxColumn colCreatedDate;
         private DataGridViewTextBoxColumn colUpdatedDate;
         private Panel panel24;
+        private DataGridViewTextBoxColumn colCurrentStock;
     }
 }

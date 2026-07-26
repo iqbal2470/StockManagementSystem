@@ -62,7 +62,7 @@ namespace StockManagementSystem.Services.PurchaseService
             product.CurrentStock += purchase.Quantity;
 
             await _productRepository.UpdateAsync(product);
-
+            await _purchaseRepository.SaveAsync();
             await _stockTransactionService.AddTransactionAsync(
                 productId: product.Id,
                 transactionType: TransactionType.Purchase,
@@ -234,6 +234,9 @@ namespace StockManagementSystem.Services.PurchaseService
             dbPurchase.UpdatedDate = DateTime.Now;
 
             await _purchaseRepository.UpdateAsync(dbPurchase);
+
+            await _purchaseRepository.SaveAsync();
+
         }
 
         //public async Task DeletePurchaseAsync(int id)

@@ -281,6 +281,8 @@ namespace StockManagementSystem.Services.SaleService
             dbSale.UpdatedDate =  DateTime.Now;
 
             await _saleRepository.UpdateAsync(dbSale);
+
+            await _saleRepository.SaveAsync();
         }
 
         public async Task DeleteSaleAsync(int id)

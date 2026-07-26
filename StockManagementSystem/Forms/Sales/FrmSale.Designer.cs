@@ -61,7 +61,6 @@
             panel9 = new Panel();
             panel8 = new Panel();
             label1 = new Label();
-            textBox1 = new TextBox();
             panel4 = new Panel();
             panel1 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -414,7 +413,6 @@
             // 
             panel8.BackColor = Color.Azure;
             panel8.Controls.Add(label1);
-            panel8.Controls.Add(textBox1);
             panel8.Controls.Add(txtSearch);
             panel8.Dock = DockStyle.Top;
             panel8.Location = new Point(0, 0);
@@ -431,15 +429,6 @@
             label1.Size = new Size(145, 28);
             label1.TabIndex = 73;
             label1.Text = "Purchase Lists";
-            // 
-            // textBox1
-            // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBox1.Location = new Point(1838, 9);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = " Search Product...";
-            textBox1.Size = new Size(397, 31);
-            textBox1.TabIndex = 72;
             // 
             // panel4
             // 
@@ -668,7 +657,6 @@
         private Panel panel9;
         private Panel panel8;
         private Label label1;
-        private TextBox textBox1;
         private DataGridViewTextBoxColumn colSrNo;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn colSaleNo;

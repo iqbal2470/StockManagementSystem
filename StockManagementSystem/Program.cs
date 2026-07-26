@@ -128,6 +128,12 @@ namespace StockManagementSystem
             QuestPDF.Settings.License = LicenseType.Community;
             var host = CreateHostBuilder();
 
+            using (var scope = host.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.Migrate();
+            }
+
             Services = host.Services;
 
             using (var scope = Services.CreateScope())

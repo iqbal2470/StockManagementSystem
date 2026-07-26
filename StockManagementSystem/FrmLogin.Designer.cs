@@ -131,6 +131,7 @@
             btnExit.TabIndex = 8;
             btnExit.Text = "Exit";
             btnExit.UseVisualStyleBackColor = true;
+            btnExit.Visible = false;
             // 
             // lblVersion
             // 

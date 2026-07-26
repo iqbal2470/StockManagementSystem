@@ -193,6 +193,7 @@ namespace StockManagementSystem.Forms.Sales
             var sales = await _saleService.GetAllSalesAsync();
 
             dgvSales.DataSource = null;
+            dgvSales.DataSource = sales.ToList();
             dgvSales.DataSource = sales;
             dgvSales.Refresh();
             dgvSales.ClearSelection();
@@ -369,7 +370,6 @@ namespace StockManagementSystem.Forms.Sales
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
             try
@@ -407,26 +407,83 @@ namespace StockManagementSystem.Forms.Sales
                     SaleNo = txtSaleNo.Text.Trim(),
                     SaleDate = dtpSaleDate.Value,
                     ProductId = Convert.ToInt32(cmbProduct.SelectedValue),
-                    SalePrice = Convert.ToDecimal(txtSalePrice.Text),
-                    Quantity = Convert.ToInt32(txtQuantity.Text),
+                    SalePrice = price,
+                    Quantity = quantity,
                     TotalAmount = Convert.ToDecimal(txtTotalAmount.Text),
-                    Remarks = rtxtRemarks.Text.Trim(),
-                    UpdatedDate = DateTime.Now
+                    Remarks = rtxtRemarks.Text.Trim()
                 };
 
+                // Service CALL
                 await _saleService.UpdateSaleAsync(sale);
 
-                MessageBox.Show("Sale updated successfully.");
+                MessageBox.Show("Sale updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // UI reload and clear form
                 await LoadSales();
-
                 await ClearForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        //private async void btnUpdate_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (_saleId == 0)
+        //        {
+        //            MessageBox.Show("Please select a sale first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            return;
+        //        }
+
+        //        if (cmbProduct.SelectedIndex == -1)
+        //        {
+        //            MessageBox.Show("Please select a product.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            cmbProduct.Focus();
+        //            return;
+        //        }
+
+        //        if (!decimal.TryParse(txtSalePrice.Text, out decimal price) || price <= 0)
+        //        {
+        //            MessageBox.Show("Enter a valid sale price.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            txtSalePrice.Focus();
+        //            return;
+        //        }
+
+        //        if (!int.TryParse(txtQuantity.Text, out int quantity) || quantity <= 0)
+        //        {
+        //            MessageBox.Show("Enter a valid quantity.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            txtQuantity.Focus();
+        //            return;
+        //        }
+
+        //        Sale sale = new Sale()
+        //        {
+        //            Id = _saleId,
+        //            SaleNo = txtSaleNo.Text.Trim(),
+        //            SaleDate = dtpSaleDate.Value,
+        //            ProductId = Convert.ToInt32(cmbProduct.SelectedValue),
+        //            SalePrice = Convert.ToDecimal(txtSalePrice.Text),
+        //            Quantity = Convert.ToInt32(txtQuantity.Text),
+        //            TotalAmount = Convert.ToDecimal(txtTotalAmount.Text),
+        //            Remarks = rtxtRemarks.Text.Trim(),
+        //            UpdatedDate = DateTime.Now
+        //        };
+
+        //        await _saleService.UpdateSaleAsync(sale);
+
+        //        MessageBox.Show("Sale updated successfully.");
+
+        //        await LoadSales();
+
+        //        await ClearForm();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {

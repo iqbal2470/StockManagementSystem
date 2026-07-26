@@ -29,6 +29,18 @@
         private void InitializeComponent()
         {
             dgvStock = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            colSrNo = new DataGridViewTextBoxColumn();
+            colProductCode = new DataGridViewTextBoxColumn();
+            colProductName = new DataGridViewTextBoxColumn();
+            colCategoryName = new DataGridViewTextBoxColumn();
+            colCurrentStock = new DataGridViewTextBoxColumn();
+            colMinimumStock = new DataGridViewTextBoxColumn();
+            colPurchasePrice = new DataGridViewTextBoxColumn();
+            colSalePrice = new DataGridViewTextBoxColumn();
+            colStockStatus = new DataGridViewTextBoxColumn();
+            colCreatedDate = new DataGridViewTextBoxColumn();
+            colUpdatedDate = new DataGridViewTextBoxColumn();
             txtSearch = new TextBox();
             btnRefresh = new FontAwesome.Sharp.IconButton();
             btnLowStock = new FontAwesome.Sharp.IconButton();
@@ -68,18 +80,6 @@
             picProducts = new PictureBox();
             lblProductDesc = new Label();
             lblProductsTitle = new Label();
-            Id = new DataGridViewTextBoxColumn();
-            colSrNo = new DataGridViewTextBoxColumn();
-            colProductCode = new DataGridViewTextBoxColumn();
-            colProductName = new DataGridViewTextBoxColumn();
-            colCategoryName = new DataGridViewTextBoxColumn();
-            colCurrentStock = new DataGridViewTextBoxColumn();
-            colMinimumStock = new DataGridViewTextBoxColumn();
-            colPurchasePrice = new DataGridViewTextBoxColumn();
-            colSalePrice = new DataGridViewTextBoxColumn();
-            colStockStatus = new DataGridViewTextBoxColumn();
-            colCreatedDate = new DataGridViewTextBoxColumn();
-            colUpdatedDate = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvStock).BeginInit();
             pnlMain.SuspendLayout();
             panel6.SuspendLayout();
@@ -116,52 +116,174 @@
             dgvStock.Size = new Size(1197, 417);
             dgvStock.TabIndex = 116;
             // 
+            // Id
+            // 
+            Id.DataPropertyName = "Id";
+            Id.HeaderText = "Id";
+            Id.MinimumWidth = 8;
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            Id.Width = 150;
+            // 
+            // colSrNo
+            // 
+            colSrNo.HeaderText = "S.No";
+            colSrNo.MinimumWidth = 8;
+            colSrNo.Name = "colSrNo";
+            colSrNo.ReadOnly = true;
+            colSrNo.Width = 150;
+            // 
+            // colProductCode
+            // 
+            colProductCode.DataPropertyName = "ProductCode";
+            colProductCode.HeaderText = "Product Code";
+            colProductCode.MinimumWidth = 8;
+            colProductCode.Name = "colProductCode";
+            colProductCode.ReadOnly = true;
+            colProductCode.Width = 150;
+            // 
+            // colProductName
+            // 
+            colProductName.DataPropertyName = "ProductName";
+            colProductName.HeaderText = "Product Name";
+            colProductName.MinimumWidth = 8;
+            colProductName.Name = "colProductName";
+            colProductName.ReadOnly = true;
+            colProductName.Width = 150;
+            // 
+            // colCategoryName
+            // 
+            colCategoryName.DataPropertyName = "CategoryName";
+            colCategoryName.HeaderText = "Category";
+            colCategoryName.MinimumWidth = 8;
+            colCategoryName.Name = "colCategoryName";
+            colCategoryName.ReadOnly = true;
+            colCategoryName.Width = 150;
+            // 
+            // colCurrentStock
+            // 
+            colCurrentStock.DataPropertyName = "CurrentStock";
+            colCurrentStock.HeaderText = "Current Stock";
+            colCurrentStock.MinimumWidth = 8;
+            colCurrentStock.Name = "colCurrentStock";
+            colCurrentStock.ReadOnly = true;
+            colCurrentStock.Width = 150;
+            // 
+            // colMinimumStock
+            // 
+            colMinimumStock.DataPropertyName = "MinimumStock";
+            colMinimumStock.HeaderText = "Min Stock";
+            colMinimumStock.MinimumWidth = 8;
+            colMinimumStock.Name = "colMinimumStock";
+            colMinimumStock.ReadOnly = true;
+            colMinimumStock.Width = 150;
+            // 
+            // colPurchasePrice
+            // 
+            colPurchasePrice.DataPropertyName = "PurchasePrice";
+            colPurchasePrice.HeaderText = "Purchase Price";
+            colPurchasePrice.MinimumWidth = 8;
+            colPurchasePrice.Name = "colPurchasePrice";
+            colPurchasePrice.ReadOnly = true;
+            colPurchasePrice.Width = 150;
+            // 
+            // colSalePrice
+            // 
+            colSalePrice.DataPropertyName = " SalePrice";
+            colSalePrice.HeaderText = "Sale Price";
+            colSalePrice.MinimumWidth = 8;
+            colSalePrice.Name = "colSalePrice";
+            colSalePrice.ReadOnly = true;
+            colSalePrice.Width = 150;
+            // 
+            // colStockStatus
+            // 
+            colStockStatus.DataPropertyName = "StockStatus";
+            colStockStatus.HeaderText = "Status";
+            colStockStatus.MinimumWidth = 8;
+            colStockStatus.Name = "colStockStatus";
+            colStockStatus.ReadOnly = true;
+            colStockStatus.Width = 150;
+            // 
+            // colCreatedDate
+            // 
+            colCreatedDate.DataPropertyName = "CreatedDate";
+            colCreatedDate.HeaderText = "CreatedDate";
+            colCreatedDate.MinimumWidth = 8;
+            colCreatedDate.Name = "colCreatedDate";
+            colCreatedDate.ReadOnly = true;
+            colCreatedDate.Width = 150;
+            // 
+            // colUpdatedDate
+            // 
+            colUpdatedDate.DataPropertyName = "UpdatedDate";
+            colUpdatedDate.HeaderText = "Updated Date";
+            colUpdatedDate.MinimumWidth = 8;
+            colUpdatedDate.Name = "colUpdatedDate";
+            colUpdatedDate.ReadOnly = true;
+            colUpdatedDate.Width = 150;
+            // 
             // txtSearch
             // 
             txtSearch.Location = new Point(31, 31);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = " Search Product...";
-            txtSearch.Size = new Size(331, 31);
+            txtSearch.Size = new Size(389, 31);
             txtSearch.TabIndex = 114;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // btnRefresh
             // 
+            btnRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnRefresh.BackColor = Color.FromArgb(14, 165, 233);
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnRefresh.ForeColor = Color.White;
             btnRefresh.IconChar = FontAwesome.Sharp.IconChar.None;
             btnRefresh.IconColor = Color.Black;
             btnRefresh.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnRefresh.Location = new Point(1054, 28);
+            btnRefresh.Location = new Point(1054, 29);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(112, 34);
             btnRefresh.TabIndex = 120;
             btnRefresh.Text = "Refresh";
-            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += btnRefresh_Click;
             // 
             // btnLowStock
             // 
+            btnLowStock.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnLowStock.BackColor = Color.Cornsilk;
+            btnLowStock.FlatAppearance.BorderSize = 0;
+            btnLowStock.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnLowStock.ForeColor = Color.Peru;
             btnLowStock.IconChar = FontAwesome.Sharp.IconChar.None;
             btnLowStock.IconColor = Color.Black;
             btnLowStock.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnLowStock.Location = new Point(686, 31);
+            btnLowStock.Location = new Point(693, 29);
             btnLowStock.Name = "btnLowStock";
-            btnLowStock.Size = new Size(112, 34);
+            btnLowStock.Size = new Size(138, 34);
             btnLowStock.TabIndex = 121;
             btnLowStock.Text = "LowStockh";
-            btnLowStock.UseVisualStyleBackColor = true;
+            btnLowStock.UseVisualStyleBackColor = false;
             btnLowStock.Click += btnLowStock_Click;
             // 
             // btnOutOfStock
             // 
+            btnOutOfStock.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnOutOfStock.BackColor = Color.LavenderBlush;
+            btnOutOfStock.FlatAppearance.BorderSize = 0;
+            btnOutOfStock.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOutOfStock.ForeColor = Color.Firebrick;
             btnOutOfStock.IconChar = FontAwesome.Sharp.IconChar.None;
             btnOutOfStock.IconColor = Color.Black;
             btnOutOfStock.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnOutOfStock.Location = new Point(804, 31);
+            btnOutOfStock.Location = new Point(858, 29);
             btnOutOfStock.Name = "btnOutOfStock";
-            btnOutOfStock.Size = new Size(204, 34);
+            btnOutOfStock.Size = new Size(165, 34);
             btnOutOfStock.TabIndex = 122;
             btnOutOfStock.Text = "OutOfStock";
-            btnOutOfStock.UseVisualStyleBackColor = true;
+            btnOutOfStock.UseVisualStyleBackColor = false;
             btnOutOfStock.Click += btnOutOfStock_Click;
             // 
             // lblLowStock
@@ -574,113 +696,6 @@
             lblProductsTitle.Size = new Size(148, 28);
             lblProductsTitle.TabIndex = 1;
             lblProductsTitle.Text = "Total Products";
-            // 
-            // Id
-            // 
-            Id.DataPropertyName = "Id";
-            Id.HeaderText = "Id";
-            Id.MinimumWidth = 8;
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            Id.Width = 150;
-            // 
-            // colSrNo
-            // 
-            colSrNo.HeaderText = "S.No";
-            colSrNo.MinimumWidth = 8;
-            colSrNo.Name = "colSrNo";
-            colSrNo.ReadOnly = true;
-            colSrNo.Width = 150;
-            // 
-            // colProductCode
-            // 
-            colProductCode.DataPropertyName = "ProductCode";
-            colProductCode.HeaderText = "Product Code";
-            colProductCode.MinimumWidth = 8;
-            colProductCode.Name = "colProductCode";
-            colProductCode.ReadOnly = true;
-            colProductCode.Width = 150;
-            // 
-            // colProductName
-            // 
-            colProductName.DataPropertyName = "ProductName";
-            colProductName.HeaderText = "Product Name";
-            colProductName.MinimumWidth = 8;
-            colProductName.Name = "colProductName";
-            colProductName.ReadOnly = true;
-            colProductName.Width = 150;
-            // 
-            // colCategoryName
-            // 
-            colCategoryName.DataPropertyName = "CategoryName";
-            colCategoryName.HeaderText = "Category";
-            colCategoryName.MinimumWidth = 8;
-            colCategoryName.Name = "colCategoryName";
-            colCategoryName.ReadOnly = true;
-            colCategoryName.Width = 150;
-            // 
-            // colCurrentStock
-            // 
-            colCurrentStock.DataPropertyName = "CurrentStock";
-            colCurrentStock.HeaderText = "Current Stock";
-            colCurrentStock.MinimumWidth = 8;
-            colCurrentStock.Name = "colCurrentStock";
-            colCurrentStock.ReadOnly = true;
-            colCurrentStock.Width = 150;
-            // 
-            // colMinimumStock
-            // 
-            colMinimumStock.DataPropertyName = "MinimumStock";
-            colMinimumStock.HeaderText = "Min Stock";
-            colMinimumStock.MinimumWidth = 8;
-            colMinimumStock.Name = "colMinimumStock";
-            colMinimumStock.ReadOnly = true;
-            colMinimumStock.Width = 150;
-            // 
-            // colPurchasePrice
-            // 
-            colPurchasePrice.DataPropertyName = "PurchasePrice";
-            colPurchasePrice.HeaderText = "Purchase Price";
-            colPurchasePrice.MinimumWidth = 8;
-            colPurchasePrice.Name = "colPurchasePrice";
-            colPurchasePrice.ReadOnly = true;
-            colPurchasePrice.Width = 150;
-            // 
-            // colSalePrice
-            // 
-            colSalePrice.DataPropertyName = " SalePrice";
-            colSalePrice.HeaderText = "Sale Price";
-            colSalePrice.MinimumWidth = 8;
-            colSalePrice.Name = "colSalePrice";
-            colSalePrice.ReadOnly = true;
-            colSalePrice.Width = 150;
-            // 
-            // colStockStatus
-            // 
-            colStockStatus.DataPropertyName = "StockStatus";
-            colStockStatus.HeaderText = "Status";
-            colStockStatus.MinimumWidth = 8;
-            colStockStatus.Name = "colStockStatus";
-            colStockStatus.ReadOnly = true;
-            colStockStatus.Width = 150;
-            // 
-            // colCreatedDate
-            // 
-            colCreatedDate.DataPropertyName = "CreatedDate";
-            colCreatedDate.HeaderText = "CreatedDate";
-            colCreatedDate.MinimumWidth = 8;
-            colCreatedDate.Name = "colCreatedDate";
-            colCreatedDate.ReadOnly = true;
-            colCreatedDate.Width = 150;
-            // 
-            // colUpdatedDate
-            // 
-            colUpdatedDate.DataPropertyName = "UpdatedDate";
-            colUpdatedDate.HeaderText = "Updated Date";
-            colUpdatedDate.MinimumWidth = 8;
-            colUpdatedDate.Name = "colUpdatedDate";
-            colUpdatedDate.ReadOnly = true;
-            colUpdatedDate.Width = 150;
             // 
             // FrmStock
             // 

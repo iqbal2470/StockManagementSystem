@@ -83,6 +83,16 @@ namespace StockManagementSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap backup_file {
+            get {
+                object obj = ResourceManager.GetObject("backup-file", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box {
             get {
                 object obj = ResourceManager.GetObject("box", resourceCulture);
@@ -146,6 +156,26 @@ namespace StockManagementSystem.Properties {
         internal static System.Drawing.Bitmap ChatGPT_Image_Jul_23__2026__03_25_17_PM_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("ChatGPT_Image_Jul_23__2026__03_25_17_PM-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database__1_ {
+            get {
+                object obj = ResourceManager.GetObject("database (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database__2_ {
+            get {
+                object obj = ResourceManager.GetObject("database (2)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

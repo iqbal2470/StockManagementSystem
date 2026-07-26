@@ -283,7 +283,7 @@ namespace StockManagementSystem.Forms.Stock
                         e.CellStyle.ForeColor = Color.Red;
                         e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
                     }
-                    else if (currentStock <= minStock)
+                    else if (currentStock < minStock)
                     {
                         e.Value = "Low Stock";
                         e.CellStyle.ForeColor = Color.OrangeRed;

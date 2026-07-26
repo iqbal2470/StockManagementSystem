@@ -30,8 +30,7 @@
         {
             pnlMain = new Panel();
             pnlGrid = new Panel();
-            pnlFooter = new Panel();
-            lblRecordCount = new Label();
+            panel2 = new Panel();
             dgvHistory = new DataGridView();
             colDate = new DataGridViewTextBoxColumn();
             colProduct = new DataGridViewTextBoxColumn();
@@ -41,6 +40,10 @@
             colCurrent = new DataGridViewTextBoxColumn();
             colReference = new DataGridViewTextBoxColumn();
             colRemarks = new DataGridViewTextBoxColumn();
+            panel1 = new Panel();
+            label1 = new Label();
+            pnlFooter = new Panel();
+            lblRecordCount = new Label();
             pnlDate = new Panel();
             btnPdf = new FontAwesome.Sharp.IconButton();
             btnExport = new FontAwesome.Sharp.IconButton();
@@ -48,22 +51,19 @@
             dtpFrom = new DateTimePicker();
             lblTo = new Label();
             lblFrom = new Label();
-            pnlFilter = new Panel();
+            pnlHeader = new Panel();
             btnClear = new FontAwesome.Sharp.IconButton();
-            btnSearch = new FontAwesome.Sharp.IconButton();
+            btnRefresh = new FontAwesome.Sharp.IconButton();
+            txtSearch = new TextBox();
             cmbTransactionType = new ComboBox();
             lblType = new Label();
-            txtSearch = new TextBox();
-            lblSearch = new Label();
-            pnlHeader = new Panel();
-            btnRefresh = new FontAwesome.Sharp.IconButton();
-            lblTitle = new Label();
             pnlMain.SuspendLayout();
             pnlGrid.SuspendLayout();
-            pnlFooter.SuspendLayout();
+            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvHistory).BeginInit();
+            panel1.SuspendLayout();
+            pnlFooter.SuspendLayout();
             pnlDate.SuspendLayout();
-            pnlFilter.SuspendLayout();
             pnlHeader.SuspendLayout();
             SuspendLayout();
             // 
@@ -71,44 +71,35 @@
             // 
             pnlMain.Controls.Add(pnlGrid);
             pnlMain.Controls.Add(pnlDate);
-            pnlMain.Controls.Add(pnlFilter);
             pnlMain.Controls.Add(pnlHeader);
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(0, 0);
             pnlMain.Name = "pnlMain";
-            pnlMain.Padding = new Padding(15);
-            pnlMain.Size = new Size(800, 642);
+            pnlMain.Padding = new Padding(10);
+            pnlMain.Size = new Size(1037, 685);
             pnlMain.TabIndex = 0;
             // 
             // pnlGrid
             // 
             pnlGrid.BackColor = Color.White;
+            pnlGrid.BorderStyle = BorderStyle.FixedSingle;
+            pnlGrid.Controls.Add(panel2);
+            pnlGrid.Controls.Add(panel1);
             pnlGrid.Controls.Add(pnlFooter);
-            pnlGrid.Controls.Add(dgvHistory);
             pnlGrid.Dock = DockStyle.Fill;
-            pnlGrid.Location = new Point(15, 199);
+            pnlGrid.Location = new Point(10, 125);
             pnlGrid.Name = "pnlGrid";
-            pnlGrid.Padding = new Padding(10);
-            pnlGrid.Size = new Size(770, 428);
+            pnlGrid.Size = new Size(1017, 550);
             pnlGrid.TabIndex = 3;
             // 
-            // pnlFooter
+            // panel2
             // 
-            pnlFooter.Controls.Add(lblRecordCount);
-            pnlFooter.Dock = DockStyle.Bottom;
-            pnlFooter.Location = new Point(10, 378);
-            pnlFooter.Name = "pnlFooter";
-            pnlFooter.Size = new Size(750, 40);
-            pnlFooter.TabIndex = 1;
-            // 
-            // lblRecordCount
-            // 
-            lblRecordCount.AutoSize = true;
-            lblRecordCount.Location = new Point(300, 8);
-            lblRecordCount.Name = "lblRecordCount";
-            lblRecordCount.Size = new Size(141, 25);
-            lblRecordCount.TabIndex = 0;
-            lblRecordCount.Text = "Total Records : 0";
+            panel2.Controls.Add(dgvHistory);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 47);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1015, 461);
+            panel2.TabIndex = 3;
             // 
             // dgvHistory
             // 
@@ -119,14 +110,14 @@
             dgvHistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvHistory.Columns.AddRange(new DataGridViewColumn[] { colDate, colProduct, colType, colQty, colPrevious, colCurrent, colReference, colRemarks });
             dgvHistory.Dock = DockStyle.Fill;
-            dgvHistory.Location = new Point(10, 10);
+            dgvHistory.Location = new Point(0, 0);
             dgvHistory.MultiSelect = false;
             dgvHistory.Name = "dgvHistory";
             dgvHistory.ReadOnly = true;
             dgvHistory.RowHeadersVisible = false;
             dgvHistory.RowHeadersWidth = 62;
             dgvHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHistory.Size = new Size(750, 408);
+            dgvHistory.Size = new Size(1015, 461);
             dgvHistory.TabIndex = 0;
             // 
             // colDate
@@ -185,6 +176,44 @@
             colRemarks.Name = "colRemarks";
             colRemarks.ReadOnly = true;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(label1);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1015, 47);
+            panel1.TabIndex = 2;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label1.Location = new Point(5, 7);
+            label1.Name = "label1";
+            label1.Size = new Size(155, 28);
+            label1.TabIndex = 7;
+            label1.Text = "Search Activity";
+            // 
+            // pnlFooter
+            // 
+            pnlFooter.Controls.Add(lblRecordCount);
+            pnlFooter.Dock = DockStyle.Bottom;
+            pnlFooter.Location = new Point(0, 508);
+            pnlFooter.Name = "pnlFooter";
+            pnlFooter.Size = new Size(1015, 40);
+            pnlFooter.TabIndex = 1;
+            // 
+            // lblRecordCount
+            // 
+            lblRecordCount.AutoSize = true;
+            lblRecordCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblRecordCount.Location = new Point(5, 10);
+            lblRecordCount.Name = "lblRecordCount";
+            lblRecordCount.Size = new Size(152, 25);
+            lblRecordCount.TabIndex = 0;
+            lblRecordCount.Text = "Total Records : 0";
+            // 
             // pnlDate
             // 
             pnlDate.BackColor = Color.White;
@@ -195,44 +224,52 @@
             pnlDate.Controls.Add(lblTo);
             pnlDate.Controls.Add(lblFrom);
             pnlDate.Dock = DockStyle.Top;
-            pnlDate.Location = new Point(15, 139);
+            pnlDate.Location = new Point(10, 65);
             pnlDate.Name = "pnlDate";
             pnlDate.Padding = new Padding(10);
-            pnlDate.Size = new Size(770, 60);
+            pnlDate.Size = new Size(1017, 60);
             pnlDate.TabIndex = 2;
             // 
             // btnPdf
             // 
+            btnPdf.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnPdf.BackColor = Color.IndianRed;
+            btnPdf.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btnPdf.ForeColor = Color.White;
             btnPdf.IconChar = FontAwesome.Sharp.IconChar.None;
             btnPdf.IconColor = Color.Black;
             btnPdf.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnPdf.Location = new Point(636, 13);
+            btnPdf.Location = new Point(865, 13);
             btnPdf.Name = "btnPdf";
-            btnPdf.Size = new Size(112, 34);
+            btnPdf.Size = new Size(138, 34);
             btnPdf.TabIndex = 13;
-            btnPdf.Text = "Export Pdf";
-            btnPdf.UseVisualStyleBackColor = true;
+            btnPdf.Text = "📄 Export Pdf";
+            btnPdf.UseVisualStyleBackColor = false;
             btnPdf.Click += btnPdf_Click;
             // 
             // btnExport
             // 
+            btnExport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnExport.BackColor = Color.ForestGreen;
+            btnExport.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btnExport.ForeColor = Color.White;
             btnExport.IconChar = FontAwesome.Sharp.IconChar.None;
             btnExport.IconColor = Color.Black;
             btnExport.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnExport.Location = new Point(507, 13);
+            btnExport.Location = new Point(699, 13);
             btnExport.Name = "btnExport";
-            btnExport.Size = new Size(123, 34);
+            btnExport.Size = new Size(160, 34);
             btnExport.TabIndex = 12;
-            btnExport.Text = "Export Excel";
-            btnExport.UseVisualStyleBackColor = true;
+            btnExport.Text = "𓊂  Export Excel";
+            btnExport.UseVisualStyleBackColor = false;
             btnExport.Click += btnExport_Click;
             // 
             // dtpTo
             // 
             dtpTo.Format = DateTimePickerFormat.Short;
-            dtpTo.Location = new Point(341, 14);
+            dtpTo.Location = new Point(397, 14);
             dtpTo.Name = "dtpTo";
-            dtpTo.Size = new Size(160, 31);
+            dtpTo.Size = new Size(247, 31);
             dtpTo.TabIndex = 11;
             dtpTo.ValueChanged += dtpTo_ValueChanged;
             // 
@@ -241,146 +278,112 @@
             dtpFrom.Format = DateTimePickerFormat.Short;
             dtpFrom.Location = new Point(65, 15);
             dtpFrom.Name = "dtpFrom";
-            dtpFrom.Size = new Size(220, 31);
+            dtpFrom.Size = new Size(247, 31);
             dtpFrom.TabIndex = 10;
             dtpFrom.ValueChanged += dtpFrom_ValueChanged;
             // 
             // lblTo
             // 
             lblTo.AutoSize = true;
-            lblTo.Location = new Point(309, 18);
+            lblTo.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            lblTo.Location = new Point(363, 19);
             lblTo.Name = "lblTo";
-            lblTo.Size = new Size(30, 25);
+            lblTo.Size = new Size(28, 21);
             lblTo.TabIndex = 8;
             lblTo.Text = "To";
             // 
             // lblFrom
             // 
             lblFrom.AutoSize = true;
-            lblFrom.Location = new Point(10, 18);
+            lblFrom.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            lblFrom.Location = new Point(10, 20);
             lblFrom.Name = "lblFrom";
-            lblFrom.Size = new Size(54, 25);
+            lblFrom.Size = new Size(49, 21);
             lblFrom.TabIndex = 6;
             lblFrom.Text = "From";
             // 
-            // pnlFilter
+            // pnlHeader
             // 
-            pnlFilter.BackColor = Color.White;
-            pnlFilter.Controls.Add(btnClear);
-            pnlFilter.Controls.Add(btnSearch);
-            pnlFilter.Controls.Add(cmbTransactionType);
-            pnlFilter.Controls.Add(lblType);
-            pnlFilter.Controls.Add(txtSearch);
-            pnlFilter.Controls.Add(lblSearch);
-            pnlFilter.Dock = DockStyle.Top;
-            pnlFilter.Location = new Point(15, 70);
-            pnlFilter.Name = "pnlFilter";
-            pnlFilter.Padding = new Padding(10);
-            pnlFilter.Size = new Size(770, 69);
-            pnlFilter.TabIndex = 1;
+            pnlHeader.BackColor = Color.White;
+            pnlHeader.Controls.Add(btnClear);
+            pnlHeader.Controls.Add(btnRefresh);
+            pnlHeader.Controls.Add(txtSearch);
+            pnlHeader.Controls.Add(cmbTransactionType);
+            pnlHeader.Controls.Add(lblType);
+            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.Location = new Point(10, 10);
+            pnlHeader.Name = "pnlHeader";
+            pnlHeader.Size = new Size(1017, 55);
+            pnlHeader.TabIndex = 0;
             // 
             // btnClear
             // 
+            btnClear.BackColor = Color.IndianRed;
+            btnClear.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btnClear.ForeColor = Color.White;
             btnClear.IconChar = FontAwesome.Sharp.IconChar.None;
             btnClear.IconColor = Color.Black;
             btnClear.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnClear.Location = new Point(661, 19);
+            btnClear.Location = new Point(676, 11);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(87, 34);
             btnClear.TabIndex = 5;
             btnClear.Text = "Clear";
-            btnClear.UseVisualStyleBackColor = true;
+            btnClear.UseVisualStyleBackColor = false;
             btnClear.Click += btnClear_Click;
             // 
-            // btnSearch
+            // btnRefresh
             // 
-            btnSearch.IconChar = FontAwesome.Sharp.IconChar.None;
-            btnSearch.IconColor = Color.Black;
-            btnSearch.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnSearch.Location = new Point(562, 19);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(82, 34);
-            btnSearch.TabIndex = 4;
-            btnSearch.Text = "Search";
-            btnSearch.UseVisualStyleBackColor = true;
+            btnRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnRefresh.BackColor = Color.Lavender;
+            btnRefresh.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btnRefresh.ForeColor = Color.RoyalBlue;
+            btnRefresh.IconChar = FontAwesome.Sharp.IconChar.None;
+            btnRefresh.IconColor = Color.Black;
+            btnRefresh.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnRefresh.Location = new Point(893, 10);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(110, 35);
+            btnRefresh.TabIndex = 1;
+            btnRefresh.Text = "🗘Refresh";
+            btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(10, 11);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = " Search ...";
+            txtSearch.Size = new Size(302, 31);
+            txtSearch.TabIndex = 1;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // cmbTransactionType
             // 
             cmbTransactionType.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTransactionType.FormattingEnabled = true;
-            cmbTransactionType.Location = new Point(379, 19);
+            cmbTransactionType.Location = new Point(409, 11);
             cmbTransactionType.Name = "cmbTransactionType";
-            cmbTransactionType.Size = new Size(160, 33);
+            cmbTransactionType.Size = new Size(235, 33);
             cmbTransactionType.TabIndex = 3;
             cmbTransactionType.SelectedIndexChanged += cmbTransactionType_SelectedIndexChanged;
             // 
             // lblType
             // 
             lblType.AutoSize = true;
-            lblType.Location = new Point(323, 23);
+            lblType.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            lblType.Location = new Point(353, 15);
             lblType.Name = "lblType";
-            lblType.Size = new Size(49, 25);
+            lblType.Size = new Size(46, 21);
             lblType.TabIndex = 2;
             lblType.Text = "Type";
-            // 
-            // txtSearch
-            // 
-            txtSearch.Location = new Point(80, 21);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(220, 31);
-            txtSearch.TabIndex = 1;
-            txtSearch.TextChanged += txtSearch_TextChanged;
-            // 
-            // lblSearch
-            // 
-            lblSearch.AutoSize = true;
-            lblSearch.Location = new Point(10, 23);
-            lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(64, 25);
-            lblSearch.TabIndex = 0;
-            lblSearch.Text = "Search";
-            // 
-            // pnlHeader
-            // 
-            pnlHeader.BackColor = Color.White;
-            pnlHeader.Controls.Add(btnRefresh);
-            pnlHeader.Controls.Add(lblTitle);
-            pnlHeader.Dock = DockStyle.Top;
-            pnlHeader.Location = new Point(15, 15);
-            pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(770, 55);
-            pnlHeader.TabIndex = 0;
-            // 
-            // btnRefresh
-            // 
-            btnRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnRefresh.IconChar = FontAwesome.Sharp.IconChar.None;
-            btnRefresh.IconColor = Color.Black;
-            btnRefresh.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnRefresh.Location = new Point(661, 11);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(100, 35);
-            btnRefresh.TabIndex = 1;
-            btnRefresh.Text = "Refresh";
-            btnRefresh.UseVisualStyleBackColor = true;
-            btnRefresh.Click += btnRefresh_Click;
-            // 
-            // lblTitle
-            // 
-            lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            lblTitle.Location = new Point(10, 5);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(131, 45);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "History";
             // 
             // FrmHistory
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(800, 642);
+            ClientSize = new Size(1037, 685);
             Controls.Add(pnlMain);
             Name = "FrmHistory";
             StartPosition = FormStartPosition.CenterScreen;
@@ -388,13 +391,14 @@
             Load += FrmHistory_Load;
             pnlMain.ResumeLayout(false);
             pnlGrid.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvHistory).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             pnlFooter.ResumeLayout(false);
             pnlFooter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvHistory).EndInit();
             pnlDate.ResumeLayout(false);
             pnlDate.PerformLayout();
-            pnlFilter.ResumeLayout(false);
-            pnlFilter.PerformLayout();
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             ResumeLayout(false);
@@ -404,14 +408,10 @@
 
         private Panel pnlMain;
         private Panel pnlHeader;
-        private Panel pnlFilter;
         private FontAwesome.Sharp.IconButton btnRefresh;
-        private Label lblTitle;
-        private FontAwesome.Sharp.IconButton btnSearch;
         private ComboBox cmbTransactionType;
         private Label lblType;
         private TextBox txtSearch;
-        private Label lblSearch;
         private Panel pnlDate;
         private DateTimePicker dtpFrom;
         private Label lblTo;
@@ -432,5 +432,8 @@
         private DataGridViewTextBoxColumn colReference;
         private DataGridViewTextBoxColumn colRemarks;
         private FontAwesome.Sharp.IconButton btnPdf;
+        private Panel panel2;
+        private Panel panel1;
+        private Label label1;
     }
 }

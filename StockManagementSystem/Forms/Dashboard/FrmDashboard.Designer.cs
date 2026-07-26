@@ -704,12 +704,14 @@
             // 
             // lblDateTime
             // 
+            lblDateTime.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblDateTime.AutoSize = true;
             lblDateTime.BorderStyle = BorderStyle.FixedSingle;
-            lblDateTime.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            lblDateTime.Location = new Point(806, 24);
+            lblDateTime.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblDateTime.Location = new Point(807, 17);
             lblDateTime.Name = "lblDateTime";
-            lblDateTime.Size = new Size(96, 23);
+            lblDateTime.Padding = new Padding(5);
+            lblDateTime.Size = new Size(118, 37);
             lblDateTime.TabIndex = 2;
             lblDateTime.Text = "21 Jul 2026";
             // 

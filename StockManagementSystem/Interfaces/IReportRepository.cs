@@ -1,4 +1,5 @@
 ﻿using StockManagementSystem.Models.Reports;
+using StockManagementSystem.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,22 @@ namespace StockManagementSystem.Interfaces
         Task<List<SalesReportModel>> GetSalesReportAsync(DateTime fromDate, DateTime toDate);
 
         Task<List<StockReportModel>> GetStockReportAsync();
+
+        Task<ReportSummaryModel> GetReportSummaryAsync(
+    string reportType,
+    DateTime fromDate,
+    DateTime toDate);
+
+        Task<List<ChartDataModel>> GetCartesianChartDataAsync(
+    string reportType,
+    DateTime fromDate,
+    DateTime toDate);
+
+        Task<List<PieChartDataModel>> GetPieChartDataAsync(
+            string reportType,
+            DateTime fromDate,
+            DateTime toDate);
     }
+
+
 }
