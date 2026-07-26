@@ -30,7 +30,10 @@ namespace StockManagementSystem.Forms.Sales
 
             dgvSales.RowPostPaint += dgvSales_RowPostPaint;
             dgvSales.CellFormatting += dgvSales_CellFormatting;
+
+            cmbProduct.SelectedIndexChanged += cmbProduct_SelectedIndexChanged;
         }
+
 
         private async void FrmSale_Load(object sender, EventArgs e)
         {
@@ -57,6 +60,29 @@ namespace StockManagementSystem.Forms.Sales
             //await ClearForm();
 
             //dgvSales.ClearSelection();
+        }
+
+        private async void cmbProduct_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbProduct.SelectedValue == null)
+                    return;
+
+                if (!int.TryParse(cmbProduct.SelectedValue.ToString(), out int productId))
+                    return;
+
+                var product = await _productService.GetProductByIdAsync(productId);
+
+                if (product == null)
+                    return;
+
+                txtSalePrice.Text = product.SalePrice.ToString("0.00");
+            }
+            catch
+            {
+
+            }
         }
 
         private void FormatGrid()

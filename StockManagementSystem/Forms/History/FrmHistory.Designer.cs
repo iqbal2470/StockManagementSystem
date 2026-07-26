@@ -76,7 +76,7 @@
             pnlMain.Location = new Point(0, 0);
             pnlMain.Name = "pnlMain";
             pnlMain.Padding = new Padding(10);
-            pnlMain.Size = new Size(1037, 685);
+            pnlMain.Size = new Size(1037, 632);
             pnlMain.TabIndex = 0;
             // 
             // pnlGrid
@@ -89,7 +89,7 @@
             pnlGrid.Dock = DockStyle.Fill;
             pnlGrid.Location = new Point(10, 125);
             pnlGrid.Name = "pnlGrid";
-            pnlGrid.Size = new Size(1017, 550);
+            pnlGrid.Size = new Size(1017, 497);
             pnlGrid.TabIndex = 3;
             // 
             // panel2
@@ -98,7 +98,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 47);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1015, 461);
+            panel2.Size = new Size(1015, 408);
             panel2.TabIndex = 3;
             // 
             // dgvHistory
@@ -106,6 +106,7 @@
             dgvHistory.AllowUserToAddRows = false;
             dgvHistory.AllowUserToDeleteRows = false;
             dgvHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHistory.BackgroundColor = Color.DarkGray;
             dgvHistory.BorderStyle = BorderStyle.None;
             dgvHistory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvHistory.Columns.AddRange(new DataGridViewColumn[] { colDate, colProduct, colType, colQty, colPrevious, colCurrent, colReference, colRemarks });
@@ -117,7 +118,7 @@
             dgvHistory.RowHeadersVisible = false;
             dgvHistory.RowHeadersWidth = 62;
             dgvHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHistory.Size = new Size(1015, 461);
+            dgvHistory.Size = new Size(1015, 408);
             dgvHistory.TabIndex = 0;
             // 
             // colDate
@@ -197,9 +198,10 @@
             // 
             // pnlFooter
             // 
+            pnlFooter.BackColor = Color.White;
             pnlFooter.Controls.Add(lblRecordCount);
             pnlFooter.Dock = DockStyle.Bottom;
-            pnlFooter.Location = new Point(0, 508);
+            pnlFooter.Location = new Point(0, 455);
             pnlFooter.Name = "pnlFooter";
             pnlFooter.Size = new Size(1015, 40);
             pnlFooter.TabIndex = 1;
@@ -383,7 +385,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(1037, 685);
+            ClientSize = new Size(1037, 632);
             Controls.Add(pnlMain);
             Name = "FrmHistory";
             StartPosition = FormStartPosition.CenterScreen;

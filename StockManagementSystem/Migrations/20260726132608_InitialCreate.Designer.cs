@@ -12,8 +12,8 @@ using StockManagementSystem.Data;
 namespace StockManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260723031237_StockTransaction")]
-    partial class StockTransaction
+    [Migration("20260726132608_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

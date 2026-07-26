@@ -29,6 +29,8 @@ namespace StockManagementSystem.Forms.Purchase
 
             dgvPurchases.RowPostPaint += dgvPurchases_RowPostPaint;
             dgvPurchases.CellFormatting += dgvPurchases_CellFormatting;
+
+            cmbProduct.SelectedIndexChanged += cmbProduct_SelectedIndexChanged;
         }
 
         private void dgvPurchases_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -139,6 +141,30 @@ namespace StockManagementSystem.Forms.Purchase
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private async void cmbProduct_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbProduct.SelectedValue == null)
+                    return;
+
+                if (!int.TryParse(cmbProduct.SelectedValue.ToString(), out int productId))
+                    return;
+
+                var product = await _productService.GetProductByIdAsync(productId);
+
+                if (product == null)
+                    return;
+
+                txtPurchasePrice.Text = product.PurchasePrice.ToString("0.00");
+            }
+            catch
+            {
+
             }
         }
 
