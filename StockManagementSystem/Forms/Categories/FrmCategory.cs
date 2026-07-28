@@ -67,6 +67,9 @@ namespace StockManagementSystem.Forms.Categories
 
             await LoadDashboardCards();
 
+            SetAddMode();
+
+
             //        dgvCategory.EnableHeadersVisualStyles = false;
 
             //        dgvCategory.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
@@ -191,9 +194,43 @@ namespace StockManagementSystem.Forms.Categories
             dgvCategory.GridColor = Color.Gainsboro;
             dgvCategory.BorderStyle = BorderStyle.None;
         }
+        private bool ValidateCategory()
+        {
+            if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
+            {
+                MessageBox.Show("Please enter Category Name.");
 
+                txtCategoryName.Focus();
+
+                return false;
+            }
+
+            if (txtCategoryName.Text.Trim().Length < 3)
+            {
+                MessageBox.Show("Category Name must be at least 3 characters.");
+
+                txtCategoryName.Focus();
+
+                return false;
+            }
+
+            return true;
+        }
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            if (_selectedCategoryId > 0)
+            {
+                MessageBox.Show(
+                    "Category already selected. Please click New before saving a new category.",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+            if (!ValidateCategory())
+                return;
+
             if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
             {
                 MessageBox.Show("Please enter Category Name.", "Validation",
@@ -218,6 +255,9 @@ namespace StockManagementSystem.Forms.Categories
 
             txtCategoryName.Clear();
             txtDescription.Clear();
+
+            SetAddMode();
+
             txtCategoryName.Focus();
 
             await LoadCategories();
@@ -260,10 +300,31 @@ namespace StockManagementSystem.Forms.Categories
                 DataGridViewRow row = dgvCategory.Rows[e.RowIndex];
 
                 _selectedCategoryId = Convert.ToInt32(row.Cells["Id"].Value);
+                SetEditMode();
 
                 txtCategoryName.Text = row.Cells["colCategoryName"].Value?.ToString();
                 txtDescription.Text = row.Cells["colDescription"].Value?.ToString();
             }
+        }
+
+        private void SetAddMode()
+        {
+            btnSave.Enabled = true;
+
+            btnUpdate.Enabled = false;
+
+            btnDelete.Enabled = false;
+
+            _selectedCategoryId = 0;
+        }
+
+        private void SetEditMode()
+        {
+            btnSave.Enabled = false;
+
+            btnUpdate.Enabled = true;
+
+            btnDelete.Enabled = true;
         }
 
         private async void btnUpdate_Click(object sender, EventArgs e)
@@ -273,6 +334,8 @@ namespace StockManagementSystem.Forms.Categories
                 MessageBox.Show("Please select a category.");
                 return;
             }
+            if (!ValidateCategory())
+                return;
 
             Category category = await _categoryService.GetByIdAsync(_selectedCategoryId);
 
@@ -289,6 +352,9 @@ namespace StockManagementSystem.Forms.Categories
 
                 txtCategoryName.Clear();
                 txtDescription.Clear();
+
+                SetAddMode();
+
 
                 _selectedCategoryId = 0;
             }
@@ -321,6 +387,9 @@ namespace StockManagementSystem.Forms.Categories
                 txtCategoryName.Clear();
                 txtDescription.Clear();
 
+                SetAddMode();
+
+
                 _selectedCategoryId = 0;
             }
 
@@ -344,6 +413,8 @@ namespace StockManagementSystem.Forms.Categories
             txtDescription.Clear();
 
             _selectedCategoryId = 0;
+
+            SetAddMode();
 
             txtCategoryName.Focus();
         }

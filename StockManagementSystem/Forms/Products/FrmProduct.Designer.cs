@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             txtProductCode = new TextBox();
             txtProductName = new TextBox();
             label1 = new Label();
@@ -46,7 +46,7 @@
             txtPurchasePrice = new TextBox();
             label8 = new Label();
             txtSalePrice = new TextBox();
-            label9 = new Label();
+            lblCurrentStocks = new Label();
             txtCurrentStock = new TextBox();
             label10 = new Label();
             txtMinimumStock = new TextBox();
@@ -325,15 +325,15 @@
             txtSalePrice.Size = new Size(306, 29);
             txtSalePrice.TabIndex = 14;
             // 
-            // label9
+            // lblCurrentStocks
             // 
-            label9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            label9.AutoSize = true;
-            label9.Location = new Point(19, 27);
-            label9.Name = "label9";
-            label9.Size = new Size(113, 21);
-            label9.TabIndex = 17;
-            label9.Text = "Current Stock";
+            lblCurrentStocks.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            lblCurrentStocks.AutoSize = true;
+            lblCurrentStocks.Location = new Point(19, 27);
+            lblCurrentStocks.Name = "lblCurrentStocks";
+            lblCurrentStocks.Size = new Size(113, 21);
+            lblCurrentStocks.TabIndex = 17;
+            lblCurrentStocks.Text = "Current Stock";
             // 
             // txtCurrentStock
             // 
@@ -521,24 +521,24 @@
             // 
             // dgvProducts
             // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProducts.Columns.AddRange(new DataGridViewColumn[] { Id, colSrNo, colImage, colProductCode, colProductName, colCategory, colBrand, colUnit, colPurchasePrice, colSalePrice, colCurrentStock, colMinimumStock, colStatus, colCreatedDate, colUpdatedDate });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvProducts.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvProducts.DefaultCellStyle = dataGridViewCellStyle4;
             dgvProducts.Dock = DockStyle.Fill;
             dgvProducts.Location = new Point(0, 0);
             dgvProducts.Name = "dgvProducts";
@@ -1001,7 +1001,7 @@
             panel12.Controls.Add(txtCurrentStock);
             panel12.Controls.Add(txtMinimumStock);
             panel12.Controls.Add(label10);
-            panel12.Controls.Add(label9);
+            panel12.Controls.Add(lblCurrentStocks);
             panel12.Dock = DockStyle.Fill;
             panel12.Location = new Point(713, 3);
             panel12.Name = "panel12";
@@ -1462,7 +1462,7 @@
         private TextBox txtPurchasePrice;
         private Label label8;
         private TextBox txtSalePrice;
-        private Label label9;
+        private Label lblCurrentStocks;
         private TextBox txtCurrentStock;
         private Label label10;
         private TextBox txtMinimumStock;

@@ -15,6 +15,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+//using QuestPDF.Infrastructure;
+
+//using Colors = QuestPDF.Helpers.Colors;
+using IContainer = QuestPDF.Infrastructure.IContainer;
+
 
 
 namespace StockManagementSystem.Forms.History
@@ -386,105 +393,645 @@ namespace StockManagementSystem.Forms.History
             }
         }
 
+
+        private byte[] BitmapToBytes(Bitmap bitmap)
+        {
+            using var ms = new MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            return ms.ToArray();
+        }
         private void btnPdf_Click(object sender, EventArgs e)
         {
-            if (dgvHistory.Rows.Count == 0)
+            //if (dgvHistory.Rows.Count == 0)
+            //{
+            //    MessageBox.Show("No records available.");
+            //    return;
+            //}
+
+
+            //Document.Create(container =>
+            //{
+            //    container.Page(page =>
+            //    {
+            //        page.Margin(20);
+
+            //        page.Size(PageSizes.A4.Landscape());
+
+            //        page.Header()
+            //            .Text("Stock Transaction History")
+            //            .FontSize(20)
+            //            .Bold()
+            //            .AlignCenter();
+
+            //        page.Content().Table(table =>
+            //        {
+            //            table.ColumnsDefinition(columns =>
+            //            {
+            //                columns.RelativeColumn(2);
+            //                columns.RelativeColumn(2);
+            //                columns.RelativeColumn(2);
+            //                columns.RelativeColumn(1);
+            //                columns.RelativeColumn(1);
+            //                columns.RelativeColumn(1);
+            //                columns.RelativeColumn(2);
+            //                columns.RelativeColumn(3);
+            //            });
+
+            //            // Header
+
+            //            table.Header(header =>
+            //            {
+            //                header.Cell().Text("Date").Bold();
+            //                header.Cell().Text("Product").Bold();
+            //                header.Cell().Text("Type").Bold();
+            //                header.Cell().Text("Qty").Bold();
+            //                header.Cell().Text("Prev").Bold();
+            //                header.Cell().Text("Current").Bold();
+            //                header.Cell().Text("Reference").Bold();
+            //                header.Cell().Text("Remarks").Bold();
+            //            });
+
+            //            // Rows
+
+            //            //foreach (DataGridViewRow row in dgvHistory.Rows)
+            //            //{
+            //            //    table.Cell().Text(row.Cells[0].Value?.ToString() ?? "");
+            //            //    table.Cell().Text(row.Cells[1].Value?.ToString() ?? "");
+            //            //    table.Cell().Text(row.Cells[2].Value?.ToString() ?? "");
+            //            //    table.Cell().Text(row.Cells[3].Value?.ToString() ?? "");
+            //            //    table.Cell().Text(row.Cells[4].Value?.ToString() ?? "");
+            //            //    table.Cell().Text(row.Cells[5].Value?.ToString() ?? "");
+            //            //    table.Cell().Text(row.Cells[6].Value?.ToString() ?? "");
+            //            //    table.Cell().Text(row.Cells[7].Value?.ToString() ?? "");
+            //            //}
+
+            //            foreach (var item in _filteredHistoryList)
+            //            {
+            //                table.Cell().Text(item.CreatedDate.ToString("dd-MM-yyyy hh:mm tt"));
+            //                table.Cell().Text(item.Product?.ProductName ?? "");
+            //                table.Cell().Text(item.TransactionType.ToString());
+            //                table.Cell().Text(item.Quantity.ToString());
+            //                table.Cell().Text(item.PreviousStock.ToString());
+            //                table.Cell().Text(item.CurrentStock.ToString());
+            //                table.Cell().Text(item.ReferenceNo ?? "");
+            //                table.Cell().Text(item.Remarks ?? "");
+            //            }
+            //        });
+
+            //        page.Footer()
+            //            .AlignCenter()
+            //            .Text($"Generated : {DateTime.Now:dd-MM-yyyy hh:mm tt}");
+            //    });
+            //})
+            //.GeneratePdf(save.FileName);
+
+            //MessageBox.Show("PDF exported successfully.");
+
+            //Process.Start(new ProcessStartInfo(save.FileName)
+            //{
+            //    UseShellExecute = true
+            //});
+
+
+            if (_filteredHistoryList == null || _filteredHistoryList.Count == 0)
             {
                 MessageBox.Show("No records available.");
                 return;
             }
 
-            SaveFileDialog save = new SaveFileDialog();
+            using (SaveFileDialog save = new SaveFileDialog())
+            {
+                save.Filter = "PDF File|*.pdf";
+                save.FileName = $"History_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
 
-            save.Filter = "PDF File|*.pdf";
+                if (save.ShowDialog() == DialogResult.OK)
+                {
+                    GeneratePdf(save.FileName);
 
-            save.FileName = $"History_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                    MessageBox.Show("PDF exported successfully.");
 
-            if (save.ShowDialog() != DialogResult.OK)
-                return;
+                    Process.Start(new ProcessStartInfo(save.FileName)
+                    {
+                        UseShellExecute = true
+                    });
+                }
+            }
+        }
 
+
+        //private void GeneratePdf(string filePath)
+        //{
+        //    Document.Create(container =>
+        //    {
+        //        container.Page(page =>
+        //        {
+        //            page.Size(PageSizes.A4.Landscape());
+
+        //            page.Margin(15);
+
+        //            // Header
+        //            page.Header().Element(BuildHeader);
+
+        //            // Content
+        //            page.Content().Column(column =>
+        //            {
+        //                column.Item().Element(BuildHistorySummary);
+
+        //                column.Item().Element(BuildHistoryTable);
+        //            });
+
+        //            // Footer
+        //            page.Footer().Element(BuildFooter);
+        //        });
+        //    })
+        //    .GeneratePdf(filePath);
+        //}
+        private void GeneratePdf(string filePath)
+        {
             Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Margin(20);
-
                     page.Size(PageSizes.A4.Landscape());
 
-                    page.Header()
-                        .Text("Stock Transaction History")
-                        .FontSize(20)
-                        .Bold()
-                        .AlignCenter();
+                    page.Margin(15);
 
-                    page.Content().Table(table =>
+                    // Content
+                    page.Content().Column(column =>
                     {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.RelativeColumn(2);
-                            columns.RelativeColumn(2);
-                            columns.RelativeColumn(2);
-                            columns.RelativeColumn(1);
-                            columns.RelativeColumn(1);
-                            columns.RelativeColumn(1);
-                            columns.RelativeColumn(2);
-                            columns.RelativeColumn(3);
-                        });
+                        // Ye sirf first page par dikhega
+                        column.Item().Element(BuildHeader);
 
-                        // Header
+                        column.Item().Element(BuildHistorySummary);
 
-                        table.Header(header =>
-                        {
-                            header.Cell().Text("Date").Bold();
-                            header.Cell().Text("Product").Bold();
-                            header.Cell().Text("Type").Bold();
-                            header.Cell().Text("Qty").Bold();
-                            header.Cell().Text("Prev").Bold();
-                            header.Cell().Text("Current").Bold();
-                            header.Cell().Text("Reference").Bold();
-                            header.Cell().Text("Remarks").Bold();
-                        });
-
-                        // Rows
-
-                        //foreach (DataGridViewRow row in dgvHistory.Rows)
-                        //{
-                        //    table.Cell().Text(row.Cells[0].Value?.ToString() ?? "");
-                        //    table.Cell().Text(row.Cells[1].Value?.ToString() ?? "");
-                        //    table.Cell().Text(row.Cells[2].Value?.ToString() ?? "");
-                        //    table.Cell().Text(row.Cells[3].Value?.ToString() ?? "");
-                        //    table.Cell().Text(row.Cells[4].Value?.ToString() ?? "");
-                        //    table.Cell().Text(row.Cells[5].Value?.ToString() ?? "");
-                        //    table.Cell().Text(row.Cells[6].Value?.ToString() ?? "");
-                        //    table.Cell().Text(row.Cells[7].Value?.ToString() ?? "");
-                        //}
-
-                        foreach (var item in _filteredHistoryList)
-                        {
-                            table.Cell().Text(item.CreatedDate.ToString("dd-MM-yyyy hh:mm tt"));
-                            table.Cell().Text(item.Product?.ProductName ?? "");
-                            table.Cell().Text(item.TransactionType.ToString());
-                            table.Cell().Text(item.Quantity.ToString());
-                            table.Cell().Text(item.PreviousStock.ToString());
-                            table.Cell().Text(item.CurrentStock.ToString());
-                            table.Cell().Text(item.ReferenceNo ?? "");
-                            table.Cell().Text(item.Remarks ?? "");
-                        }
+                        column.Item().Element(BuildHistoryTable);
                     });
 
-                    page.Footer()
-                        .AlignCenter()
-                        .Text($"Generated : {DateTime.Now:dd-MM-yyyy hh:mm tt}");
+                    // Footer
+                    page.Footer().Element(BuildFooter);
                 });
             })
-            .GeneratePdf(save.FileName);
-
-            MessageBox.Show("PDF exported successfully.");
-
-            Process.Start(new ProcessStartInfo(save.FileName)
+            .GeneratePdf(filePath);
+        }
+        private void BuildHeader(IContainer container)
+        {
+            container.Column(column =>
             {
-                UseShellExecute = true
+                column.Item()
+                    .Border(1)
+                    .Padding(5)
+                    .Row(row =>
+                    {
+                        // ================= Logo =================
+
+                        row.ConstantItem(120)
+                            .Height(80)
+                            .Element(c =>
+                            {
+                                try
+                                {
+                                    var logo = Properties.Resources.storemangeimg_1_removebg_preview;
+
+                                    if (logo != null)
+                                    {
+                                        c.AlignCenter()
+                                         .AlignMiddle()
+                                         .Image(BitmapToBytes(logo))
+                                         .FitArea();
+                                    }
+                                    else
+                                    {
+                                        c.Border(1)
+                                         .AlignCenter()
+                                         .AlignMiddle()
+                                         .Text("LOGO")
+                                         .Bold();
+                                    }
+                                }
+                                catch
+                                {
+                                    c.Border(1)
+                                     .AlignCenter()
+                                     .AlignMiddle()
+                                     .Text("LOGO")
+                                     .Bold();
+                                }
+                            });
+
+                        // ================= Company =================
+
+                        row.RelativeItem()
+                            .AlignMiddle()
+                            .Column(col =>
+                            {
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text("CAR ACCESSORY MANAGEMENT STORE")
+                                    .FontSize(18)
+                                    .Bold();
+
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text("Car Accessories & Auto Parts")
+                                    .FontSize(10);
+
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text("Address : Jaipur, Rajasthan")
+                                    .FontSize(10);
+
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text("Mobile : +91-9876543210 | Email : info@company.com")
+                                    .FontSize(10);
+
+                                col.Item()
+                                    .AlignCenter()
+                                    .Text("GST No : XXXXXXXXXXXXX")
+                                    .FontSize(10);
+                            });
+
+                        // Right Blank Space
+
+                        row.ConstantItem(120)
+                            .Element(x => { });
+                    });
+
+                // Report Title
+
+                column.Item()
+                    .PaddingTop(10)
+                    .AlignCenter()
+                    .Text("STOCK TRANSACTION HISTORY")
+                    .FontSize(18)
+                    .Bold();
+
+                // Date
+
+                column.Item()
+                    .PaddingTop(5)
+                    .AlignCenter()
+                    .Text($"Generated On : {DateTime.Now:dd-MM-yyyy hh:mm tt}");
+
+                column.Item()
+                    .PaddingTop(10)
+                    .LineHorizontal(1);
             });
         }
+
+        private void BuildHistorySummary(IContainer container)
+        {
+            int totalTransactions = _filteredHistoryList.Count;
+
+            int purchase = _filteredHistoryList.Count(x =>
+                x.TransactionType.ToString() == "Purchase");
+
+            int sale = _filteredHistoryList.Count(x =>
+                x.TransactionType.ToString() == "Sale");
+
+            int adjustment = _filteredHistoryList.Count(x =>
+                x.TransactionType.ToString() == "Adjustment");
+
+            int totalQtyIn = _filteredHistoryList
+                .Where(x => x.TransactionType.ToString() == "Purchase")
+                .Sum(x => x.Quantity);
+
+            int totalQtyOut = _filteredHistoryList
+                .Where(x => x.TransactionType.ToString() == "Sale")
+                .Sum(x => x.Quantity);
+
+            container
+                .Border(1)
+                .Padding(10)
+                .Column(column =>
+                {
+                    column.Item().Row(row =>
+                    {
+                        row.RelativeItem()
+                            .Text("Total Transactions")
+                            .Bold();
+
+                        row.ConstantItem(150)
+                            .AlignRight()
+                            .Text(totalTransactions.ToString());
+                    });
+
+                    column.Item()
+                        .PaddingTop(5)
+                        .Row(row =>
+                        {
+                            row.RelativeItem()
+                                .Text("Purchase Entries")
+                                .Bold();
+
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text(purchase.ToString());
+                        });
+
+                    column.Item()
+                        .PaddingTop(5)
+                        .Row(row =>
+                        {
+                            row.RelativeItem()
+                                .Text("Sale Entries")
+                                .Bold();
+
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text(sale.ToString());
+                        });
+
+                    column.Item()
+                        .PaddingTop(5)
+                        .Row(row =>
+                        {
+                            row.RelativeItem()
+                                .Text("Adjustment Entries")
+                                .Bold();
+
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text(adjustment.ToString());
+                        });
+
+                    column.Item()
+                        .PaddingTop(5)
+                        .Row(row =>
+                        {
+                            row.RelativeItem()
+                                .Text("Total Purchase Qty")
+                                .Bold();
+
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text(totalQtyIn.ToString());
+                        });
+
+                    column.Item()
+                        .PaddingTop(5)
+                        .Row(row =>
+                        {
+                            row.RelativeItem()
+                                .Text("Total Sale Qty")
+                                .Bold();
+
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text(totalQtyOut.ToString());
+                        });
+                });
+        }
+
+        private void BuildHistoryTable(IContainer container)
+        {
+            container
+                .PaddingTop(15)
+                .Table(table =>
+                {
+                    table.ColumnsDefinition(columns =>
+                    {
+                        columns.RelativeColumn(2); // Date
+                        columns.RelativeColumn(3); // Product
+                        columns.RelativeColumn(2); // Type
+                        columns.RelativeColumn(1); // Qty
+                        columns.RelativeColumn(1); // Prev
+                        columns.RelativeColumn(1); // Current
+                        columns.RelativeColumn(2); // Reference
+                        columns.RelativeColumn(3); // Remarks
+                    });
+
+                    // =========================
+                    // Header
+                    // =========================
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Date")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Product")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Type")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Qty")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Previous")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Current")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Reference")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    table.Cell()
+                        .Background("#1E88E5")
+                        .Border(1)
+                        .BorderColor("#D0D0D0")
+                        .Padding(6)
+                        .AlignCenter()
+                        .AlignMiddle()
+                        .Text("Remarks")
+                        .FontColor(Colors.White)
+                        .FontSize(10)
+                        .Bold();
+
+                    // =========================
+                    // Rows
+                    // =========================
+
+                    bool alternate = false;
+
+                    foreach (var item in _filteredHistoryList)
+                    {
+                        alternate = !alternate;
+
+                        string bg = alternate ? "#F8F9FA" : "#FFFFFF";
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .Text(item.CreatedDate.ToString("dd-MM-yyyy hh:mm tt"))
+                            .FontSize(8);
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .Text(item.Product?.ProductName ?? "")
+                            .FontSize(8);
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .Text(item.TransactionType.ToString())
+                            .FontSize(8);
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .AlignCenter()
+                            .Text(item.Quantity.ToString())
+                            .FontSize(8);
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .AlignCenter()
+                            .Text(item.PreviousStock.ToString())
+                            .FontSize(8);
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .AlignCenter()
+                            .Text(item.CurrentStock.ToString())
+                            .FontSize(8);
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .Text(item.ReferenceNo ?? "")
+                            .FontSize(8);
+
+                        table.Cell()
+                            .Background(bg)
+                            .Border(1)
+                            .BorderColor("#E0E0E0")
+                            .Padding(5)
+                            .Text(item.Remarks ?? "")
+                            .FontSize(8);
+                    }
+                });
+        }
+
+        private void BuildFooter(IContainer container)
+        {
+            container
+                .BorderTop(1)
+                .PaddingTop(8)
+                .Row(row =>
+                {
+                    // Left
+
+                    row.RelativeItem()
+                        .Text($"Generated On : {DateTime.Now:dd MMM yyyy hh:mm tt}")
+                        .FontSize(9);
+
+                    // Center
+
+                    row.RelativeItem()
+                        .AlignCenter()
+                        .Text("Generated By : Admin")
+                        .FontSize(9);
+
+                    // Right
+
+                    row.RelativeItem()
+                        .AlignRight()
+                        .DefaultTextStyle(x => x.FontSize(9))
+                        .Text(text =>
+                        {
+                            text.Span("Page ");
+                            text.CurrentPageNumber();
+                            text.Span(" of ");
+                            text.TotalPages();
+                        });
+                });
+        }
+
+        private string FormatCellValue(object value)
+        {
+            if (value == null)
+                return "";
+
+            if (value is DateTime date)
+                return date.ToString("dd-MMM-yyyy");
+
+            if (decimal.TryParse(value.ToString(), out decimal amount))
+                return amount.ToString("N2");
+
+            return value.ToString();
+        }
+
+
     }
 }

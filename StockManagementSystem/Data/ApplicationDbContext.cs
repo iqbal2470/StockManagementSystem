@@ -21,6 +21,7 @@ namespace StockManagementSystem.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<PurchaseEntiity> Purchases { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<SalePurchaseDetail> SalePurchaseDetails { get; set; }
         public DbSet<StockTransaction> StockTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -96,11 +97,42 @@ namespace StockManagementSystem.Data
                       .HasForeignKey(e => e.UnitId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<PurchaseEntiity>()
+    .HasOne(x => x.Product)
+    .WithMany()
+    .HasForeignKey(x => x.ProductId)
+    .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Sale>()
+                .HasOne(x => x.Product)
+                .WithMany()
+                .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<Sale>()
+            //    .HasOne(x => x.Purchase)
+            //    .WithMany()
+            //    .HasForeignKey(x => x.PurchaseId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<StockTransaction>()
     .HasOne(x => x.Product)
     .WithMany()
     .HasForeignKey(x => x.ProductId)
     .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SalePurchaseDetail>()
+    .HasOne(x => x.Sale)
+    .WithMany(x => x.SalePurchaseDetails)
+    .HasForeignKey(x => x.SaleId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SalePurchaseDetail>()
+                .HasOne(x => x.Purchase)
+                .WithMany(x => x.SalePurchaseDetails)
+                .HasForeignKey(x => x.PurchaseId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -94,6 +94,9 @@ namespace StockManagementSystem
 
                     services.AddScoped<IBackupService, BackupService>();
 
+                    services.AddScoped<ISalePurchaseDetailRepository, SalePurchaseDetailRepository>();
+
+
                     services.AddTransient<FrmBackupRestore>();
                     services.AddTransient<FrmHistory>();
                     services.AddTransient<RrmReports>();

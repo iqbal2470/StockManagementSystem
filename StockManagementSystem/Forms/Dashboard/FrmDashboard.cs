@@ -37,6 +37,9 @@ namespace StockManagementSystem.Forms.Dashboard
         private const int SidebarCollapsedWidth = 70;
         private Form? activeForm;
         private bool isSidebarExpanded = true;
+        private bool _isLoading = false;
+
+
         private IconButton? currentButton;
         public FrmDashboard(IDashboardService dashboardService, IStockTransactionService stockTransactionService)
         {
@@ -111,60 +114,110 @@ namespace StockManagementSystem.Forms.Dashboard
         private bool _isFormLoaded = false;
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
-        //    MessageBox.Show(
-        //$"Form Height = {this.Height}\n" +
-        //$"Desktop Height = {pnlDesktop.Height}\n" +
-        //$"Dashboard Height = {pnlDashboard.Height}\n" +
-        //$"Footer Top = {pnlFooter.Top}\n" +
-        //$"Footer Bottom = {pnlFooter.Bottom}"
-    //);
-            pnlDashboard.AutoScroll = true;
-            pnlDashboard.HorizontalScroll.Enabled = false;
-            pnlDashboard.HorizontalScroll.Visible = false;
-            pnlDashboard.AutoScrollMinSize = new Size(0, 1200);
+        
 
-            pnlDashboard.Visible = true;
-            pnlDesktop.Visible = false;
+           
+                // existing code
+                //    MessageBox.Show(
+                //$"Form Height = {this.Height}\n" +
+                //$"Desktop Height = {pnlDesktop.Height}\n" +
+                //$"Dashboard Height = {pnlDashboard.Height}\n" +
+                //$"Footer Top = {pnlFooter.Top}\n" +
+                //$"Footer Bottom = {pnlFooter.Bottom}"
+                //);
+                pnlDashboard.AutoScroll = true;
+                pnlDashboard.HorizontalScroll.Enabled = false;
+                pnlDashboard.HorizontalScroll.Visible = false;
+                pnlDashboard.AutoScrollMinSize = new Size(0, 1200);
 
-            lblTitle.Text = "Dashboard";
+                pnlDashboard.Visible = true;
+                pnlDesktop.Visible = false;
 
-            lblUserName.Text = "Admin";
+                lblTitle.Text = "Dashboard";
 
-            lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
+                lblUserName.Text = "Admin";
 
-            timerClock.Start();
+                lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
 
-            SetMenuText(true);
+                timerClock.Start();
 
-            SetButtonLayout(true);
-            FormatRecentStockGrid();
-            //LoadRecentStockDummyData();
+                SetMenuText(true);
 
-            await LoadRecentStockAsync();
+                SetButtonLayout(true);
+                FormatRecentStockGrid();
+                //LoadRecentStockDummyData();
 
-            cmbDuration.Items.Clear();
+                await LoadRecentStockAsync();
 
-            //cmbDuration.Items.Add("Top 5");
-            //cmbDuration.Items.Add("Top 10");
-            //cmbDuration.Items.Add("Top 20");
+                cmbDuration.Items.Clear();
 
-            //cmbDuration.SelectedIndex = 1; // Default Top 10
-            cmbDuration.Items.Add("Today");
-            cmbDuration.Items.Add("This Week");
-            cmbDuration.Items.Add("This Month");
-            cmbDuration.Items.Add("This Year");
-            cmbDuration.SelectedIndex = 2; // Default This Month
-            await LoadTopSellingProductsAsync();
-            await LoadDashboardAsync();
-            await LoadRecentStockAsync();
-            _isFormLoaded = true;
+                //cmbDuration.Items.Add("Top 5");
+                //cmbDuration.Items.Add("Top 10");
+                //cmbDuration.Items.Add("Top 20");
+
+                //cmbDuration.SelectedIndex = 1; // Default Top 10
+                cmbDuration.Items.Add("Today");
+                cmbDuration.Items.Add("This Week");
+                cmbDuration.Items.Add("This Month");
+                cmbDuration.Items.Add("This Year");
+                cmbDuration.SelectedIndex = 2; // Default This Month
+                await LoadTopSellingProductsAsync();
+                await LoadDashboardAsync();
+                //await LoadRecentStockAsync();
+                _isFormLoaded = true;
+            
         }
+        //public async Task RefreshDashboardAsync()
+        //{
+        //    await LoadDashboardAsync();
+        //    await LoadRecentStockAsync();
+        //    await LoadTopSellingProductsAsync();
+        //}
+
         public async Task RefreshDashboardAsync()
         {
-            await LoadDashboardAsync();
-            await LoadRecentStockAsync();
-            await LoadTopSellingProductsAsync();
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+
+
+                btnDashboard.Enabled = false;
+                btnProduct.Enabled = false;
+                btnPurchase.Enabled = false;
+                btnSales.Enabled = false;
+                btnStock.Enabled = false;
+                btnReports.Enabled = false;
+                btnCategory.Enabled = false;
+                btnBrand.Enabled = false;
+                btnUnit.Enabled = false;
+                btnHistory.Enabled = false;
+                btnBackupRestore.Enabled = false;
+                btnSetting.Enabled = false;
+
+                await LoadDashboardAsync();
+                await LoadRecentStockAsync();
+                await LoadTopSellingProductsAsync();
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+
+                btnDashboard.Enabled = true;
+                btnProduct.Enabled = true;
+                btnPurchase.Enabled = true;
+                btnSales.Enabled = true;
+                btnStock.Enabled = true;
+                btnReports.Enabled = true;
+                btnCategory.Enabled = true;
+                btnBrand.Enabled = true;
+                btnUnit.Enabled = true;
+                btnHistory.Enabled = true;
+                btnBackupRestore.Enabled = true;
+                btnSetting.Enabled = true;
+
+            }
         }
+
         //private async Task LoadTopSellingProductsAsync()
         //{
         //    flpTopSelling.Controls.Clear();
@@ -342,6 +395,7 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private async Task LoadStockChartAsync()
         {
+           // MessageBox.Show("LoadStockChartAsync Called");
             var data = await _dashboardService.GetStockChartAsync();
 
             int total = data.Sum(x => x.Total);
@@ -430,11 +484,34 @@ namespace StockManagementSystem.Forms.Dashboard
         //    childForm.BringToFront();
         //}
 
+        //private void OpenChildForm(Form childForm)
+        //{
+        //    if (activeForm != null)
+        //    {
+        //        activeForm.Close();
+        //        activeForm = null;
+        //    }
+
+        //    activeForm = childForm;
+
+        //    pnlDashboard.Visible = false;
+        //    pnlDesktop.Visible = true;
+
+        //    childForm.TopLevel = false;
+        //    childForm.FormBorderStyle = FormBorderStyle.None;
+        //    childForm.Dock = DockStyle.Fill;
+
+        //    pnlDesktop.Controls.Clear();
+        //    pnlDesktop.Controls.Add(childForm);
+
+        //    childForm.Show();
+        //}
         private void OpenChildForm(Form childForm)
         {
             if (activeForm != null)
             {
-                activeForm.Close();
+                pnlDesktop.Controls.Remove(activeForm);
+                activeForm.Dispose();
                 activeForm = null;
             }
 
@@ -447,21 +524,42 @@ namespace StockManagementSystem.Forms.Dashboard
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
 
-            pnlDesktop.Controls.Clear();
             pnlDesktop.Controls.Add(childForm);
-
+            childForm.BringToFront();
             childForm.Show();
         }
         private void btnCategory_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnCategory);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+               ActivateButton(btnCategory);
             OpenChildForm(Program.Services.GetRequiredService<FrmCategory>());
 
             lblTitle.Text = "Category";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private async void btnDashboard_Click(object sender, EventArgs e)
         {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                
             //MessageBox.Show(pnlMain.Controls.Count.ToString());
             //ActivateButton(btnDashboard);
 
@@ -498,6 +596,14 @@ namespace StockManagementSystem.Forms.Dashboard
 
             //await LoadDashboardAsync();
             await RefreshDashboardAsync();
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+
+           
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -581,66 +687,167 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private void btnBrand_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnBrand);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                ActivateButton(btnBrand);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmBrand>());
 
 
             lblTitle.Text = "Brand";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private void btnUnit_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnUnit);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                 ActivateButton(btnUnit);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmUnit>());
 
             lblTitle.Text = "Unit";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+           
         }
 
         private void btnProduct_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnProduct);
+
+
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                ActivateButton(btnProduct);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmProduct>());
 
             lblTitle.Text = "Product";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private void btnPurchase_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnPurchase);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                 ActivateButton(btnPurchase);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmPurchase>());
 
             lblTitle.Text = "Purchase";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+           
         }
 
         private void btnSales_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnSales);
+
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                ActivateButton(btnSales);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmSale>());
 
             lblTitle.Text = "Sale";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private void btnStock_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnStock);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                ActivateButton(btnStock);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmStock>());
 
             lblTitle.Text = "Stock";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private void btnReports_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnReports);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                ActivateButton(btnReports);
 
             OpenChildForm(Program.Services.GetRequiredService<RrmReports>());
 
             lblTitle.Text = "Reports";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private async void cmbDuration_SelectedIndexChanged(object sender, EventArgs e)
@@ -662,25 +869,66 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private void btnHistory_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnHistory);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                ActivateButton(btnHistory);
 
             OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
 
             lblTitle.Text = "History";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private void lnkViewAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (_isLoading)
+                return;
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
+            _isLoading = true;
+
+            try
+            {
+                OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+            
         }
 
         private void btnBackupRestore_Click(object sender, EventArgs e)
         {
-            ActivateButton(btnBackupRestore);
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                 ActivateButton(btnBackupRestore);
             OpenChildForm(Program.Services.GetRequiredService<FrmBackupRestore>());
 
             lblTitle.Text = "Backup and Restore data";
+}
+            finally
+            {
+                _isLoading = false;
+            }
+
+           
         }
     }
 }

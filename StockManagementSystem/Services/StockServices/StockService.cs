@@ -19,7 +19,8 @@ namespace StockManagementSystem.Services.StockServices
 
         public async Task<List<Product>> GetAllStockAsync()
         {
-            return await _productRepository.GetAllAsync();
+            //return await _productRepository.GetAllAsync();
+            return await _productRepository.GetAllStockAsync();
         }
 
         public async Task<List<Product>> SearchStockAsync(string keyword)
@@ -57,5 +58,15 @@ namespace StockManagementSystem.Services.StockServices
         {
             return await _productRepository.GetInStockCountAsync();
         }
+
+        public async Task<int> GetCurrentStockQuantityAsync()
+        {
+            return await _productRepository.GetCurrentStockQuantityAsync();
+        }
+
+        //public async Task<List<Product>> GetAllStockAsync()
+        //{
+        //    return await _productRepository.GetAllStockAsync();
+        //}
     }
 }

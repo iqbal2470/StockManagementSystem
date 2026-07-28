@@ -12,7 +12,7 @@ using StockManagementSystem.Data;
 namespace StockManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260726132608_InitialCreate")]
+    [Migration("20260727034155_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -201,6 +201,9 @@ namespace StockManagementSystem.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("RemainingQuantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
@@ -234,6 +237,9 @@ namespace StockManagementSystem.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PurchaseId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -259,6 +265,8 @@ namespace StockManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseId");
 
                     b.ToTable("Sales");
                 });
@@ -414,7 +422,7 @@ namespace StockManagementSystem.Migrations
                     b.HasOne("StockManagementSystem.Models.Master.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -425,10 +433,18 @@ namespace StockManagementSystem.Migrations
                     b.HasOne("StockManagementSystem.Models.Master.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("StockManagementSystem.Models.Master.PurchaseEntiity", "Purchase")
+                        .WithMany()
+                        .HasForeignKey("PurchaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
+
+                    b.Navigation("Purchase");
                 });
 
             modelBuilder.Entity("StockManagementSystem.Models.Master.StockTransaction", b =>

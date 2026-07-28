@@ -1,8 +1,11 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using QuestPDF.Fluent;
+using System.Drawing;
+using System.Drawing.Imaging;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SkiaSharp;
@@ -12,23 +15,35 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using DocumentFormat.OpenXml.Spreadsheet;
+
 using Color = System.Drawing.Color;
+using Colors = QuestPDF.Helpers.Colors;
+using IContainer = QuestPDF.Infrastructure.IContainer;
 namespace StockManagementSystem.Forms.Reports
 {
     public partial class RrmReports : BaseForm
     {
+       
+
+
         private readonly IReportService _reportService;
         public RrmReports(IReportService reportService)
         {
             InitializeComponent();
             _reportService = reportService;
+
+    
+
+            
         }
+        private byte[] BitmapToBytes(Bitmap bitmap)
+        {
+            using var ms = new MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            return ms.ToArray();
+        }
+
 
         private async void RrmReports_Load(object sender, EventArgs e)
         {
@@ -58,7 +73,7 @@ namespace StockManagementSystem.Forms.Reports
 
             dgvReport.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(33, 150, 243);   // Blue
             dgvReport.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgvReport.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvReport.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, FontStyle.Bold);
 
             dgvReport.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
@@ -191,7 +206,7 @@ namespace StockManagementSystem.Forms.Reports
                 cmbReportType.Text,
                 dtpFrom.Value,
                 dtpTo.Value);
-
+            //MessageBox.Show($"Records : {data.Count}");
             if (cmbReportType.Text == "Stock Report")
             {
                 cartesianChart1.Series = new ISeries[]
@@ -400,65 +415,501 @@ namespace StockManagementSystem.Forms.Reports
                 }
             }
         }
+        //private void GeneratePdf(string filePath)
+        //{
+        //    Document.Create(container =>
+        //    {
+        //        container.Page(page =>
+        //        {
+        //            page.Margin(20);
+
+        //            //page.Header()
+        //            //    .Text(cmbReportType.Text)
+        //            //    .FontSize(20)
+        //            //    .Bold();
+
+        //            page.Header().Column(column =>
+        //            {
+        //                column.Item().Row(row =>
+        //                {
+        //                    // Left Side (Logo)
+        //                    row.RelativeItem(1)
+        //                        .Height(60)
+        //                        .Border(1)
+        //                        .AlignCenter()
+        //                        .AlignMiddle()
+        //                        .Text("LOGO")
+        //                        .Bold();
+
+        //                    // Right Side (Company Details)
+        //                    row.RelativeItem(4).Column(col =>
+        //                    {
+        //                        col.Item()
+        //                            .AlignCenter()
+        //                            .Text("IQBAL CAR ACCESSORIES")
+        //                            .FontSize(22)
+        //                            .Bold();
+
+        //                        col.Item()
+        //                            .AlignCenter()
+        //                            .Text("Car Accessories & Auto Parts")
+        //                            .FontSize(11);
+
+        //                        col.Item()
+        //                            .AlignCenter()
+        //                            .Text("Jaipur, Rajasthan");
+
+        //                        col.Item()
+        //                            .AlignCenter()
+        //                            .Text("Mobile : +91-9876543210 | Email : info@company.com");
+
+        //                        col.Item()
+        //                            .AlignCenter()
+        //                            .Text("GST No : XXXXXXXXXXXXXX");
+        //                    });
+        //                });
+
+        //                column.Item().PaddingTop(10);
+
+        //                column.Item()
+        //                    .LineHorizontal(1);
+
+        //                column.Item().PaddingTop(8);
+
+        //                column.Item()
+        //                    .AlignCenter()
+        //                    .Text(cmbReportType.Text.ToUpper())
+        //                    .FontSize(18)
+        //                    .Bold();
+
+        //                column.Item()
+        //                    .AlignCenter()
+        //                    .Text($"From : {dtpFrom.Value:dd MMM yyyy}     To : {dtpTo.Value:dd MMM yyyy}")
+        //                    .FontSize(11);
+
+        //                column.Item().PaddingBottom(10);
+
+        //                column.Item()
+        //                    .LineHorizontal(1);
+        //            });
+
+        //            page.Content().Table(table =>
+        //            {
+        //                int columnCount = dgvReport.Columns.Count;
+
+        //                table.ColumnsDefinition(columns =>
+        //                {
+        //                    for (int i = 0; i < columnCount; i++)
+        //                    {
+        //                        columns.RelativeColumn();
+        //                    }
+        //                });
+
+        //                // Header
+        //                foreach (DataGridViewColumn column in dgvReport.Columns)
+        //                {
+        //                    table.Cell()
+        //                        .Border(1)
+        //                        .Padding(5)
+        //                        .Text(column.HeaderText)
+        //                        .Bold();
+        //                }
+
+        //                // Rows
+        //                foreach (DataGridViewRow row in dgvReport.Rows)
+        //                {
+        //                    foreach (DataGridViewCell cell in row.Cells)
+        //                    {
+        //                        table.Cell()
+        //                            .Border(1)
+        //                            .Padding(5)
+        //                            .Text(cell.Value?.ToString() ?? "");
+        //                    }
+        //                }
+        //            });
+
+        //            page.Footer()
+        //                .AlignCenter()
+        //                .Text(x =>
+        //                {
+        //                    x.Span("Generated on ");
+        //                    x.Span(DateTime.Now.ToString("dd-MM-yyyy HH:mm"));
+        //                });
+        //        });
+        //    })
+        //    .GeneratePdf(filePath);
+        //}
+
         private void GeneratePdf(string filePath)
         {
             Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Margin(20);
+                    page.Size(PageSizes.A4.Landscape());
+                    page.Margin(15);
 
-                    page.Header()
-                        .Text(cmbReportType.Text)
-                        .FontSize(20)
-                        .Bold();
+                    // Header
+                   // page.Header().Element(BuildHeader);
 
-                    page.Content().Table(table =>
+                    // Content
+                    //page.Content().Element(BuildContent);
+
+                    //page.Content().Element(BuildSummary);
+                    page.Content().Column(col =>
                     {
-                        int columnCount = dgvReport.Columns.Count;
-
-                        table.ColumnsDefinition(columns =>
-                        {
-                            for (int i = 0; i < columnCount; i++)
-                            {
-                                columns.RelativeColumn();
-                            }
-                        });
-
                         // Header
-                        foreach (DataGridViewColumn column in dgvReport.Columns)
-                        {
-                            table.Cell()
-                                .Border(1)
-                                .Padding(5)
-                                .Text(column.HeaderText)
-                                .Bold();
-                        }
+                        col.Item().Element(BuildHeader);
 
-                        // Rows
-                        foreach (DataGridViewRow row in dgvReport.Rows)
-                        {
-                            foreach (DataGridViewCell cell in row.Cells)
-                            {
-                                table.Cell()
-                                    .Border(1)
-                                    .Padding(5)
-                                    .Text(cell.Value?.ToString() ?? "");
-                            }
-                        }
+                        col.Item().Element(BuildSummary);
+
+                        col.Item().Element(BuildTable);
                     });
 
-                    page.Footer()
-                        .AlignCenter()
-                        .Text(x =>
-                        {
-                            x.Span("Generated on ");
-                            x.Span(DateTime.Now.ToString("dd-MM-yyyy HH:mm"));
-                        });
+                    // Footer
+                    page.Footer().Element(BuildFooter);
                 });
             })
             .GeneratePdf(filePath);
         }
+        //string logoPath = Path.Combine(Application.StartupPath, "ProductImages", "storemangeimg_2_removebg_preview");
+        //string logoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"ProductImages","storemangeimg_1_removebg_preview.png");
+
+    //    string logoPath = Path.Combine(
+    //Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)!.Parent!.Parent!.FullName,
+    //"ProductImages",
+    //"storemangeimg_1_removebg_preview.png");
+
+        private void BuildHeader(IContainer container)
+        {
+            container.Column(column =>
+            {
+                column.Item().Border(1).Padding(5).Row(row =>
+                {
+                    // Logo
+                    //row.ConstantItem(80)
+                    //    .Height(60)
+                    //    .Border(1)
+                    //    .AlignCenter()
+                    //    .AlignMiddle()
+                    //    .Image(logoPath);
+
+    //                row.ConstantItem(80)
+    //.Height(60)
+    //.Image(BitmapToBytes(Properties.Resources.storemangeimg_1_removebg_preview))
+    //.FitWidth();
+
+
+                    row.ConstantItem(120).Height(80).Element(container =>
+                    {
+                        try
+                        {
+                            var logo = Properties.Resources.storemangeimg_1_removebg_preview;
+
+                            if (logo != null)
+                            {
+                                container.AlignCenter()
+                                         .AlignMiddle()
+                                         .Image(BitmapToBytes(logo))
+                                         .FitArea();
+                            }
+                            else
+                            {
+                                container.Border(1)
+                                         .AlignCenter()
+                                         .AlignMiddle()
+                                         .Text("LOGO")
+                                         .FontSize(12)
+                                         .Bold();
+                            }
+                        }
+                        catch
+                        {
+                            container.Border(1)
+                                     .AlignCenter()
+                                     .AlignMiddle()
+                                     .Text("LOGO")
+                                     .FontSize(12)
+                                     .Bold();
+                        }
+                    });
+                    //row.ConstantItem(80)
+                    //    .Height(60)
+                    //    .Element(container =>
+                    //    {
+                    //        if (File.Exists(logoPath))
+                    //        {
+                    //            container.Image(logoPath);
+                    //        }
+                    //        else
+                    //        {
+                    //            container
+                    //                .Border(1)
+                    //                .AlignCenter()
+                    //                .AlignMiddle()
+                    //                .Text("LOGO")
+                    //                .Bold();
+                    //        }
+                    //    });
+                    // Company Details (Center)
+                    row.RelativeItem()
+                        .AlignMiddle()
+                        .Column(col =>
+                        {
+                            col.Item()
+                                .AlignCenter()
+                                .Text("CAR ACCESSORY MANAGEMENT STORE")
+                                .FontSize(18)
+                                .Bold();
+
+                            col.Item()
+                                .AlignCenter()
+                                .Text("Car Accessories & Auto Parts")
+                                .FontSize(10);
+
+                            col.Item()
+                                .AlignCenter()
+                                .Text("Address : Jaipur, Rajasthan")
+                                .FontSize(10);
+
+                            col.Item()
+                                .AlignCenter()
+                                .Text("Mobile : +91-9876543210 | Email : info@company.com")
+                                .FontSize(10);
+
+                            col.Item()
+                                .AlignCenter()
+                                .Text("GST No : XXXXXXXXXXXXX")
+                                .FontSize(10);
+                        });
+
+                    // Right Side Blank (Logo ke barabar space)
+                    row.ConstantItem(120).Element(x =>
+                    {
+                        // Blank Space
+                    });
+                    //row.RelativeItem().Column(col =>
+                    //{
+                    //    col.Item()
+                    //        .AlignCenter()
+                    //        .Text("CAR ACCESSORY MANAGEMENT STORE")
+                    //        .FontSize(22)
+                    //        .Bold();
+
+                    //    col.Item()
+                    //        .AlignCenter()
+                    //        .Text("Car Accessories & Auto Parts");
+
+                    //    col.Item()
+                    //        .AlignCenter()
+                    //        .Text("Address : Jaipur, Rajasthan");
+
+                    //    col.Item()
+                    //        .AlignCenter()
+                    //        .Text("Mobile : +91-9876543210 | Email : info@company.com");
+
+                    //    col.Item()
+                    //        .AlignCenter()
+                    //        .Text("GST No : XXXXXXXXXXXXX");
+                    //});
+                });
+
+                column.Item()
+    .PaddingTop(10)
+    .AlignCenter()
+    .Text(cmbReportType.Text.ToUpper())
+    .FontSize(18)
+    .Bold();
+
+                //column.Item()
+                //    .AlignCenter()
+                //    .Text(cmbReportType.Text.ToUpper())
+                //    .FontSize(18)
+                //    .Bold();
+
+                column.Item()
+    .PaddingTop(5)
+    .AlignCenter()
+    .Text($"From : {dtpFrom.Value:dd-MM-yyyy}    To : {dtpTo.Value:dd-MM-yyyy}");
+
+
+                //column.Item().PaddingBottom(10);
+
+                column.Item()
+    .PaddingTop(10)
+    .LineHorizontal(1);
+            });
+        }
+
+        private void BuildSummary(IContainer container)
+        {
+            container
+                .Border(1)
+                .Padding(10)
+                .Column(column =>
+                {
+                    if (cmbReportType.Text == "Sales Report")
+                    {
+                        // Total Sales
+                        column.Item().Row(row =>
+                        {
+                            row.RelativeItem().Text("Total Sales").Bold();
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text($"₹ {lblTotalSales.Text}");
+                        });
+
+                        // Purchase Cost
+                        column.Item()
+                            .PaddingTop(5)
+                            .Row(row =>
+                            {
+                                row.RelativeItem().Text("Purchase Cost").Bold();
+                                row.ConstantItem(150)
+                                    .AlignRight()
+                                    .Text($"₹ {lblTotalPurchase.Text}");
+                            });
+
+                        // Profit
+                        column.Item()
+                            .PaddingTop(5)
+                            .Row(row =>
+                            {
+                                row.RelativeItem().Text("Profit").Bold();
+                                row.ConstantItem(150)
+                                    .AlignRight()
+                                    .Text($"₹ {lblProfit.Text}");
+                            });
+                    }
+                    else if (cmbReportType.Text == "Purchase Report")
+                    {
+                        column.Item().Row(row =>
+                        {
+                            row.RelativeItem().Text("Total Purchase").Bold();
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text($"₹ {lblTotalPurchase.Text}");
+                        });
+                    }
+                    else
+                    {
+                        column.Item().Row(row =>
+                        {
+                            row.RelativeItem().Text("Total Products").Bold();
+                            row.ConstantItem(150)
+                                .AlignRight()
+                                .Text(lblTotalProducts.Text);
+                        });
+                    }
+                });
+        }
+        private void BuildTable(IContainer container)
+        {
+            container
+                .PaddingTop(15)
+                .Table(table =>
+                {
+                    int columnCount = dgvReport.Columns.Count;
+
+                    table.ColumnsDefinition(columns =>
+                    {
+                        for (int i = 0; i < columnCount; i++)
+                            columns.RelativeColumn();
+                    });
+
+                    // Header
+                    foreach (DataGridViewColumn column in dgvReport.Columns)
+                    {
+                        table.Cell()
+                            .Background("#1E88E5")
+                            .Border(1)
+                            .BorderColor("#D0D0D0")
+                            .Padding(6)
+                            .AlignCenter()
+                            .AlignMiddle()
+                            .Text(column.HeaderText)
+                            .FontSize(10)
+                            .FontColor(QuestPDF.Helpers.Colors.White)
+                            .Bold();
+                    }
+
+                    // Rows
+                    bool alternate = false;
+
+                    foreach (DataGridViewRow row in dgvReport.Rows)
+                    {
+                        if (row.IsNewRow)
+                            continue;
+
+                        alternate = !alternate;
+
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            table.Cell()
+                                .Background(alternate ? "#F8F9FA" : "#FFFFFF")
+                                .Border(1)
+                                .BorderColor("#E0E0E0")
+                                .Padding(5)
+                                .Text(FormatCellValue(cell.Value))
+                                .FontSize(8);
+                        }
+                    }
+                });
+        }
+
+        private void BuildFooter(IContainer container)
+        {
+            container.BorderTop(1)
+                .PaddingTop(8)
+                .Row(row =>
+                {
+                    row.RelativeItem()
+                        .Text($"Generated On : {DateTime.Now:dd MMM yyyy hh:mm tt}")
+                        .FontSize(9);
+
+                    row.RelativeItem()
+                        .AlignCenter()
+                        .Text("Generated By : Admin")
+                        .FontSize(9);
+
+                    row.RelativeItem()
+    .AlignRight()
+    .DefaultTextStyle(x => x.FontSize(9))
+    .Text(text =>
+    {
+        text.Span("Page ");
+        text.CurrentPageNumber();
+        text.Span(" of ");
+        text.TotalPages();
+    });
+
+                    //row.RelativeItem()
+                    //    .AlignRight()
+                    //    .Text(text =>
+                    //    {
+                    //        text.Span("Page ");
+                    //        text.CurrentPageNumber();
+                    //        text.Span(" of ");
+                    //        text.TotalPages();
+                    //    })
+                    //    .FontSize(9);
+                });
+        }
+
+        private string FormatCellValue(object value)
+        {
+            if (value == null)
+                return "";
+
+            if (value is DateTime date)
+                return date.ToString("dd-MMM-yyyy");
+
+            if (decimal.TryParse(value.ToString(), out decimal amount))
+                return amount.ToString("N2");
+
+            return value.ToString();
+        }
+
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
             if (dgvReport.Rows.Count == 0)
@@ -518,6 +969,16 @@ namespace StockManagementSystem.Forms.Reports
 
             dtpFrom.Enabled = enableDate;
             dtpTo.Enabled = enableDate;
+
+            dtpFrom.Enabled = enableDate;
+            dtpTo.Enabled = enableDate;
+
+            if (!enableDate)
+            {
+                // Stock Report ke liye dates reset
+                dtpFrom.Value = DateTime.Today.AddDays(-30);
+                dtpTo.Value = DateTime.Today;
+            }
         }
 
         private void panel10_Paint(object sender, PaintEventArgs e)

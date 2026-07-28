@@ -136,7 +136,9 @@ namespace StockManagementSystem.Forms.Purchase
 
                 dgvPurchases.ClearSelection();
 
-                ClearForm();
+               await ClearForm();
+
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
@@ -325,6 +327,19 @@ namespace StockManagementSystem.Forms.Purchase
         {
             try
             {
+                if (_purchaseId > 0)
+                {
+                    MessageBox.Show(
+                        "Purchase already selected. Please click Clear before saving a new purchase.",
+                        "Warning",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                if (!ValidatePurchase())
+                    return;
                 // Validation
                 if (cmbProduct.SelectedIndex == -1)
                 {
@@ -382,6 +397,8 @@ namespace StockManagementSystem.Forms.Purchase
                 await LoadPurchases();
 
                 await ClearForm();
+
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
@@ -446,6 +463,9 @@ namespace StockManagementSystem.Forms.Purchase
                     return;
 
                 _purchaseId = purchase.Id;
+
+                SetButtonEditMode();
+
                 txtPurchaseNo.Text = purchase.PurchaseNo;
                 dtpPurchaseDate.Value = purchase.PurchaseDate;
                 cmbProduct.SelectedValue = purchase.ProductId;
@@ -453,6 +473,8 @@ namespace StockManagementSystem.Forms.Purchase
                 txtQuantity.Text = purchase.Quantity.ToString();
                 txtTotalAmount.Text = purchase.TotalAmount.ToString("0.00");
                 rtxtRemarks.Text = purchase.Remarks;
+
+
             }
             catch (Exception ex)
             {
@@ -464,6 +486,8 @@ namespace StockManagementSystem.Forms.Purchase
         {
             try
             {
+                if (!ValidatePurchase())
+                    return;
                 if (_purchaseId == 0)
                 {
                     MessageBox.Show("Please select a purchase first.",
@@ -516,6 +540,7 @@ namespace StockManagementSystem.Forms.Purchase
                 await LoadPurchases();
 
                 await ClearForm();
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
@@ -558,6 +583,9 @@ namespace StockManagementSystem.Forms.Purchase
                 await LoadPurchases();
 
                 await ClearForm();
+
+
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
@@ -573,7 +601,92 @@ namespace StockManagementSystem.Forms.Purchase
         {
             await ClearForm();
 
+
+            SetButtonAddMode();
+
             dgvPurchases.ClearSelection();
+        }
+
+        private bool ValidatePurchase()
+        {
+            if (cmbProduct.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a Product.",
+                    "Validation",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                cmbProduct.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPurchasePrice.Text))
+            {
+                MessageBox.Show("Please enter Purchase Price.");
+
+                txtPurchasePrice.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtPurchasePrice.Text, out decimal price))
+            {
+                MessageBox.Show("Please enter a valid Purchase Price.");
+
+                txtPurchasePrice.Focus();
+                return false;
+            }
+
+            if (price <= 0)
+            {
+                MessageBox.Show("Purchase Price must be greater than zero.");
+
+                txtPurchasePrice.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtQuantity.Text))
+            {
+                MessageBox.Show("Please enter Quantity.");
+
+                txtQuantity.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtQuantity.Text, out int qty))
+            {
+                MessageBox.Show("Please enter a valid Quantity.");
+
+                txtQuantity.Focus();
+                return false;
+            }
+
+            if (qty <= 0)
+            {
+                MessageBox.Show("Quantity must be greater than zero.");
+
+                txtQuantity.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void SetButtonAddMode()
+        {
+            btnSave.Enabled = true;
+
+            btnUpdate.Enabled = false;
+
+            btnDelete.Enabled = false;
+        }
+
+        private void SetButtonEditMode()
+        {
+            btnSave.Enabled = false;
+
+            btnUpdate.Enabled = true;
+
+            btnDelete.Enabled = true;
         }
     }
 }

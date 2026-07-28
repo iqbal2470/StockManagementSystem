@@ -17,15 +17,42 @@ namespace StockManagementSystem.Services.StockTransactionServices
             _repository = repository;
         }
 
+        //public async Task AddTransactionAsync(
+        //    int productId,
+        //    TransactionType transactionType,
+        //    int quantity,
+        //    int previousStock,
+        //    int currentStock,
+        //    string? referenceNo = null,
+        //    string? remarks = null,
+        //    string? referenceType = null)
+        //{
+        //    var transaction = new StockTransaction
+        //    {
+        //        ProductId = productId,
+        //        TransactionType = transactionType,
+        //        Quantity = quantity,
+        //        PreviousStock = previousStock,
+        //        CurrentStock = currentStock,
+        //        ReferenceNo = referenceNo,
+        //        Remarks = remarks,
+        //        ReferenceType = referenceType
+        //    };
+
+        //    await _repository.AddAsync(transaction);
+
+        //    await _repository.SaveAsync();
+        //}
+
         public async Task AddTransactionAsync(
-            int productId,
-            TransactionType transactionType,
-            int quantity,
-            int previousStock,
-            int currentStock,
-            string? referenceNo = null,
-            string? remarks = null,
-            string? referenceType = null)
+    int productId,
+    TransactionType transactionType,
+    int quantity,
+    int previousStock,
+    int currentStock,
+    string? referenceNo = null,
+    string? remarks = null,
+    string? referenceType = null)
         {
             var transaction = new StockTransaction
             {
@@ -41,7 +68,8 @@ namespace StockManagementSystem.Services.StockTransactionServices
 
             await _repository.AddAsync(transaction);
 
-            await _repository.SaveAsync();
+            // ❌ Remove this
+            // await _repository.SaveAsync();
         }
 
         public async Task<List<StockTransaction>> GetRecentTransactionsAsync(int count)

@@ -39,6 +39,7 @@ namespace StockManagementSystem.Forms.Units
             //dgvUnit.DataSource = await _unitService.GetAllAsync();
             await LoadUnits();
             await LoadDashboardCards();
+            SetAddMode();
         }
 
         private async Task LoadUnits()
@@ -165,6 +166,19 @@ namespace StockManagementSystem.Forms.Units
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            if (!ValidateUnit())
+                return;
+
+            if (_selectedUnitId > 0)
+            {
+                MessageBox.Show(
+                    "Unit already selected. Please click New before saving a new unit.",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
             if (string.IsNullOrWhiteSpace(txtUnitName.Text))
             {
                 MessageBox.Show("Please enter Unit Name.", "Validation",
@@ -187,6 +201,9 @@ namespace StockManagementSystem.Forms.Units
                 MessageBoxIcon.Information);
 
             txtUnitName.Clear();
+
+            SetAddMode();
+
             txtUnitName.Focus();
 
             await LoadUnits();
@@ -202,12 +219,17 @@ namespace StockManagementSystem.Forms.Units
 
                 _selectedUnitId = Convert.ToInt32(row.Cells["Id"].Value);
 
+
+                SetEditMode();
+
                 txtUnitName.Text = row.Cells["colUnitName"].Value?.ToString();
             }
         }
 
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (!ValidateUnit())
+                return;
             if (_selectedUnitId == 0)
             {
                 MessageBox.Show("Please select a unit.");
@@ -229,6 +251,10 @@ namespace StockManagementSystem.Forms.Units
                 txtUnitName.Clear();
 
                 _selectedUnitId = 0;
+
+                SetAddMode();
+
+                txtUnitName.Focus();
             }
         }
 
@@ -266,6 +292,10 @@ namespace StockManagementSystem.Forms.Units
                 txtUnitName.Clear();
 
                 _selectedUnitId = 0;
+
+                SetAddMode();
+
+                txtUnitName.Focus();
             }
         }
 
@@ -274,6 +304,8 @@ namespace StockManagementSystem.Forms.Units
             txtUnitName.Clear();
 
             _selectedUnitId = 0;
+
+            SetAddMode();
 
             txtUnitName.Focus();
         }
@@ -307,6 +339,51 @@ namespace StockManagementSystem.Forms.Units
                 e.SuppressKeyPress = true;
                 this.SelectNextControl((Control)sender, true, true, true, true);
             }
+        }
+
+        private bool ValidateUnit()
+        {
+            if (string.IsNullOrWhiteSpace(txtUnitName.Text))
+            {
+                MessageBox.Show("Please enter Unit Name.",
+                    "Validation",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtUnitName.Focus();
+                return false;
+            }
+
+            if (txtUnitName.Text.Trim().Length < 3)
+            {
+                MessageBox.Show("Unit Name must be at least 3 characters.",
+                    "Validation",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtUnitName.Focus();
+                return false;
+            }
+
+            return true;
+        }
+        private void SetAddMode()
+        {
+            btnSave.Enabled = true;
+
+            btnUpdate.Enabled = false;
+
+            btnDelete.Enabled = false;
+
+            _selectedUnitId = 0;
+        }
+        private void SetEditMode()
+        {
+            btnSave.Enabled = false;
+
+            btnUpdate.Enabled = true;
+
+            btnDelete.Enabled = true;
         }
     }
 

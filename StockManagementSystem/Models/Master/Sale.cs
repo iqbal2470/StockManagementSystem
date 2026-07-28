@@ -23,5 +23,12 @@ namespace StockManagementSystem.Models.Master
         public decimal TotalAmount { get; set; }
 
         public string? Remarks { get; set; }
+
+        //public int PurchaseId { get; set; }
+
+        //public PurchaseEntiity Purchase { get; set; } = null!;
+
+        public virtual ICollection<SalePurchaseDetail> SalePurchaseDetails { get; set; }
+    = new List<SalePurchaseDetail>();
     }
 }

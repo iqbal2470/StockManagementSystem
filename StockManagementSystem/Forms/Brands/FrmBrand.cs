@@ -32,6 +32,8 @@ namespace StockManagementSystem.Forms.Brands
             await LoadBrands();
 
             await LoadDashboardCards();
+
+            SetAddMode();
         }
         private async Task LoadBrands()
         {
@@ -160,6 +162,18 @@ namespace StockManagementSystem.Forms.Brands
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            if (!ValidateBrand())
+                return;
+            if (_selectedBrandId > 0)
+            {
+                MessageBox.Show(
+                    "Brand already selected. Please click New before saving a new brand.",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
             if (string.IsNullOrWhiteSpace(txtBrandName.Text))
             {
                 MessageBox.Show("Please enter Brand Name.", "Validation",
@@ -183,7 +197,9 @@ namespace StockManagementSystem.Forms.Brands
                 MessageBoxIcon.Information);
 
             txtBrandName.Clear();
-            
+
+            SetAddMode();
+
             txtBrandName.Focus();
 
             await LoadBrands();
@@ -227,6 +243,8 @@ namespace StockManagementSystem.Forms.Brands
 
                 _selectedBrandId = Convert.ToInt32(row.Cells["Id"].Value);
 
+                SetEditMode();
+
                 txtBrandName.Text = row.Cells["colBrandName"].Value?.ToString();
                 
             }
@@ -234,6 +252,8 @@ namespace StockManagementSystem.Forms.Brands
 
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (!ValidateBrand())
+                return;
             if (_selectedBrandId == 0)
             {
                 MessageBox.Show("Please select a brand.");
@@ -258,6 +278,9 @@ brand.UpdatedDate = DateTime.Now;
                
 
                 _selectedBrandId = 0;
+
+                SetAddMode();
+                txtBrandName.Focus();
             }
         }
 
@@ -287,7 +310,12 @@ brand.UpdatedDate = DateTime.Now;
             
 
                 _selectedBrandId = 0;
+
+                SetAddMode();
+
+                txtBrandName.Focus();
             }
+
         }
 
         //private void btnNew_Click(object sender, EventArgs e)
@@ -307,6 +335,8 @@ brand.UpdatedDate = DateTime.Now;
            
 
             _selectedBrandId = 0;
+
+            SetAddMode();
 
             txtBrandName.Focus();
         }
@@ -348,6 +378,53 @@ brand.UpdatedDate = DateTime.Now;
             lblActive.Text = brands.Count(x => x.IsActive).ToString();
 
             lblInActive.Text = brands.Count(x => !x.IsActive).ToString();
+        }
+
+        private void SetAddMode()
+        {
+            btnSave.Enabled = true;
+
+            btnUpdate.Enabled = false;
+
+            btnDelete.Enabled = false;
+
+            _selectedBrandId = 0;
+        }
+
+        private void SetEditMode()
+        {
+            btnSave.Enabled = false;
+
+            btnUpdate.Enabled = true;
+
+            btnDelete.Enabled = true;
+        }
+
+        private bool ValidateBrand()
+        {
+            if (string.IsNullOrWhiteSpace(txtBrandName.Text))
+            {
+                MessageBox.Show("Please enter Brand Name.",
+                    "Validation",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtBrandName.Focus();
+                return false;
+            }
+
+            if (txtBrandName.Text.Trim().Length < 3)
+            {
+                MessageBox.Show("Brand Name must be at least 3 characters.",
+                    "Validation",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtBrandName.Focus();
+                return false;
+            }
+
+            return true;
         }
     }
 }

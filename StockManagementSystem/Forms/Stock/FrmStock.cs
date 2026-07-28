@@ -366,8 +366,11 @@ namespace StockManagementSystem.Forms.Stock
             lblOutOfStock.Text =
                 (await _stockService.GetOutOfStockCountAsync()).ToString();
 
+            //lblInStock.Text =
+            //    (await _stockService.GetInStockCountAsync()).ToString();
+
             lblInStock.Text =
-                (await _stockService.GetInStockCountAsync()).ToString();
+    (await _stockService.GetCurrentStockQuantityAsync()).ToString();
         }
         private async Task LoadStock()
         {

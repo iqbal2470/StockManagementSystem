@@ -28,5 +28,9 @@ namespace StockManagementSystem.Interfaces
         Task<int> GetOutOfStockCountAsync();
 
         Task<int> GetInStockCountAsync();
+
+        Task<int> GetCurrentStockQuantityAsync();
+
+        Task<List<Product>> GetAllStockAsync();
     }
 }

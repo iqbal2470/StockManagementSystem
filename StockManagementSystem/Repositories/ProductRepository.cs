@@ -22,6 +22,7 @@ namespace StockManagementSystem.Repositories
         public async Task<List<Product>> GetAllProductsAsync()
         {
             return await _context.Products
+                .Where(x => x.IsActive)
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
                 .Include(x => x.Unit)
@@ -44,13 +45,22 @@ namespace StockManagementSystem.Repositories
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .Include(p => p.Unit)
-                .Where(p =>
-                    p.ProductName.ToLower().Contains(keyword) ||
-                    p.ProductCode.ToLower().Contains(keyword) ||
-                    (p.Barcode != null && p.Barcode.ToLower().Contains(keyword)) ||
-                    (p.VehicleModel != null && p.VehicleModel.ToLower().Contains(keyword)))
-                .OrderBy(p => p.ProductName)
-                .ToListAsync();
+                .Where(p => p.IsActive &&
+                        (
+                            p.ProductName.ToLower().Contains(keyword) ||
+                            p.ProductCode.ToLower().Contains(keyword) ||
+                            (p.Barcode != null && p.Barcode.ToLower().Contains(keyword)) ||
+                            (p.VehicleModel != null && p.VehicleModel.ToLower().Contains(keyword))
+                        ))
+                        .OrderBy(p => p.ProductName)
+                        .ToListAsync();
+//.Where(p => p.IsActive &&
+//                    p.ProductName.ToLower().Contains(keyword) ||
+//                    p.ProductCode.ToLower().Contains(keyword) ||
+//                    (p.Barcode != null && p.Barcode.ToLower().Contains(keyword)) ||
+//                    (p.VehicleModel != null && p.VehicleModel.ToLower().Contains(keyword))
+//                    )
+            
         }
         public async Task<Product?> GetLastProductByBarcodeAsync()
         {
@@ -67,7 +77,7 @@ namespace StockManagementSystem.Repositories
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
                 .Include(x => x.Unit)
-                .Where(x => x.CurrentStock < x.MinimumStock)
+                .Where(x => x.IsActive && x.CurrentStock > 0 && x.CurrentStock < x.MinimumStock)
                 .ToListAsync();
         }
 
@@ -77,33 +87,60 @@ namespace StockManagementSystem.Repositories
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
                 .Include(x => x.Unit)
-                .Where(x => x.CurrentStock == 0)
+                .Where(x => x.IsActive && x.CurrentStock == 0)
                 .ToListAsync();
         }
 
 
         public async Task<int> GetTotalProductsCountAsync()
         {
-            return await _context.Products.CountAsync();
+            return await _context.Products.CountAsync(x => x.IsActive);
         }
+
+        //public async Task<int> GetLowStockCountAsync()
+        //{
+        //    return await _context.Products
+        //        .CountAsync(x => x.IsActive && x.CurrentStock < x.MinimumStock);
+        //}
 
         public async Task<int> GetLowStockCountAsync()
         {
             return await _context.Products
-                .CountAsync(x => x.CurrentStock < x.MinimumStock);
+                .CountAsync(x =>
+                    x.IsActive &&
+                    x.CurrentStock > 0 &&
+                    x.CurrentStock < x.MinimumStock);
         }
 
         public async Task<int> GetOutOfStockCountAsync()
         {
             return await _context.Products
-                .CountAsync(x => x.CurrentStock == 0);
+                .CountAsync(x => x.IsActive && x.CurrentStock == 0);
         }
 
         public async Task<int> GetInStockCountAsync()
         {
             return await _context.Products
-                .CountAsync(x => x.CurrentStock >= x.MinimumStock);
+                .CountAsync(x => x.IsActive && x.CurrentStock >= x.MinimumStock);
             //.CountAsync(x => x.CurrentStock > 0);
+        }
+
+        public async Task<int> GetCurrentStockQuantityAsync()
+        {
+            return await _context.Products
+                .Where(x => x.IsActive)
+                .SumAsync(x => (int?)x.CurrentStock) ?? 0;
+        }
+
+        public async Task<List<Product>> GetAllStockAsync()
+        {
+            return await _context.Products
+                .Where(x => x.IsActive)
+                .Include(x => x.Category)
+                .Include(x => x.Brand)
+                .Include(x => x.Unit)
+                .OrderBy(x => x.ProductName)
+                .ToListAsync();
         }
     }
 }

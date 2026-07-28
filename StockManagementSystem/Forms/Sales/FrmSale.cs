@@ -48,6 +48,8 @@ namespace StockManagementSystem.Forms.Sales
 
                 dgvSales.ClearSelection();
                 await ClearForm();
+
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
@@ -219,7 +221,7 @@ namespace StockManagementSystem.Forms.Sales
             var sales = await _saleService.GetAllSalesAsync();
 
             dgvSales.DataSource = null;
-            dgvSales.DataSource = sales.ToList();
+            //dgvSales.DataSource = sales.ToList();
             dgvSales.DataSource = sales;
             dgvSales.Refresh();
             dgvSales.ClearSelection();
@@ -311,6 +313,20 @@ namespace StockManagementSystem.Forms.Sales
         {
             try
             {
+
+                if (_saleId > 0)
+                {
+                    MessageBox.Show(
+                        "Sale already selected. Please click Clear before saving a new sale.",
+                        "Warning",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                if (!ValidateSale())
+                    return;
                 if (cmbProduct.SelectedIndex == -1)
                 {
                     MessageBox.Show("Please select a product.");
@@ -351,11 +367,21 @@ namespace StockManagementSystem.Forms.Sales
                 await LoadSales();
 
                 await ClearForm();
+
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(ex.ToString(), "Error",
+                //    MessageBoxButtons.OK,
+                //    MessageBoxIcon.Error);
+                MessageBox.Show(
+        ex.Message,
+        "Error",
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Error);
             }
+
         }
 
         private async void dgvSales_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -375,8 +401,9 @@ namespace StockManagementSystem.Forms.Sales
                 if (sale == null)
                     return;
 
-                _saleId = sale.Id;
 
+                _saleId = sale.Id;
+                SetButtonEditMode();
                 txtSaleNo.Text = sale.SaleNo;
 
                 dtpSaleDate.Value = sale.SaleDate;
@@ -400,6 +427,8 @@ namespace StockManagementSystem.Forms.Sales
         {
             try
             {
+                if (!ValidateSale())
+                    return;
                 if (_saleId == 0)
                 {
                     MessageBox.Show("Please select a sale first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -447,6 +476,8 @@ namespace StockManagementSystem.Forms.Sales
                 // UI reload and clear form
                 await LoadSales();
                 await ClearForm();
+
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
@@ -537,16 +568,24 @@ namespace StockManagementSystem.Forms.Sales
                 await LoadSales();
 
                 await ClearForm();
+
+                SetButtonAddMode();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(
+        ex.Message,
+        "Error",
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Error);
             }
         }
 
         private async void btnClear_Click(object sender, EventArgs e)
         {
             await ClearForm();
+
+            SetButtonAddMode();
 
             dgvSales.ClearSelection();
         }
@@ -581,6 +620,87 @@ namespace StockManagementSystem.Forms.Sales
         private void pnlMain_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private bool ValidateSale()
+        {
+            if (cmbProduct.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a Product.",
+                    "Validation",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                cmbProduct.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtSalePrice.Text))
+            {
+                MessageBox.Show("Please enter Sale Price.");
+
+                txtSalePrice.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtSalePrice.Text, out decimal price))
+            {
+                MessageBox.Show("Please enter a valid Sale Price.");
+
+                txtSalePrice.Focus();
+                return false;
+            }
+
+            if (price <= 0)
+            {
+                MessageBox.Show("Sale Price must be greater than zero.");
+
+                txtSalePrice.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtQuantity.Text))
+            {
+                MessageBox.Show("Please enter Quantity.");
+
+                txtQuantity.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtQuantity.Text, out int qty))
+            {
+                MessageBox.Show("Please enter a valid Quantity.");
+
+                txtQuantity.Focus();
+                return false;
+            }
+
+            if (qty <= 0)
+            {
+                MessageBox.Show("Quantity must be greater than zero.");
+
+                txtQuantity.Focus();
+                return false;
+            }
+
+            return true;
+        }
+        private void SetButtonAddMode()
+        {
+            btnSave.Enabled = true;
+
+            btnUpdate.Enabled = false;
+
+            btnDelete.Enabled = false;
+        }
+
+        private void SetButtonEditMode()
+        {
+            btnSave.Enabled = false;
+
+            btnUpdate.Enabled = true;
+
+            btnDelete.Enabled = true;
         }
     }
 }

@@ -30,7 +30,10 @@ namespace StockManagementSystem.Interfaces
             string reportType,
             DateTime fromDate,
             DateTime toDate);
+
     }
+
+
 
 
 }

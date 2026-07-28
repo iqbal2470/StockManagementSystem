@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StockManagementSystem.Data;
 using StockManagementSystem.Interfaces;
+using StockManagementSystem.Models.Master;
 using StockManagementSystem.Models.Reports;
 using StockManagementSystem.Models.ViewModels;
 using System;
@@ -69,6 +70,7 @@ namespace StockManagementSystem.Repositories
         public async Task<List<StockReportModel>> GetStockReportAsync()
         {
             return await _context.Products
+                .Where(x => x.IsActive)
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
                 .Include(x => x.Unit)
@@ -137,17 +139,26 @@ namespace StockManagementSystem.Repositories
 
                                     summary.TotalSales = sales.Sum(x => x.TotalAmount);
 
-                                    summary.TotalPurchase =
-                                        sales.Sum(x => x.Product.PurchasePrice * x.Quantity);
 
-                                    summary.Profit =
-                                        summary.TotalSales - summary.TotalPurchase;
+                    var saleIds = sales.Select(x => x.Id).ToList();
 
-                                    break;
+                    summary.TotalPurchase = await _context.SalePurchaseDetails
+                        .Where(x => saleIds.Contains(x.SaleId))
+                        .SumAsync(x => x.PurchasePrice * x.Quantity);
+
+                    summary.Profit =
+                        summary.TotalSales - summary.TotalPurchase;
+                    //summary.TotalPurchase =
+                    //    sales.Sum(x => x.Product.PurchasePrice * x.Quantity);
+
+                    //summary.Profit =
+                    //    summary.TotalSales - summary.TotalPurchase;
+
+                    break;
 
                                 case "Stock Report":
 
-                                    var products = await _context.Products.ToListAsync();
+                                    var products = await _context.Products.Where(x => x.IsActive).ToListAsync();
 
                                     summary.TotalProducts = products.Count;
 
@@ -190,13 +201,30 @@ namespace StockManagementSystem.Repositories
             }
         }
 
+        //    private async Task<List<ChartDataModel>> GetPurchaseChartDataAsync(
+        //DateTime fromDate,
+        //DateTime toDate)
+        //    {
+        //        return await _context.Purchases
+        //            .Where(x => x.PurchaseDate >= fromDate &&
+        //                        x.PurchaseDate <= toDate)
+        //            .GroupBy(x => x.PurchaseDate.Date)
+        //            .OrderBy(x => x.Key)
+        //            .Select(x => new ChartDataModel
+        //            {
+        //                Label = x.Key.ToString("dd MMM"),
+        //                Value = x.Sum(y => y.TotalAmount)
+        //            })
+        //            .ToListAsync();
+        //    }
+
         private async Task<List<ChartDataModel>> GetPurchaseChartDataAsync(
     DateTime fromDate,
     DateTime toDate)
         {
             return await _context.Purchases
-                .Where(x => x.PurchaseDate >= fromDate &&
-                            x.PurchaseDate <= toDate)
+                .Where(x => x.PurchaseDate.Date >= fromDate.Date &&
+                            x.PurchaseDate.Date <= toDate.Date)
                 .GroupBy(x => x.PurchaseDate.Date)
                 .OrderBy(x => x.Key)
                 .Select(x => new ChartDataModel
@@ -229,34 +257,75 @@ namespace StockManagementSystem.Repositories
         //            .ToListAsync();
         //    }
 
+        //    private async Task<List<ChartDataModel>> GetSalesChartDataAsync(
+        //DateTime fromDate,
+        //DateTime toDate)
+        //    {
+        //        return  _context.Sales
+        //            .Include(x => x.Product)
+        //            .Where(x => x.SaleDate.Date >= fromDate.Date &&
+        //                        x.SaleDate.Date <= toDate.Date)
+        //            .AsEnumerable() // <-- IMPORTANT
+        //            .GroupBy(x => x.SaleDate.Date)
+        //            .OrderBy(x => x.Key)
+        //            .Select(g => new ChartDataModel
+        //            {
+        //                Label = g.Key.ToString("dd MMM"),
+
+        //                Value = g.Sum(x => x.TotalAmount),
+
+        //                Profit = g.Sum(x =>
+        //                {
+        //                    decimal p = x.TotalAmount - (x.Product.PurchasePrice * x.Quantity);
+        //                    return p > 0 ? p : 0;
+        //                }),
+
+        //                Loss = g.Sum(x =>
+        //                {
+        //                    decimal l = x.TotalAmount - (x.Product.PurchasePrice * x.Quantity);
+        //                    return l < 0 ? Math.Abs(l) : 0;
+        //                })
+        //            })
+        //            .ToList();
+        //    }
+
         private async Task<List<ChartDataModel>> GetSalesChartDataAsync(
     DateTime fromDate,
     DateTime toDate)
         {
-            return  _context.Sales
+            var sales = await _context.Sales
                 .Include(x => x.Product)
                 .Where(x => x.SaleDate.Date >= fromDate.Date &&
                             x.SaleDate.Date <= toDate.Date)
-                .AsEnumerable() // <-- IMPORTANT
+                .ToListAsync();
+
+            var details = await _context.SalePurchaseDetails
+                .Where(x => sales.Select(s => s.Id).Contains(x.SaleId))
+                .ToListAsync();
+
+            return sales
                 .GroupBy(x => x.SaleDate.Date)
                 .OrderBy(x => x.Key)
-                .Select(g => new ChartDataModel
+                .Select(g =>
                 {
-                    Label = g.Key.ToString("dd MMM"),
+                    decimal salesAmount = g.Sum(x => x.TotalAmount);
 
-                    Value = g.Sum(x => x.TotalAmount),
+                    decimal purchaseAmount = details
+                        .Where(d => g.Select(s => s.Id).Contains(d.SaleId))
+                        .Sum(d => d.PurchasePrice * d.Quantity);
 
-                    Profit = g.Sum(x =>
+                    decimal profit = salesAmount - purchaseAmount;
+
+                    return new ChartDataModel
                     {
-                        decimal p = x.TotalAmount - (x.Product.PurchasePrice * x.Quantity);
-                        return p > 0 ? p : 0;
-                    }),
+                        Label = g.Key.ToString("dd MMM"),
 
-                    Loss = g.Sum(x =>
-                    {
-                        decimal l = x.TotalAmount - (x.Product.PurchasePrice * x.Quantity);
-                        return l < 0 ? Math.Abs(l) : 0;
-                    })
+                        Value = salesAmount,
+
+                        Profit = profit > 0 ? profit : 0,
+
+                        Loss = profit < 0 ? Math.Abs(profit) : 0
+                    };
                 })
                 .ToList();
         }
@@ -283,7 +352,7 @@ namespace StockManagementSystem.Repositories
         DateTime toDate)
         {
             return await _context.Sales
-                .Include(x => x.Product)
+                .Include(x => x.Product).Where(x => x.Product.IsActive)
                 .Where(x => x.SaleDate.Date >= fromDate.Date &&
                             x.SaleDate.Date <= toDate.Date)
                 .GroupBy(x => new
@@ -379,6 +448,7 @@ namespace StockManagementSystem.Repositories
         private async Task<List<PieChartDataModel>> GetStockPieChartDataAsync()
         {
             return await _context.Products
+                .Where(x => x.IsActive)
                 .GroupBy(x =>
                     x.CurrentStock <= 0
                         ? "Out of Stock"
@@ -393,5 +463,13 @@ namespace StockManagementSystem.Repositories
                 .ToListAsync();
         }
 
+        public async Task<PurchaseEntiity?> GetLatestPurchaseByProductAsync(int productId)
+        {
+            return await _context.Purchases
+                .Where(x => x.ProductId == productId)
+                .OrderByDescending(x => x.PurchaseDate)
+                .ThenByDescending(x => x.Id)
+                .FirstOrDefaultAsync();
+        }
     }
 }

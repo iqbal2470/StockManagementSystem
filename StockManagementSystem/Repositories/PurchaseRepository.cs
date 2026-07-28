@@ -32,12 +32,20 @@ namespace StockManagementSystem.Repositories
             keyword = keyword.Trim().ToLower();
 
             return await _context.Purchases
-                .Include(x => x.Product)
-                .Where(x =>
-                    x.PurchaseNo.ToLower().Contains(keyword) ||
-                    x.Product.ProductName.ToLower().Contains(keyword))
-                .OrderByDescending(x => x.Id)
-                .ToListAsync();
+        .Include(x => x.Product)
+        .Where(x =>
+            x.PurchaseNo.ToLower().Contains(keyword) ||
+            x.Product.ProductName.ToLower().Contains(keyword))
+        .OrderByDescending(x => x.Id)
+        .ToListAsync();
+
+            //return await _context.Purchases
+            //    .Include(x => x.Product)
+            //    .Where(x =>
+            //        x.PurchaseNo.ToLower().Contains(keyword) ||
+            //        x.Product.ProductName.ToLower().Contains(keyword))
+            //    .OrderByDescending(x => x.Id)
+            //    .ToListAsync();
         }
 
         public async Task<PurchaseEntiity?> GetByIdAsNoTrackingAsync(int id)
@@ -45,6 +53,35 @@ namespace StockManagementSystem.Repositories
             return await _context.Purchases
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<PurchaseEntiity?> GetOldestAvailablePurchaseAsync(int productId)
+        {
+            return await _context.Purchases
+                .Where(x => x.ProductId == productId &&
+                            x.RemainingQuantity > 0)
+                .OrderBy(x => x.PurchaseDate)
+                .ThenBy(x => x.Id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<PurchaseEntiity>> GetAvailablePurchasesAsync(int productId)
+        {
+            return await _context.Purchases
+                .Where(x => x.ProductId == productId &&
+                            x.RemainingQuantity > 0)
+                .OrderBy(x => x.PurchaseDate)
+                .ThenBy(x => x.Id)
+                .ToListAsync();
+        }
+
+        public async Task<PurchaseEntiity?> GetLatestPurchaseByProductAsync(int productId)
+        {
+            return await _context.Purchases
+                .Where(x => x.ProductId == productId)
+                .OrderByDescending(x => x.PurchaseDate)
+                .ThenByDescending(x => x.Id)
+                .FirstOrDefaultAsync();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using StockManagementSystem.Interfaces;
+﻿using StockManagementSystem.Data;
+using StockManagementSystem.Interfaces;
 using StockManagementSystem.Models.Master;
 using StockManagementSystem.Services.StockTransactionServices;
 using System;
@@ -13,10 +14,12 @@ namespace StockManagementSystem.Services.ProductServices
     {
         private readonly IProductRepository _productRepository;
         private readonly IStockTransactionService _stockTransactionService;
-        public ProductService(IProductRepository productRepository, IStockTransactionService stockTransactionService)
+        private readonly ApplicationDbContext _context;
+        public ProductService(IProductRepository productRepository, IStockTransactionService stockTransactionService, ApplicationDbContext context)
         {
             _productRepository = productRepository;
             _stockTransactionService = stockTransactionService;
+            _context = context;
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
@@ -40,19 +43,31 @@ namespace StockManagementSystem.Services.ProductServices
             await _productRepository.AddAsync(product);
             await _productRepository.SaveAsync();
 
-            if (product.CurrentStock > 0)
-            {
-                await _stockTransactionService.AddTransactionAsync(
-                    productId: product.Id,
-                    transactionType: TransactionType.OpeningStock,
-                    quantity: product.CurrentStock,
-                    previousStock: 0,
-                    currentStock: product.CurrentStock,
-                    referenceNo: product.ProductCode,
-                    remarks: "Opening Stock",
-                    referenceType: "Product"
-                );
-            }
+            //if (product.CurrentStock > 0)
+            //{
+            //    await _stockTransactionService.AddTransactionAsync(
+            //        productId: product.Id,
+            //        transactionType: TransactionType.OpeningStock,
+            //        quantity: product.CurrentStock,
+            //        previousStock: 0,
+            //        currentStock: product.CurrentStock,
+            //        referenceNo: product.ProductCode,
+            //        remarks: "Opening Stock",
+            //        referenceType: "Product"
+            //    );
+            //}
+
+            await _stockTransactionService.AddTransactionAsync(
+                productId: product.Id,
+                transactionType: TransactionType.ProductCreate,   // Enum add karna hoga
+                quantity: 0,
+                previousStock: 0,
+                currentStock: product.CurrentStock,
+                referenceNo: product.ProductCode,
+                remarks: "Product Created",
+                referenceType: "Product");
+
+            await _productRepository.SaveAsync();
         }
 
         //public async Task UpdateProductAsync(Product product)
@@ -61,57 +76,109 @@ namespace StockManagementSystem.Services.ProductServices
         //    await _productRepository.SaveAsync();
         //}
 
+        //public async Task UpdateProductAsync(Product product)
+        //{
+        //    var oldProduct = await _productRepository.GetByIdAsync(product.Id);
+
+        //    if (oldProduct == null)
+        //        throw new Exception("Product not found.");
+
+        //    // Opening Stock Changed
+        //    //if (oldProduct.CurrentStock != product.CurrentStock)
+        //    //{
+        //    //    await _stockTransactionService.AddTransactionAsync(
+        //    //        productId: product.Id,
+        //    //        transactionType: TransactionType.ProductUpdate,
+        //    //        quantity: Math.Abs(product.CurrentStock - oldProduct.CurrentStock),
+        //    //        //quantity: product.CurrentStock,
+        //    //        previousStock: oldProduct.CurrentStock,
+        //    //        currentStock: product.CurrentStock,
+        //    //        referenceNo: product.ProductCode,
+        //    //        remarks: "Opening Stock Updated",
+        //    //        referenceType: "Product"
+        //    //    );
+        //    //}
+        //    oldProduct.ProductName = product.ProductName;
+        //    oldProduct.ProductCode = product.ProductCode;
+        //    oldProduct.Barcode = product.Barcode;
+        //    oldProduct.BrandId = product.BrandId;
+        //    oldProduct.CategoryId = product.CategoryId;
+        //    oldProduct.UnitId = product.UnitId;
+        //    oldProduct.VehicleModel = product.VehicleModel;
+        //    oldProduct.PurchasePrice = product.PurchasePrice;
+        //    oldProduct.SalePrice = product.SalePrice;
+        //    //oldProduct.CurrentStock = product.CurrentStock;
+        //    oldProduct.MinimumStock = product.MinimumStock;
+        //    oldProduct.Description = product.Description;
+        //    oldProduct.ImagePath = product.ImagePath;
+        //    oldProduct.IsActive = product.IsActive;
+
+        //    //oldProduct.ProductName = product.ProductName;
+        //    //oldProduct.ProductCode = product.ProductCode;
+        //    //oldProduct.Barcode = product.Barcode;
+        //    //oldProduct.BrandId = product.BrandId;
+        //    //oldProduct.CategoryId = product.CategoryId;
+        //    //oldProduct.UnitId = product.UnitId;
+        //    //oldProduct.PurchasePrice = product.PurchasePrice;
+        //    //oldProduct.SalePrice = product.SalePrice;
+        //    //oldProduct.CurrentStock = product.CurrentStock;
+        //    //oldProduct.Description = product.Description;
+
+        //    await _productRepository.UpdateAsync(oldProduct);
+        //    await _productRepository.SaveAsync();
+        //}
+
         public async Task UpdateProductAsync(Product product)
         {
-            var oldProduct = await _productRepository.GetByIdAsync(product.Id);
+            await using var transaction = await _context.Database.BeginTransactionAsync();
 
-            if (oldProduct == null)
-                throw new Exception("Product not found.");
-
-            // Opening Stock Changed
-            if (oldProduct.CurrentStock != product.CurrentStock)
+            try
             {
+                var oldProduct = await _productRepository.GetByIdAsync(product.Id);
+
+                if (oldProduct == null)
+                    throw new Exception("Product not found.");
+
+                oldProduct.ProductName = product.ProductName;
+                oldProduct.ProductCode = product.ProductCode;
+                oldProduct.Barcode = product.Barcode;
+                oldProduct.BrandId = product.BrandId;
+                oldProduct.CategoryId = product.CategoryId;
+                oldProduct.UnitId = product.UnitId;
+                oldProduct.VehicleModel = product.VehicleModel;
+                oldProduct.PurchasePrice = product.PurchasePrice;
+                oldProduct.SalePrice = product.SalePrice;
+                oldProduct.MinimumStock = product.MinimumStock;
+                oldProduct.Description = product.Description;
+                oldProduct.ImagePath = product.ImagePath;
+                oldProduct.IsActive = product.IsActive;
+
+                await _productRepository.UpdateAsync(oldProduct);
+
+                // Agar future me ProductUpdate transaction log karna ho
+                /*
                 await _stockTransactionService.AddTransactionAsync(
-                    productId: product.Id,
+                    productId: oldProduct.Id,
                     transactionType: TransactionType.ProductUpdate,
-                    quantity: Math.Abs(product.CurrentStock - oldProduct.CurrentStock),
-                    //quantity: product.CurrentStock,
+                    quantity: 0,
                     previousStock: oldProduct.CurrentStock,
-                    currentStock: product.CurrentStock,
-                    referenceNo: product.ProductCode,
-                    remarks: "Opening Stock Updated",
-                    referenceType: "Product"
-                );
+                    currentStock: oldProduct.CurrentStock,
+                    referenceNo: oldProduct.ProductCode,
+                    remarks: "Product Updated",
+                    referenceType: "Product");
+                */
+
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
             }
-            oldProduct.ProductName = product.ProductName;
-            oldProduct.ProductCode = product.ProductCode;
-            oldProduct.Barcode = product.Barcode;
-            oldProduct.BrandId = product.BrandId;
-            oldProduct.CategoryId = product.CategoryId;
-            oldProduct.UnitId = product.UnitId;
-            oldProduct.VehicleModel = product.VehicleModel;
-            oldProduct.PurchasePrice = product.PurchasePrice;
-            oldProduct.SalePrice = product.SalePrice;
-            oldProduct.CurrentStock = product.CurrentStock;
-            oldProduct.MinimumStock = product.MinimumStock;
-            oldProduct.Description = product.Description;
-            oldProduct.ImagePath = product.ImagePath;
-            oldProduct.IsActive = product.IsActive;
-
-            //oldProduct.ProductName = product.ProductName;
-            //oldProduct.ProductCode = product.ProductCode;
-            //oldProduct.Barcode = product.Barcode;
-            //oldProduct.BrandId = product.BrandId;
-            //oldProduct.CategoryId = product.CategoryId;
-            //oldProduct.UnitId = product.UnitId;
-            //oldProduct.PurchasePrice = product.PurchasePrice;
-            //oldProduct.SalePrice = product.SalePrice;
-            //oldProduct.CurrentStock = product.CurrentStock;
-            //oldProduct.Description = product.Description;
-
-            await _productRepository.UpdateAsync(oldProduct);
-            await _productRepository.SaveAsync();
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
+
 
         public async Task DeleteProductAsync(int id)
         {
@@ -128,7 +195,7 @@ namespace StockManagementSystem.Services.ProductServices
                 previousStock: product.CurrentStock,
                 currentStock: product.CurrentStock,
                 referenceNo: product.ProductCode,
-                remarks: "Product Soft Deleted",
+                remarks: "Product Deleted",
                 referenceType: "Product"
             );
 
@@ -221,6 +288,12 @@ namespace StockManagementSystem.Services.ProductServices
         public async Task<int> GetOutOfStockCountAsync()
         {
             return await _productRepository.GetOutOfStockCountAsync();
+        }
+
+
+        public async Task<int> GetCurrentStockQuantityAsync()
+        {
+            return await _productRepository.GetCurrentStockQuantityAsync();
         }
     }
 }

@@ -29,5 +29,7 @@ namespace StockManagementSystem.Services.ProductServices
         Task<int> GetInStockCountAsync();
         Task<int> GetLowStockCountAsync();
         Task<int> GetOutOfStockCountAsync();
+
+        Task<int> GetCurrentStockQuantityAsync();
     }
 }

@@ -24,5 +24,10 @@ namespace StockManagementSystem.Services.StockServices
         Task<int> GetOutOfStockCountAsync();
 
         Task<int> GetInStockCountAsync();
+
+        Task<int> GetCurrentStockQuantityAsync();
+
+
+
     }
 }

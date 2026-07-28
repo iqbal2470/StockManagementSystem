@@ -28,35 +28,40 @@ namespace StockManagementSystem.Models.Master
         // Navigation Property
         public virtual Product Product { get; set; }
     }
-    public enum TransactionType
-    {
-        OpeningStock = 1,
-
-        ProductUpdate = 2,
-        ProductDelete = 3,
-
-        Purchase = 4,
-        PurchaseUpdate = 5,
-        PurchaseDelete = 6,
-
-        Sale = 7,
-        SaleUpdate = 8,
-        SaleDelete = 9,
-
-        Adjustment = 10
-    }
     //public enum TransactionType
     //{
     //    OpeningStock = 1,
 
-    //    Purchase = 2,
-    //    PurchaseUpdate = 3,
-    //    PurchaseDelete = 4,
+    //    ProductUpdate = 2,
+    //    ProductDelete = 3,
 
-    //    Sale = 5,
-    //    SaleUpdate = 6,
-    //    SaleDelete = 7,
+    //    Purchase = 4,
+    //    PurchaseUpdate = 5,
+    //    PurchaseDelete = 6,
 
-    //    Adjustment = 8
+    //    Sale = 7,
+    //    SaleUpdate = 8,
+    //    SaleDelete = 9,
+
+    //    Adjustment = 10
     //}
+    public enum TransactionType
+    {
+        ProductCreate = 1,
+
+        OpeningStock = 2,
+
+        ProductUpdate = 3,
+        ProductDelete = 4,
+
+        Purchase = 5,
+        PurchaseUpdate = 6,
+        PurchaseDelete = 7,
+
+        Sale = 8,
+        SaleUpdate = 9,
+        SaleDelete = 10,
+
+        Adjustment = 11
+    }
 }

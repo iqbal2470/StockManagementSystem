@@ -14,5 +14,12 @@ namespace StockManagementSystem.Interfaces
         Task<List<PurchaseEntiity>> SearchPurchasesAsync(string keyword);
 
         Task<PurchaseEntiity?> GetByIdAsNoTrackingAsync(int id);
+
+        Task<PurchaseEntiity?> GetOldestAvailablePurchaseAsync(int productId);
+
+        Task<List<PurchaseEntiity>> GetAvailablePurchasesAsync(int productId);
+
+        Task<PurchaseEntiity?> GetLatestPurchaseByProductAsync(int productId);
+
     }
 }

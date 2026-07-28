@@ -1,5 +1,6 @@
 ﻿using StockManagementSystem.Models.Common;
 using StockManagementSystem.Models.Master;
+using StockManagementSystem.Models.ViewModels;
 using StockManagementSystem.Services.BrandServices;
 using StockManagementSystem.Services.CategoryServices;
 using StockManagementSystem.Services.ProductServices;
@@ -27,6 +28,7 @@ namespace StockManagementSystem.Forms.Products
         private bool _isLoadingProduct = false;
         private bool _isClearingForm = false;
 
+        private bool _isLoading = false;
 
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
@@ -35,6 +37,8 @@ namespace StockManagementSystem.Forms.Products
         public FrmProduct(IProductService productService, ICategoryService categoryService, IBrandService brandService, IUnitService unitService)
         {
             InitializeComponent();
+
+
             _productService = productService;
             _categoryService = categoryService;
             _brandService = brandService;
@@ -42,7 +46,16 @@ namespace StockManagementSystem.Forms.Products
 
             dgvProducts.RowPostPaint += dgvProducts_RowPostPaint;
             dgvProducts.CellFormatting += dgvProducts_CellFormatting;
+
+            dgvProducts.DataError += dgvProducts_DataError;
         }
+        private void dgvProducts_DataError(
+    object sender,
+    DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
+
         private void dgvProducts_RowPostPaint(
     object sender,
     DataGridViewRowPostPaintEventArgs e)
@@ -68,24 +81,53 @@ namespace StockManagementSystem.Forms.Products
             //}
             if (columnName == "colStatus")
             {
-                bool status = Convert.ToBoolean(e.Value);
+                if (dgvProducts.Rows[e.RowIndex].DataBoundItem is not ProductGridModel row)
+                    return;
+
+                bool status = row.CurrentStock > 0;
 
                 e.Value = status ? "Active" : "Inactive";
 
-                if (status)
-                {
-                    e.CellStyle.ForeColor = Color.Green;
-                }
-                else
-                {
-                    e.CellStyle.ForeColor = Color.Red;
-                }
-
-                e.CellStyle.Font =
-                    new Font("Segoe UI", 9, FontStyle.Bold);
+                e.CellStyle.ForeColor = status ? Color.Green : Color.Red;
+                e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
 
                 e.FormattingApplied = true;
             }
+            //if (columnName == "colStatus")
+            //{
+            //    if (e.Value == null)
+            //        return;
+
+            //    bool status = (bool)e.Value;
+
+            //    e.Value = status ? "Active" : "Inactive";
+
+            //    e.CellStyle.ForeColor = status ? Color.Green : Color.Red;
+            //    e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+
+            //    e.FormattingApplied = true;
+            //}
+
+            //if (columnName == "colStatus")
+            //{
+            //    bool status = Convert.ToBoolean(e.Value);
+
+            //    e.Value = status ? "Active" : "Inactive";
+
+            //    if (status)
+            //    {
+            //        e.CellStyle.ForeColor = Color.Green;
+            //    }
+            //    else
+            //    {
+            //        e.CellStyle.ForeColor = Color.Red;
+            //    }
+
+            //    e.CellStyle.Font =
+            //        new Font("Segoe UI", 9, FontStyle.Bold);
+
+            //    e.FormattingApplied = true;
+            //}
 
             // Purchase Price
             if (columnName == "colPurchasePrice")
@@ -133,42 +175,95 @@ namespace StockManagementSystem.Forms.Products
 
             if (columnName == "colCurrentStock")
             {
-                if (e.Value != null)
-                {
-                    int stock = Convert.ToInt32(e.Value);
+                if (e.Value == null)
+                    return;
 
-                    if (stock == 0)
-                    {
-                        e.CellStyle.ForeColor = Color.Red;
-                        e.CellStyle.Font =
-                            new Font("Segoe UI", 10, FontStyle.Bold);
-                    }
-                    else if (stock <= 10)
-                    {
-                        e.CellStyle.ForeColor = Color.DarkOrange;
-                        e.CellStyle.Font =
-                            new Font("Segoe UI", 10, FontStyle.Bold);
-                    }
-                    else
-                    {
-                        e.CellStyle.ForeColor = Color.Green;
-                        e.CellStyle.Font =
-                            new Font("Segoe UI", 10, FontStyle.Bold);
-                    }
+                int stock = (int)e.Value;
+
+                if (stock == 0)
+                {
+                    e.CellStyle.ForeColor = Color.Red;
+                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                }
+                else if (stock <= 10)
+                {
+                    e.CellStyle.ForeColor = Color.DarkOrange;
+                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                }
+                else
+                {
+                    e.CellStyle.ForeColor = Color.Green;
+                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
                 }
             }
+
+            //if (columnName == "colCurrentStock")
+            //{
+            //    if (e.Value != null)
+            //    {
+            //        int stock = Convert.ToInt32(e.Value);
+
+            //        if (stock == 0)
+            //        {
+            //            e.CellStyle.ForeColor = Color.Red;
+            //            e.CellStyle.Font =
+            //                new Font("Segoe UI", 10, FontStyle.Bold);
+            //        }
+            //        else if (stock <= 10)
+            //        {
+            //            e.CellStyle.ForeColor = Color.DarkOrange;
+            //            e.CellStyle.Font =
+            //                new Font("Segoe UI", 10, FontStyle.Bold);
+            //        }
+            //        else
+            //        {
+            //            e.CellStyle.ForeColor = Color.Green;
+            //            e.CellStyle.Font =
+            //                new Font("Segoe UI", 10, FontStyle.Bold);
+            //        }
+            //    }
+            //}
+
+            // Product Image
+            //if (columnName == "colImage")
+            //{
+            //    dynamic row = dgvProducts.Rows[e.RowIndex].DataBoundItem;
+
+            //    if (row != null)
+            //    {
+            //        e.Value = GetProductImage(row.ImagePath);
+            //        e.FormattingApplied = true;
+            //    }
+            //}
 
             // Product Image
             if (columnName == "colImage")
             {
-                dynamic row = dgvProducts.Rows[e.RowIndex].DataBoundItem;
+                if (e.RowIndex < 0)
+                    return;
 
-                if (row != null)
-                {
-                    e.Value = GetProductImage(row.ImagePath);
-                    e.FormattingApplied = true;
-                }
+                if (dgvProducts.Rows[e.RowIndex].DataBoundItem is not ProductGridModel row)
+                    return;
+
+                e.Value = GetProductImage(row.ImagePath);
+
+                e.FormattingApplied = true;
             }
+
+            //if (columnName == "colImage")
+            //{
+            //    dynamic row = dgvProducts.Rows[e.RowIndex].DataBoundItem;
+
+            //    if (row == null)
+            //        return;
+
+            //    Image? image = GetProductImage(row.ImagePath);
+
+            //    e.Value = image;
+
+            //    e.FormattingApplied = true;
+            //}
+
             //if (columnName == "colImage")
             //{
             //    Product? product = dgvProducts.Rows[e.RowIndex].DataBoundItem as Product;
@@ -197,49 +292,65 @@ namespace StockManagementSystem.Forms.Products
 
         private async void FrmProduct_Load(object sender, EventArgs e)
         {
-            try
-            {
+          
 
-                pnlMain.AutoScroll = true;
-                pnlMain.AutoScrollMinSize = new Size(0, 1200);
-                await LoadCategories();
-                await LoadBrands();
-                await LoadUnits();
-                //txtMinimumStock.Text = "10";
-
-                // Agar Product Code auto generate karna hai to
-
-
-                await LoadProducts();
-
-                await LoadDashboardCards();
-
-                dgvProducts.ClearSelection();
-
-                ClearForm();
-                await GenerateProductCode();
-
-                if (chkAutoBarcode.Checked)
+                try
                 {
-                    await GenerateNewBarcode();
-                }
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
+                    pnlMain.AutoScroll = true;
+                    pnlMain.AutoScrollMinSize = new Size(0, 1200);
+                    await LoadCategories();
+                    await LoadBrands();
+                    await LoadUnits();
+                    //txtMinimumStock.Text = "10";
+
+                    // Agar Product Code auto generate karna hai to
+
+
+                    await LoadProducts();
+
+                    await LoadDashboardCards();
+
+                    dgvProducts.ClearSelection();
+
+                    ClearForm();
+
+                    SetAddMode();
+
+                    SetButtonAddMode();
+
+                    await GenerateProductCode();
+
+                    if (chkAutoBarcode.Checked)
+                    {
+                        await GenerateNewBarcode();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            
+           
         }
 
         private async Task LoadDashboardCards()
         {
+
+
+
+
             lblTotalProducts.Text = (await _productService.GetTotalProductsCountAsync()).ToString();
 
-            lblCurrentStock.Text = (await _productService.GetInStockCountAsync()).ToString();
+            //lblCurrentStock.Text = (await _productService.GetInStockCountAsync()).ToString();
+
+            lblCurrentStock.Text =
+    (await _productService.GetCurrentStockQuantityAsync()).ToString();
 
             lblLowStock.Text = (await _productService.GetLowStockCountAsync()).ToString();
 
@@ -306,63 +417,71 @@ namespace StockManagementSystem.Forms.Products
 
             GenerateBarcodeImage(barcode);
         }
-        //private async Task LoadProducts()
-        //{
-        //    var products = await _productService.GetAllProductsAsync();
-
-        //    dgvProducts.AutoGenerateColumns = false;
-        //    dgvProducts.DataSource = products;
-        //}
-        //private async Task LoadProducts()
-        //{
-        //    try
-        //    {
-        //        var products = await _productService.GetAllProductsAsync();
-        //        //MessageBox.Show($"Products Count = {products.Count}");
-        //        //dgvProducts.AutoGenerateColumns = false;
-        //        dgvProducts.DataSource = null;
-        //        dgvProducts.DataSource = products;
-
-        //        dgvProducts.ClearSelection();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(
-        //            ex.Message,
-        //            "Error",
-        //            MessageBoxButtons.OK,
-        //            MessageBoxIcon.Error);
-        //    }
-        //}
         private async Task LoadProducts()
         {
+            if (IsDisposed || !IsHandleCreated)
+                return;
+
+
+
             dgvProducts.AutoGenerateColumns = false;
 
-            var products = await _productService.GetAllProductsAsync();
+                var products = await _productService.GetAllProductsAsync();
 
-            dgvProducts.DataSource = products.Select(x => new
-            {
-                x.Id,
-                x.ProductCode,
-                x.ProductName,
-                CategoryName = x.Category?.CategoryName,
-                BrandName = x.Brand?.BrandName,
-                UnitName = x.Unit?.UnitName,
-                x.PurchasePrice,
-                x.SalePrice,
-                x.CurrentStock,
-                x.MinimumStock,
-                x.IsActive,
-                x.CreatedDate,
-                x.UpdatedDate,
-                x.ImagePath,
-                Product = x
-            }).ToList();
+                dgvProducts.DataSource = products.Select(x => new ProductGridModel
+                {
+                    Id = x.Id,
+                    ProductCode = x.ProductCode,
+                    ProductName = x.ProductName,
+                    CategoryName = x.Category?.CategoryName,
+                    BrandName = x.Brand?.BrandName,
+                    UnitName = x.Unit?.UnitName,
+                    PurchasePrice = x.PurchasePrice,
+                    SalePrice = x.SalePrice,
+                    CurrentStock = x.CurrentStock,
+                    MinimumStock = x.MinimumStock,
+                    IsActive = x.IsActive,
+                    CreatedDate = x.CreatedDate,
+                    UpdatedDate = x.UpdatedDate,
+                    ImagePath = x.ImagePath
+                }).ToList();
 
-            FormatGrid();
+                FormatGrid();
 
-            dgvProducts.ClearSelection();
+                dgvProducts.ClearSelection();
+          
+
+            
         }
+        //private async Task LoadProducts()
+        //{
+        //    dgvProducts.AutoGenerateColumns = false;
+
+        //    var products = await _productService.GetAllProductsAsync();
+
+        //    dgvProducts.DataSource = products.Select(x => new
+        //    {
+        //        x.Id,
+        //        x.ProductCode,
+        //        x.ProductName,
+        //        CategoryName = x.Category?.CategoryName,
+        //        BrandName = x.Brand?.BrandName,
+        //        UnitName = x.Unit?.UnitName,
+        //        x.PurchasePrice,
+        //        x.SalePrice,
+        //        x.CurrentStock,
+        //        x.MinimumStock,
+        //        x.IsActive,
+        //        x.CreatedDate,
+        //        x.UpdatedDate,
+        //        x.ImagePath,
+        //        Product = x
+        //    }).ToList();
+
+        //    FormatGrid();
+
+        //    dgvProducts.ClearSelection();
+        //}
         //private async Task LoadProducts()
         //{
         //    dgvProducts.AutoGenerateColumns = false;
@@ -403,6 +522,21 @@ namespace StockManagementSystem.Forms.Products
 
         private void FormatGrid()
         {
+            if (IsDisposed || !IsHandleCreated)
+                return;
+            if (IsDisposed || dgvProducts.IsDisposed)
+                return;
+
+            if (!dgvProducts.Columns.Contains("Id"))
+                return;
+            //string cols = "";
+
+            //foreach (DataGridViewColumn col in dgvProducts.Columns)
+            //{
+            //    cols += col.Name + Environment.NewLine;
+            //}
+
+            //MessageBox.Show(cols);
             dgvProducts.AutoGenerateColumns = false;
 
             dgvProducts.SelectionMode =
@@ -439,7 +573,9 @@ namespace StockManagementSystem.Forms.Products
 
             dgvProducts.DefaultCellStyle.SelectionBackColor =
                 Color.FromArgb(235, 243, 255);
-
+            dgvProducts.Columns["colImage"].DefaultCellStyle.NullValue = null;
+            ((DataGridViewImageColumn)dgvProducts.Columns["colImage"])
+    .ImageLayout = DataGridViewImageCellLayout.Zoom;
             dgvProducts.DefaultCellStyle.SelectionForeColor =
                 Color.Black;
             dgvProducts.Columns["colImage"].Width = 70;
@@ -523,63 +659,83 @@ namespace StockManagementSystem.Forms.Products
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
             try
             {
-                if (!ValidateProduct())
-                    return;
-
-                string imageName = SaveImage();
-
-                Product product = new Product
+                try
                 {
-                    // Agar ProductCode auto generate baad me karna hai
-                    // to filhal is line ko hata sakte ho ya baad me set karna.
-                    ProductCode = txtProductCode.Text,
+                    if (!ValidateProduct())
+                        return;
 
-                    ProductName = txtProductName.Text.Trim(),
+                    string imageName = SaveImage();
 
-                    CategoryId = Convert.ToInt32(cmbCategory.SelectedValue),
-                    BrandId = Convert.ToInt32(cmbBrand.SelectedValue),
-                    UnitId = Convert.ToInt32(cmbUnit.SelectedValue),
+                    Product product = new Product
+                    {
+                        // Agar ProductCode auto generate baad me karna hai
+                        // to filhal is line ko hata sakte ho ya baad me set karna.
+                        ProductCode = txtProductCode.Text,
 
-                    VehicleModel = txtVehicleModel.Text.Trim(),
+                        ProductName = txtProductName.Text.Trim(),
 
-                    PurchasePrice = Convert.ToDecimal(txtPurchasePrice.Text),
-                    SalePrice = Convert.ToDecimal(txtSalePrice.Text),
+                        CategoryId = Convert.ToInt32(cmbCategory.SelectedValue),
+                        BrandId = Convert.ToInt32(cmbBrand.SelectedValue),
+                        UnitId = Convert.ToInt32(cmbUnit.SelectedValue),
 
-                    CurrentStock = Convert.ToInt32(txtCurrentStock.Text),
-                    MinimumStock = Convert.ToInt32(txtMinimumStock.Text),
+                        VehicleModel = txtVehicleModel.Text.Trim(),
 
-                    Barcode = txtBarcode.Text.Trim(),
-                    Description = rtxtDescription.Text.Trim(),
+                        PurchasePrice = Convert.ToDecimal(txtPurchasePrice.Text),
+                        SalePrice = Convert.ToDecimal(txtSalePrice.Text),
 
-                    ImagePath = imageName,
+                        //CurrentStock = Convert.ToInt32(txtCurrentStock.Text),
 
-                    IsActive = true
-                };
+                        CurrentStock = 0,
+                        MinimumStock = Convert.ToInt32(txtMinimumStock.Text),
 
-                await _productService.AddProductAsync(product);
+                        Barcode = txtBarcode.Text.Trim(),
+                        Description = rtxtDescription.Text.Trim(),
 
-                MessageBox.Show("Product Saved Successfully.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                        ImagePath = imageName,
 
-                await LoadProducts();
+                        IsActive = true
+                    };
 
-                await LoadDashboardCards();
+                    await _productService.AddProductAsync(product);
 
-                ClearForm();
+                    MessageBox.Show("Product Saved Successfully.",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
 
-                await GenerateProductCode();
+                    await LoadProducts();
+
+                    await LoadDashboardCards();
+
+                    ClearForm();
+
+                    SetAddMode();
+
+                    SetButtonAddMode();
+
+                    await GenerateProductCode();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                _isLoading = false;
             }
+
+            
         }
         private  void ClearForm()
         {
@@ -588,7 +744,8 @@ namespace StockManagementSystem.Forms.Products
 
             txtPurchasePrice.Clear();
             txtSalePrice.Clear();
-            txtCurrentStock.Clear();
+            //txtCurrentStock.Clear();
+            txtCurrentStock.Text = "0";
 
             txtMinimumStock.Text = "10";
 
@@ -619,235 +776,289 @@ namespace StockManagementSystem.Forms.Products
         }
         private async void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
             try
             {
-                _isLoadingProduct = true;
-
-                if (e.RowIndex < 0)
-                    return;
-
-                if (dgvProducts.Rows[e.RowIndex].Cells["Id"].Value == null)
-                    return;
-
-                int id = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["Id"].Value);
-
-                var product = await _productService.GetProductByIdAsync(id);
-
-                if (product == null)
+                try
                 {
-                    MessageBox.Show("Product not found.");
-                    return;
-                }
+                    _isLoadingProduct = true;
 
-                _productId = product.Id;
-                txtProductCode.Text = product.ProductCode;
-                txtProductName.Text = product.ProductName;
+                    if (e.RowIndex < 0)
+                        return;
 
-                cmbCategory.SelectedValue = product.CategoryId;
-                cmbBrand.SelectedValue = product.BrandId;
-                cmbUnit.SelectedValue = product.UnitId;
+                    if (dgvProducts.Rows[e.RowIndex].Cells["Id"].Value == null)
+                        return;
 
-                txtVehicleModel.Text = product.VehicleModel ?? "";
+                    int id = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["Id"].Value);
 
-                txtPurchasePrice.Text = product.PurchasePrice.ToString();
-                txtSalePrice.Text = product.SalePrice.ToString();
+                    var product = await _productService.GetProductByIdAsync(id);
 
-                txtCurrentStock.Text = product.CurrentStock.ToString();
-                txtMinimumStock.Text = product.MinimumStock.ToString();
-
-                //txtBarcode.Text = product.Barcode ?? "";
-                //if (!string.IsNullOrWhiteSpace(product.Barcode))
-                //{
-                //    GenerateBarcodeImage(product.Barcode);
-                //}
-                //else
-                //{
-                //    picBarcode.Image = null;
-                //}
-                //chkAutoBarcode.Checked = false;
-                //txtBarcode.ReadOnly = false;
-
-                chkAutoBarcode.Checked = false;
-                txtBarcode.ReadOnly = false;
-
-                txtBarcode.Text = product.Barcode ?? "";
-
-                if (!string.IsNullOrWhiteSpace(product.Barcode))
-                {
-                    GenerateBarcodeImage(product.Barcode);
-                }
-                else
-                {
-                    picBarcode.Image = null;
-                }
-
-                rtxtDescription.Text = product.Description ?? "";
-
-                // Reset Image State
-                _imagePath = "";
-                _isNewImageSelected = false;
-
-                if (picProductImage.Image != null)
-                {
-                    picProductImage.Image.Dispose();
-                    picProductImage.Image = null;
-                }
-
-                if (!string.IsNullOrWhiteSpace(product.ImagePath))
-                {
-                    string imagePath = Path.Combine(
-                        Application.StartupPath,
-                        "ProductImages",
-                        product.ImagePath);
-
-                    if (File.Exists(imagePath))
+                    if (product == null)
                     {
-                        using (Bitmap bmp = new Bitmap(imagePath))
+                        MessageBox.Show("Product not found.");
+                        return;
+                    }
+
+                    SetEditMode();
+
+                    SetButtonEditMode();
+
+                    _productId = product.Id;
+                    txtProductCode.Text = product.ProductCode;
+                    txtProductName.Text = product.ProductName;
+
+                    cmbCategory.SelectedValue = product.CategoryId;
+                    cmbBrand.SelectedValue = product.BrandId;
+                    cmbUnit.SelectedValue = product.UnitId;
+
+                    txtVehicleModel.Text = product.VehicleModel ?? "";
+
+                    txtPurchasePrice.Text = product.PurchasePrice.ToString();
+                    txtSalePrice.Text = product.SalePrice.ToString();
+
+                    txtCurrentStock.Text = product.CurrentStock.ToString();
+                    txtMinimumStock.Text = product.MinimumStock.ToString();
+
+                    //txtBarcode.Text = product.Barcode ?? "";
+                    //if (!string.IsNullOrWhiteSpace(product.Barcode))
+                    //{
+                    //    GenerateBarcodeImage(product.Barcode);
+                    //}
+                    //else
+                    //{
+                    //    picBarcode.Image = null;
+                    //}
+                    //chkAutoBarcode.Checked = false;
+                    //txtBarcode.ReadOnly = false;
+
+                    chkAutoBarcode.Checked = false;
+                    txtBarcode.ReadOnly = false;
+
+                    txtBarcode.Text = product.Barcode ?? "";
+
+                    if (!string.IsNullOrWhiteSpace(product.Barcode))
+                    {
+                        GenerateBarcodeImage(product.Barcode);
+                    }
+                    else
+                    {
+                        picBarcode.Image = null;
+                    }
+
+                    rtxtDescription.Text = product.Description ?? "";
+
+                    // Reset Image State
+                    _imagePath = "";
+                    _isNewImageSelected = false;
+
+                    if (picProductImage.Image != null)
+                    {
+                        picProductImage.Image.Dispose();
+                        picProductImage.Image = null;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(product.ImagePath))
+                    {
+                        string imagePath = Path.Combine(
+                            Application.StartupPath,
+                            "ProductImages",
+                            product.ImagePath);
+
+                        if (File.Exists(imagePath))
                         {
-                            picProductImage.Image = new Bitmap(bmp);
+                            using (Bitmap bmp = new Bitmap(imagePath))
+                            {
+                                picProductImage.Image = new Bitmap(bmp);
+                            }
                         }
                     }
+                    _isLoadingProduct = false;
                 }
-                _isLoadingProduct = false;
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                _isLoading = false;
             }
+
+           
         }
 
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
             try
             {
-                if (_productId == 0)
+                try
                 {
-                    MessageBox.Show("Please select a product first.");
-                    return;
+                    if (_productId == 0)
+                    {
+                        MessageBox.Show("Please select a product first.");
+                        return;
+                    }
+
+                    if (!ValidateProduct())
+                        return;
+
+                    var product = await _productService.GetProductByIdAsync(_productId);
+
+                    if (product == null)
+                    {
+                        MessageBox.Show("Product not found.");
+                        return;
+                    }
+
+                    // New Image Selected
+                    //if (!string.IsNullOrWhiteSpace(_imagePath) && File.Exists(_imagePath))
+                    //{
+                    //    DeleteImage(product.ImagePath);
+                    //    product.ImagePath = SaveImage();
+                    //}
+                    if (_isNewImageSelected)
+                    {
+                        DeleteImage(product.ImagePath);
+                        product.ImagePath = SaveImage();
+                    }
+                    product.ProductName = txtProductName.Text.Trim();
+                    product.CategoryId = Convert.ToInt32(cmbCategory.SelectedValue);
+                    product.BrandId = Convert.ToInt32(cmbBrand.SelectedValue);
+                    product.UnitId = Convert.ToInt32(cmbUnit.SelectedValue);
+
+                    product.VehicleModel = txtVehicleModel.Text.Trim();
+
+                    product.PurchasePrice = Convert.ToDecimal(txtPurchasePrice.Text);
+                    product.SalePrice = Convert.ToDecimal(txtSalePrice.Text);
+
+                    //product.CurrentStock = Convert.ToInt32(txtCurrentStock.Text);
+                    product.MinimumStock = Convert.ToInt32(txtMinimumStock.Text);
+
+                    product.Barcode = txtBarcode.Text.Trim();
+                    product.Description = rtxtDescription.Text.Trim();
+
+                    product.UpdatedDate = DateTime.Now;
+
+                    await _productService.UpdateProductAsync(product);
+
+                    MessageBox.Show("Product Updated Successfully.",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    await LoadProducts();
+
+                    await LoadDashboardCards();
+
+                    ClearForm();
+
+                    SetAddMode();
+
+                    SetButtonAddMode();
+
+                    await GenerateProductCode();
                 }
-
-                if (!ValidateProduct())
-                    return;
-
-                var product = await _productService.GetProductByIdAsync(_productId);
-
-                if (product == null)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Product not found.");
-                    return;
+                    MessageBox.Show(ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
-
-                // New Image Selected
-                //if (!string.IsNullOrWhiteSpace(_imagePath) && File.Exists(_imagePath))
-                //{
-                //    DeleteImage(product.ImagePath);
-                //    product.ImagePath = SaveImage();
-                //}
-                if (_isNewImageSelected)
-                {
-                    DeleteImage(product.ImagePath);
-                    product.ImagePath = SaveImage();
-                }
-                product.ProductName = txtProductName.Text.Trim();
-                product.CategoryId = Convert.ToInt32(cmbCategory.SelectedValue);
-                product.BrandId = Convert.ToInt32(cmbBrand.SelectedValue);
-                product.UnitId = Convert.ToInt32(cmbUnit.SelectedValue);
-
-                product.VehicleModel = txtVehicleModel.Text.Trim();
-
-                product.PurchasePrice = Convert.ToDecimal(txtPurchasePrice.Text);
-                product.SalePrice = Convert.ToDecimal(txtSalePrice.Text);
-
-                product.CurrentStock = Convert.ToInt32(txtCurrentStock.Text);
-                product.MinimumStock = Convert.ToInt32(txtMinimumStock.Text);
-
-                product.Barcode = txtBarcode.Text.Trim();
-                product.Description = rtxtDescription.Text.Trim();
-
-                product.UpdatedDate = DateTime.Now;
-
-                await _productService.UpdateProductAsync(product);
-
-                MessageBox.Show("Product Updated Successfully.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                await LoadProducts();
-
-                await LoadDashboardCards();
-
-                ClearForm();
-
-                await GenerateProductCode();
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                _isLoading = false;
             }
+
+            
         }
 
         private async void btnDelete_Click(object sender, EventArgs e)
         {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
             try
             {
-                if (_productId == 0)
+                try
                 {
-                    MessageBox.Show("Please select a product first.",
-                        "Warning",
+                    if (_productId == 0)
+                    {
+                        MessageBox.Show("Please select a product first.",
+                            "Warning",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    DialogResult result = MessageBox.Show(
+                        "Are you sure you want to delete this product?",
+                        "Confirm Delete",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                        return;
+
+                    var product = await _productService.GetProductByIdAsync(_productId);
+
+                    if (product == null)
+                    {
+                        MessageBox.Show("Product not found.");
+                        return;
+                    }
+
+                    // Delete Product Image
+                    DeleteImage(product.ImagePath);
+
+                    // Delete Product
+                    await _productService.DeleteProductAsync(_productId);
+
+                    MessageBox.Show("Product deleted successfully.",
+                        "Success",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
+                        MessageBoxIcon.Information);
+
+                    await LoadProducts();
+
+                    await LoadDashboardCards();
+
+                    ClearForm();
+
+                    SetAddMode();
+
+                    SetButtonAddMode();
                 }
-
-                DialogResult result = MessageBox.Show(
-                    "Are you sure you want to delete this product?",
-                    "Confirm Delete",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (result == DialogResult.No)
-                    return;
-
-                var product = await _productService.GetProductByIdAsync(_productId);
-
-                if (product == null)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Product not found.");
-                    return;
+                    MessageBox.Show(ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
-
-                // Delete Product Image
-                DeleteImage(product.ImagePath);
-
-                // Delete Product
-                await _productService.DeleteProductAsync(_productId);
-
-                MessageBox.Show("Product deleted successfully.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                await LoadProducts();
-
-                await LoadDashboardCards();
-
-                ClearForm();
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                _isLoading = false;
             }
+
+           
         }
 
 
@@ -953,19 +1164,19 @@ namespace StockManagementSystem.Forms.Products
                 return false;
             }
 
-            if (!int.TryParse(txtCurrentStock.Text, out int currentStock))
-            {
-                MessageBox.Show("Enter valid Current Stock.");
-                txtCurrentStock.Focus();
-                return false;
-            }
+            //if (!int.TryParse(txtCurrentStock.Text, out int currentStock))
+            //{
+            //    MessageBox.Show("Enter valid Current Stock.");
+            //    txtCurrentStock.Focus();
+            //    return false;
+            //}
 
-            if (currentStock < 0)
-            {
-                MessageBox.Show("Current Stock cannot be negative.");
-                txtCurrentStock.Focus();
-                return false;
-            }
+            //if (currentStock < 0)
+            //{
+            //    MessageBox.Show("Current Stock cannot be negative.");
+            //    txtCurrentStock.Focus();
+            //    return false;
+            //}
 
             if (!int.TryParse(txtMinimumStock.Text, out int minimumStock))
             {
@@ -1075,22 +1286,76 @@ namespace StockManagementSystem.Forms.Products
 
         private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
             try
             {
-                string keyword = txtSearch.Text.Trim();
+                //try
+                //{
+                //    string keyword = txtSearch.Text.Trim();
 
-                if (string.IsNullOrWhiteSpace(keyword))
+                //    if (string.IsNullOrWhiteSpace(keyword))
+                //    {
+                //        await LoadProducts();
+                //        return;
+                //    }
+
+                //    dgvProducts.DataSource = await _productService.SearchProductsAsync(keyword);
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.Message);
+                //}
+
+
+                try
                 {
-                    await LoadProducts();
-                    return;
-                }
+                    string keyword = txtSearch.Text.Trim();
 
-                dgvProducts.DataSource = await _productService.SearchProductsAsync(keyword);
+                    if (string.IsNullOrWhiteSpace(keyword))
+                    {
+                        await LoadProducts();
+                        return;
+                    }
+
+                    var products = await _productService.SearchProductsAsync(keyword);
+
+                    dgvProducts.DataSource = products.Select(x => new ProductGridModel
+                    {
+                        Id = x.Id,
+                        ProductCode = x.ProductCode,
+                        ProductName = x.ProductName,
+                        CategoryName = x.Category?.CategoryName,
+                        BrandName = x.Brand?.BrandName,
+                        UnitName = x.Unit?.UnitName,
+                        PurchasePrice = x.PurchasePrice,
+                        SalePrice = x.SalePrice,
+                        CurrentStock = x.CurrentStock,
+                        MinimumStock = x.MinimumStock,
+                        IsActive = x.IsActive,
+                        CreatedDate = x.CreatedDate,
+                        UpdatedDate = x.UpdatedDate,
+                        ImagePath = x.ImagePath
+                    }).ToList();
+
+                    dgvProducts.ClearSelection();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show(ex.Message);
+                _isLoading = false;
             }
+
+
+
+            
         }
 
         private async void chkAutoBarcode_CheckedChanged(object sender, EventArgs e)
@@ -1135,6 +1400,44 @@ namespace StockManagementSystem.Forms.Products
 
         private async void btnClear_Click(object sender, EventArgs e)
         {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            try
+            {
+                try
+            {
+                _isClearingForm = true;
+
+                ClearForm();
+
+                SetAddMode();
+
+                SetButtonAddMode();
+
+                await GenerateProductCode();
+
+                await GenerateNewBarcode();
+
+                await LoadProducts();
+
+                dgvProducts.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                _isClearingForm = false;
+            }
+}
+            finally
+            {
+                _isLoading = false;
+            }
             //try
             //{
             //    ClearForm();
@@ -1154,28 +1457,7 @@ namespace StockManagementSystem.Forms.Products
             //}
 
 
-            try
-            {
-                _isClearingForm = true;
-
-                ClearForm();
-
-                await GenerateProductCode();
-
-                await GenerateNewBarcode();
-
-                await LoadProducts();
-
-                dgvProducts.ClearSelection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                _isClearingForm = false;
-            }
+            
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
@@ -1192,5 +1474,43 @@ namespace StockManagementSystem.Forms.Products
         {
 
         }
+
+
+        private void SetEditMode()
+        {
+            txtCurrentStock.Visible = true;
+            lblCurrentStocks.Visible = true;
+
+            txtCurrentStock.ReadOnly = true;
+        }
+
+        private void SetAddMode()
+        {
+            txtCurrentStock.Visible = false;
+            lblCurrentStocks.Visible = false;
+
+            txtCurrentStock.ReadOnly = false;
+        }
+
+
+        private void SetButtonAddMode()
+        {
+            btnSave.Enabled = true;
+
+            btnUpdate.Enabled = false;
+
+            btnDelete.Enabled = false;
+        }
+
+        private void SetButtonEditMode()
+        {
+            btnSave.Enabled = false;
+
+            btnUpdate.Enabled = true;
+
+            btnDelete.Enabled = true;
+        }
+
+
     }
 }
