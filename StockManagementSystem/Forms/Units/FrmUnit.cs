@@ -19,6 +19,7 @@ namespace StockManagementSystem.Forms.Units
         private readonly IUnitService _unitService;
         private int _selectedUnitId = 0;
 
+        public event Action? LoadingCompleted;
         public FrmUnit(IUnitService unitService)
         {
             InitializeComponent();
@@ -40,6 +41,8 @@ namespace StockManagementSystem.Forms.Units
             await LoadUnits();
             await LoadDashboardCards();
             SetAddMode();
+
+            LoadingCompleted?.Invoke();
         }
 
         private async Task LoadUnits()

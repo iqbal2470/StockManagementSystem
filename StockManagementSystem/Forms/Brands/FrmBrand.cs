@@ -12,6 +12,8 @@ namespace StockManagementSystem.Forms.Brands
 
         private readonly IBrandService _brandService;
         private int _selectedBrandId = 0;
+
+        public event Action? LoadingCompleted;
         public FrmBrand(IBrandService brandService)
         {
             InitializeComponent();
@@ -34,6 +36,8 @@ namespace StockManagementSystem.Forms.Brands
             await LoadDashboardCards();
 
             SetAddMode();
+
+            LoadingCompleted?.Invoke();
         }
         private async Task LoadBrands()
         {

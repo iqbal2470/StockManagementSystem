@@ -24,9 +24,9 @@ namespace StockManagementSystem.Forms.Reports
 {
     public partial class RrmReports : BaseForm
     {
-       
 
 
+        public event Action? LoadingCompleted;
         private readonly IReportService _reportService;
         public RrmReports(IReportService reportService)
         {
@@ -91,6 +91,7 @@ namespace StockManagementSystem.Forms.Reports
 
             await LoadReport();
 
+            LoadingCompleted?.Invoke();
 
 
         }

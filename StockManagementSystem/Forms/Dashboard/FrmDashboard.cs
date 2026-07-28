@@ -39,7 +39,9 @@ namespace StockManagementSystem.Forms.Dashboard
         private bool isSidebarExpanded = true;
         private bool _isLoading = false;
 
+        private bool _navigationLocked = false;
 
+       
         private IconButton? currentButton;
         public FrmDashboard(IDashboardService dashboardService, IStockTransactionService stockTransactionService)
         {
@@ -48,6 +50,11 @@ namespace StockManagementSystem.Forms.Dashboard
             _dashboardService = dashboardService;
             _stockTransactionService = stockTransactionService;
         }
+
+        //private void SetNavigationButtons(bool enabled)
+        //{
+        //    _navigationLocked = !enabled;
+        //}
 
         private void btnMenu_Click(object sender, EventArgs e)
         {
@@ -71,7 +78,9 @@ namespace StockManagementSystem.Forms.Dashboard
             //}
             timerSidebar.Start();
         }
+
         const int AnimationSpeed = 25;
+
         private void timerSidebar_Tick(object sender, EventArgs e)
         {
             pnlSidebar.SuspendLayout();
@@ -111,7 +120,9 @@ namespace StockManagementSystem.Forms.Dashboard
             lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
             //dtpDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
         }
+
         private bool _isFormLoaded = false;
+
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
         
@@ -167,6 +178,7 @@ namespace StockManagementSystem.Forms.Dashboard
                 _isFormLoaded = true;
             
         }
+
         //public async Task RefreshDashboardAsync()
         //{
         //    await LoadDashboardAsync();
@@ -181,18 +193,18 @@ namespace StockManagementSystem.Forms.Dashboard
             {
 
 
-                btnDashboard.Enabled = false;
-                btnProduct.Enabled = false;
-                btnPurchase.Enabled = false;
-                btnSales.Enabled = false;
-                btnStock.Enabled = false;
-                btnReports.Enabled = false;
-                btnCategory.Enabled = false;
-                btnBrand.Enabled = false;
-                btnUnit.Enabled = false;
-                btnHistory.Enabled = false;
-                btnBackupRestore.Enabled = false;
-                btnSetting.Enabled = false;
+                //btnDashboard.Enabled = false;
+                //btnProduct.Enabled = false;
+                //btnPurchase.Enabled = false;
+                //btnSales.Enabled = false;
+                //btnStock.Enabled = false;
+                //btnReports.Enabled = false;
+                //btnCategory.Enabled = false;
+                //btnBrand.Enabled = false;
+                //btnUnit.Enabled = false;
+                //btnHistory.Enabled = false;
+                //btnBackupRestore.Enabled = false;
+                //btnSetting.Enabled = false;
 
                 await LoadDashboardAsync();
                 await LoadRecentStockAsync();
@@ -202,18 +214,18 @@ namespace StockManagementSystem.Forms.Dashboard
             {
                 Cursor = Cursors.Default;
 
-                btnDashboard.Enabled = true;
-                btnProduct.Enabled = true;
-                btnPurchase.Enabled = true;
-                btnSales.Enabled = true;
-                btnStock.Enabled = true;
-                btnReports.Enabled = true;
-                btnCategory.Enabled = true;
-                btnBrand.Enabled = true;
-                btnUnit.Enabled = true;
-                btnHistory.Enabled = true;
-                btnBackupRestore.Enabled = true;
-                btnSetting.Enabled = true;
+                //btnDashboard.Enabled = true;
+                //btnProduct.Enabled = true;
+                //btnPurchase.Enabled = true;
+                //btnSales.Enabled = true;
+                //btnStock.Enabled = true;
+                //btnReports.Enabled = true;
+                //btnCategory.Enabled = true;
+                //btnBrand.Enabled = true;
+                //btnUnit.Enabled = true;
+                //btnHistory.Enabled = true;
+                //btnBackupRestore.Enabled = true;
+                //btnSetting.Enabled = true;
 
             }
         }
@@ -236,6 +248,7 @@ namespace StockManagementSystem.Forms.Dashboard
         //        flpTopSelling.Controls.Add(card);
         //    }
         //}
+
         private async Task LoadTopSellingProductsAsync()
         {
             flpTopSelling.Controls.Clear();
@@ -257,6 +270,7 @@ namespace StockManagementSystem.Forms.Dashboard
                 flpTopSelling.Controls.Add(card);
             }
         }
+
         private void FormatRecentStockGrid()
         {
             dgvRecentStock.EnableHeadersVisualStyles = false;
@@ -307,6 +321,7 @@ namespace StockManagementSystem.Forms.Dashboard
                 );
             }
         }
+
         private void LoadRecentStockDummyData()
         {
             dgvRecentStock.Rows.Clear();
@@ -332,6 +347,7 @@ namespace StockManagementSystem.Forms.Dashboard
                 10,
                 "Purchase");
         }
+
         private async Task LoadDashboardAsync()
         {
             var dashboard = await _dashboardService.GetDashboardSummaryAsync();
@@ -379,6 +395,7 @@ namespace StockManagementSystem.Forms.Dashboard
         }
             };
         }
+
         //private async Task LoadStockChartAsync()
         //{
         //    var data = await _dashboardService.GetStockChartAsync();
@@ -435,6 +452,7 @@ namespace StockManagementSystem.Forms.Dashboard
                 lblOutStockValue.Text = "0 (0.00%)";
             }
         }
+
         //private void OpenChildForm(Form childForm)
         //{
         //    if (activeForm != null)
@@ -506,6 +524,7 @@ namespace StockManagementSystem.Forms.Dashboard
 
         //    childForm.Show();
         //}
+
         private void OpenChildForm(Form childForm)
         {
             if (activeForm != null)
@@ -528,38 +547,52 @@ namespace StockManagementSystem.Forms.Dashboard
             childForm.BringToFront();
             childForm.Show();
         }
+
         private void btnCategory_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //               ActivateButton(btnCategory);
+            //            OpenChildForm(Program.Services.GetRequiredService<FrmCategory>());
+
+            //            lblTitle.Text = "Category";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnCategory);
 
-            try
-            {
-               ActivateButton(btnCategory);
-            OpenChildForm(Program.Services.GetRequiredService<FrmCategory>());
+            var frm = Program.Services.GetRequiredService<FrmCategory>(); // Apna dashboard form ka naam likho
+
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
 
             lblTitle.Text = "Category";
-}
-            finally
-            {
-                _isLoading = false;
-            }
 
-            
         }
 
         private async void btnDashboard_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
-                return;
+            //if (_isLoading)
+            //    return;
 
-            _isLoading = true;
+            //_isLoading = true;
 
-            try
-            {
-                
+            //try
+            //{
+
             //MessageBox.Show(pnlMain.Controls.Count.ToString());
             //ActivateButton(btnDashboard);
 
@@ -575,35 +608,64 @@ namespace StockManagementSystem.Forms.Dashboard
             //lblTitle.Text = "Dashboard";
             //await LoadDashboardAsync();
 
-            ActivateButton(btnDashboard);
+            //            ActivateButton(btnDashboard);
 
-            if (activeForm != null)
+            //            if (activeForm != null)
+            //            {
+            //                activeForm.Close();
+            //                activeForm.Dispose();
+            //                activeForm = null;
+            //            }
+
+            //            // Desktop Clear
+            //            pnlDesktop.Controls.Clear();
+            //            pnlDesktop.Visible = false;
+
+            //            // Dashboard Show
+            //            pnlDashboard.Visible = true;
+            //            pnlDashboard.BringToFront();
+
+            //            lblTitle.Text = "Dashboard";
+
+            //            //await LoadDashboardAsync();
+            //            await RefreshDashboardAsync();
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+            if (!TryLockNavigation())
+                return;
+
+            try
             {
-                activeForm.Close();
-                activeForm.Dispose();
-                activeForm = null;
+                ActivateButton(btnDashboard);
+
+                if (activeForm != null)
+                {
+                    activeForm.Close();
+                    activeForm.Dispose();
+                    activeForm = null;
+                }
+
+                // Child Form Hide
+                pnlDesktop.Controls.Clear();
+                pnlDesktop.Visible = false;
+
+                // Dashboard Show
+                pnlDashboard.Visible = true;
+                pnlDashboard.BringToFront();
+
+                lblTitle.Text = "Dashboard";
+
+                await RefreshDashboardAsync();
             }
-
-            // Desktop Clear
-            pnlDesktop.Controls.Clear();
-            pnlDesktop.Visible = false;
-
-            // Dashboard Show
-            pnlDashboard.Visible = true;
-            pnlDashboard.BringToFront();
-
-            lblTitle.Text = "Dashboard";
-
-            //await LoadDashboardAsync();
-            await RefreshDashboardAsync();
-}
             finally
             {
-                _isLoading = false;
+                UnlockNavigation();
             }
 
-
-           
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -620,7 +682,6 @@ namespace StockManagementSystem.Forms.Dashboard
             }
         }
 
-
         private void ActivateButton(IconButton button)
         {
             if (currentButton != null)
@@ -633,8 +694,14 @@ namespace StockManagementSystem.Forms.Dashboard
             currentButton = button;
 
             currentButton.BackColor = Color.FromArgb(59, 130, 246);
+
+            // Hamesha White
             currentButton.ForeColor = Color.White;
             currentButton.IconColor = Color.White;
+
+            currentButton.UseVisualStyleBackColor = false;
+            currentButton.FlatStyle = FlatStyle.Flat;
+            currentButton.FlatAppearance.BorderSize = 0;
         }
 
         private void SetMenuText(bool expanded)
@@ -687,167 +754,303 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private void btnBrand_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //                ActivateButton(btnBrand);
+
+            //            OpenChildForm(Program.Services.GetRequiredService<FrmBrand>());
+
+
+            //            lblTitle.Text = "Brand";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnBrand);
 
-            try
-            {
-                ActivateButton(btnBrand);
+            var frm = Program.Services.GetRequiredService<FrmBrand>(); // Apna dashboard form ka naam likho
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmBrand>());
+            frm.LoadingCompleted += OnChildFormLoaded;
 
+            OpenChildForm(frm);
 
             lblTitle.Text = "Brand";
-}
-            finally
-            {
-                _isLoading = false;
-            }
+        }
 
-            
+        //private void OnChildFormLoaded()
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(() =>
+        //        {
+        //            UnlockNavigation();
+        //        });
+        //    }
+        //    else
+        //    {
+        //        UnlockNavigation();
+        //    }
+        //}
+        private void OnChildFormLoaded()
+        {
+            if (IsDisposed || !IsHandleCreated)
+                return;
+
+            if (InvokeRequired)
+            {
+                Invoke(() =>
+                {
+                    if (!IsDisposed)
+                        UnlockNavigation();
+                });
+            }
+            else
+            {
+                UnlockNavigation();
+            }
+        }
+
+        private bool TryLockNavigation()
+        {
+            if (_navigationLocked)
+                return false;
+
+            _navigationLocked = true;
+
+            Cursor = Cursors.WaitCursor;
+
+            return true;
+        }
+
+        private void UnlockNavigation()
+        {
+            _navigationLocked = false;
+
+            Cursor = Cursors.Default;
         }
 
         private void btnUnit_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //                 ActivateButton(btnUnit);
+
+            //            OpenChildForm(Program.Services.GetRequiredService<FrmUnit>());
+
+            //            lblTitle.Text = "Unit";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnUnit);
 
-            try
-            {
-                 ActivateButton(btnUnit);
+            var frm = Program.Services.GetRequiredService<FrmUnit>(); // Apna dashboard form ka naam likho
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmUnit>());
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
 
             lblTitle.Text = "Unit";
-}
-            finally
-            {
-                _isLoading = false;
-            }
 
-           
         }
 
         private void btnProduct_Click(object sender, EventArgs e)
         {
 
+            //if (_navigationLocked)
+            //    return;
+            //if (_isLoading)
+            //    return;
 
-            if (_isLoading)
+            //_isLoading = true;
+
+            //try
+            //{
+            //    ActivateButton(btnProduct);
+
+            //    OpenChildForm(Program.Services.GetRequiredService<FrmProduct>());
+
+            //    lblTitle.Text = "Product";
+            //}
+            //finally
+            //{
+            //    _isLoading = false;
+            //}
+
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnProduct);
 
-            try
-            {
-                ActivateButton(btnProduct);
+            var frm = Program.Services.GetRequiredService<FrmProduct>();
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmProduct>());
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
 
             lblTitle.Text = "Product";
-}
-            finally
-            {
-                _isLoading = false;
-            }
 
-            
         }
 
         private void btnPurchase_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //                 ActivateButton(btnPurchase);
+
+            //            OpenChildForm(Program.Services.GetRequiredService<FrmPurchase>());
+
+            //            lblTitle.Text = "Purchase";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnPurchase);
 
-            try
-            {
-                 ActivateButton(btnPurchase);
+            var frm = Program.Services.GetRequiredService<FrmPurchase>();
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmPurchase>());
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
 
             lblTitle.Text = "Purchase";
-}
-            finally
-            {
-                _isLoading = false;
-            }
 
-           
         }
 
         private void btnSales_Click(object sender, EventArgs e)
         {
 
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //                ActivateButton(btnSales);
+
+            //            OpenChildForm(Program.Services.GetRequiredService<FrmSale>());
+
+            //            lblTitle.Text = "Sale";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnSales);
 
-            try
-            {
-                ActivateButton(btnSales);
+            var frm = Program.Services.GetRequiredService<FrmSale>();
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmSale>());
+            frm.LoadingCompleted += OnChildFormLoaded;
 
-            lblTitle.Text = "Sale";
-}
-            finally
-            {
-                _isLoading = false;
-            }
+            OpenChildForm(frm);
 
-            
+            lblTitle.Text = "Sales";
         }
 
         private void btnStock_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //                ActivateButton(btnStock);
+
+            //            OpenChildForm(Program.Services.GetRequiredService<FrmStock>());
+
+            //            lblTitle.Text = "Stock";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnStock);
 
-            try
-            {
-                ActivateButton(btnStock);
+            var frm = Program.Services.GetRequiredService<FrmStock>();
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmStock>());
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
 
             lblTitle.Text = "Stock";
-}
-            finally
-            {
-                _isLoading = false;
-            }
 
-            
         }
 
         private void btnReports_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //                ActivateButton(btnReports);
+
+            //            OpenChildForm(Program.Services.GetRequiredService<RrmReports>());
+
+            //            lblTitle.Text = "Reports";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnReports);
 
-            try
-            {
-                ActivateButton(btnReports);
+            var frm = Program.Services.GetRequiredService<RrmReports>();
 
-            OpenChildForm(Program.Services.GetRequiredService<RrmReports>());
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
 
             lblTitle.Text = "Reports";
-}
-            finally
-            {
-                _isLoading = false;
-            }
 
-            
         }
 
         private async void cmbDuration_SelectedIndexChanged(object sender, EventArgs e)
@@ -869,25 +1072,36 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private void btnHistory_Click(object sender, EventArgs e)
         {
-            if (_isLoading)
+            //            if (_isLoading)
+            //                return;
+
+            //            _isLoading = true;
+
+            //            try
+            //            {
+            //                ActivateButton(btnHistory);
+
+            //            OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
+
+            //            lblTitle.Text = "History";
+            //}
+            //            finally
+            //            {
+            //                _isLoading = false;
+            //            }
+
+            if (!TryLockNavigation())
                 return;
 
-            _isLoading = true;
+            ActivateButton(btnHistory);
 
-            try
-            {
-                ActivateButton(btnHistory);
+            var frm = Program.Services.GetRequiredService<FrmHistory>(); // Apna dashboard form ka naam likho
 
-            OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
 
             lblTitle.Text = "History";
-}
-            finally
-            {
-                _isLoading = false;
-            }
-
-            
         }
 
         private void lnkViewAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

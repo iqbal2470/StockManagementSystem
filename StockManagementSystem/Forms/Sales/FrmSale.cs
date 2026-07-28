@@ -20,7 +20,7 @@ namespace StockManagementSystem.Forms.Sales
 
         private readonly ISaleService _saleService;
         private readonly IProductService _productService;
-
+        public event Action? LoadingCompleted;
         private int _saleId = 0;
         public FrmSale(ISaleService saleService, IProductService productService)
         {
@@ -50,6 +50,8 @@ namespace StockManagementSystem.Forms.Sales
                 await ClearForm();
 
                 SetButtonAddMode();
+
+                LoadingCompleted?.Invoke();
             }
             catch (Exception ex)
             {

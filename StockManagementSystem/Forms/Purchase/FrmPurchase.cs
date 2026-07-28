@@ -19,7 +19,7 @@ namespace StockManagementSystem.Forms.Purchase
 
         private readonly IPurchaseService _purchaseService;
         private readonly IProductService _productService;
-
+        public event Action? LoadingCompleted;
         private int _purchaseId = 0;
         public FrmPurchase(IPurchaseService purchaseService, IProductService productService)
         {
@@ -139,6 +139,8 @@ namespace StockManagementSystem.Forms.Purchase
                await ClearForm();
 
                 SetButtonAddMode();
+
+                LoadingCompleted?.Invoke();
             }
             catch (Exception ex)
             {

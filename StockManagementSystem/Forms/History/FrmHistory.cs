@@ -28,6 +28,8 @@ namespace StockManagementSystem.Forms.History
 {
     public partial class FrmHistory : BaseForm
     {
+        public event Action? LoadingCompleted;
+
         private List<StockTransaction> _filteredHistoryList = new();
         private List<StockTransaction> _historyList = new();
         private readonly IStockTransactionService _stockTransactionService;
@@ -52,6 +54,8 @@ namespace StockManagementSystem.Forms.History
             dtpTo.Value = DateTime.Today;
 
             ApplyFilters();
+
+            LoadingCompleted?.Invoke();
         }
         private async Task LoadHistoryAsync()
         {

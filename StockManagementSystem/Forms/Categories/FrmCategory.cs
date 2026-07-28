@@ -16,6 +16,9 @@ namespace StockManagementSystem.Forms.Categories
     {
         private readonly ICategoryService _categoryService;
         private int _selectedCategoryId = 0;
+
+        public event Action? LoadingCompleted;
+
         public FrmCategory(ICategoryService categoryService)
         {
             InitializeComponent();
@@ -69,7 +72,7 @@ namespace StockManagementSystem.Forms.Categories
 
             SetAddMode();
 
-
+            LoadingCompleted?.Invoke();
             //        dgvCategory.EnableHeadersVisualStyles = false;
 
             //        dgvCategory.ColumnHeadersDefaultCellStyle.BackColor = Color.White;

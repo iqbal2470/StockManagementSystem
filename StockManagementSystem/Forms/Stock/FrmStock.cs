@@ -16,6 +16,7 @@ namespace StockManagementSystem.Forms.Stock
     public partial class FrmStock : BaseForm
     {
         private readonly IStockService _stockService;
+        public event Action? LoadingCompleted;
         public FrmStock(IStockService stockService)
         {
             InitializeComponent();
@@ -37,6 +38,8 @@ namespace StockManagementSystem.Forms.Stock
                 await LoadStock();
                 await LoadCounts();
                 dgvStock.ClearSelection();
+
+                LoadingCompleted?.Invoke();
             }
             catch (Exception ex)
             {

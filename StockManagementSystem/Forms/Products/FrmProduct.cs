@@ -29,7 +29,7 @@ namespace StockManagementSystem.Forms.Products
         private bool _isClearingForm = false;
 
         private bool _isLoading = false;
-
+        public event Action? LoadingCompleted;
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
         private readonly IBrandService _brandService;
@@ -326,7 +326,9 @@ namespace StockManagementSystem.Forms.Products
                         await GenerateNewBarcode();
                     }
 
-                }
+                LoadingCompleted?.Invoke();
+
+            }
                 catch (Exception ex)
                 {
                     MessageBox.Show(
