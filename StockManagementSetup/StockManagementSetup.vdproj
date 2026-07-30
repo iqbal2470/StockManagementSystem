@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_480EFDAE62BF45EFB0646E364EF7870C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_60797A402A154416A68B8D420745586E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -37,6 +43,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -53,6 +67,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -70,10 +92,40 @@
         {
             "LaunchCondition"
             {
+                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_889AB3D1823B491BB05B45A2E171D7DF"
+                {
+                "Name" = "8:.NET Core"
+                "Message" = "8:[VSDNETCOREMSG]"
+                "AllowLaterVersions" = "11:FALSE"
+                "InstallUrl" = "8:https://dotnet.microsoft.com/download/dotnet-core/[NetCoreVerMajorDotMinor]"
+                "IsNETCore" = "11:TRUE"
+                "Architecture" = "2:0"
+                "Runtime" = "2:0"
+                }
             }
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_480EFDAE62BF45EFB0646E364EF7870C"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\Downloads\\CarStockManagement\\appsettings.json"
+            "TargetName" = "8:appsettings.json"
+            "Tag" = "8:"
+            "Folder" = "8:_FC6D8581E05D49A49D08BFCD96489AE3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -129,24 +181,24 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:StockManagementSetup"
+        "ProductName" = "8:Stock Management Setup"
         "ProductCode" = "8:{1BEBE0AB-F34E-465F-8439-C59DADA53CA7}"
         "PackageCode" = "8:{864855C2-F6D7-4D1A-A360-D071B0C4A9A3}"
         "UpgradeCode" = "8:{2523105D-B7E6-4DE3-B0FA-9B5AEA49E63B}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
+        "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:TeamArrive Software Company"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:StockManagementSetup"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:TeamArrive Software Company"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
+        "ARPCOMMENTS" = "8:Stock Management System for Inventory & Billing"
         "ARPURLINFOABOUT" = "8:"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
@@ -251,6 +303,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_27830A6E4A054EFD93EB50C5346C7CDE"
+            {
+            "Name" = "8:Stock Management System"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_60797A402A154416A68B8D420745586E"
+            "Folder" = "8:_623A56CF904B4432A2A1B8F019B01467"
+            "WorkingFolder" = "8:_FC6D8581E05D49A49D08BFCD96489AE3"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8C2C0FC125634E84BC58A79BD45593C4"
+            {
+            "Name" = "8:Stock Management System"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_60797A402A154416A68B8D420745586E"
+            "Folder" = "8:_B66A9DAE82B84CE6BFBFD8EE44D91237"
+            "WorkingFolder" = "8:_FC6D8581E05D49A49D08BFCD96489AE3"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -652,7 +732,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_60797A402A154416A68B8D420745586E"
             {
-            "SourcePath" = "8:..\\StockManagementSystem\\obj\\Release\\net9.0-windows\\StockManagementSystem.dll"
+            "SourcePath" = "8:..\\StockManagementSystem\\obj\\Debug\\net9.0-windows\\StockManagementSystem.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FC6D8581E05D49A49D08BFCD96489AE3"
