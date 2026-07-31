@@ -18,7 +18,7 @@ namespace InstallerHelper
         private readonly SqlServerDetector _sqlDetector = new();
         private readonly DatabaseManager _databaseManager = new();
         private readonly ConnectionStringManager _connectionStringManager = new();
-
+        private readonly DatabaseRemover _databaseRemover = new();
         public InstallerResult Install(
             string sqlSetupPath,
             string appSettingsPath,
@@ -146,6 +146,70 @@ namespace InstallerHelper
             {
                 //Console.WriteLine(ex.Message);
                 //return false;
+                return new InstallerResult
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
+
+        public InstallerResult Uninstall()
+        {
+            try
+            {
+                var instances = SqlInstanceHelper.GetSqlInstances();
+
+                if (instances.Count == 0)
+                {
+                    return new InstallerResult
+                    {
+                        Success = false,
+                        Message = "No SQL Server instance found."
+                    };
+                }
+
+                string? selectedInstance = null;
+
+                foreach (var instance in instances)
+                {
+                    if (_sqlDetector.DatabaseExists(instance, InstallerConstants.DatabaseName))
+                    {
+                        selectedInstance = instance;
+                        break;
+                    }
+                }
+
+                if (selectedInstance == null)
+                {
+                    return new InstallerResult
+                    {
+                        Success = true,
+                        Message = "Database not found. Nothing to remove."
+                    };
+                }
+
+                if (!_databaseRemover.RemoveDatabase(selectedInstance))
+                {
+                    return new InstallerResult
+                    {
+                        Success = false,
+                        Message = "Failed to remove database."
+                    };
+                }
+
+                InstallerLogger.Success("Database removed successfully.");
+
+                return new InstallerResult
+                {
+                    Success = true,
+                    Message = "Database removed successfully."
+                };
+            }
+            catch (Exception ex)
+            {
                 return new InstallerResult
                 {
                     Success = false,

@@ -132,6 +132,7 @@
             btnExit.Text = "Exit";
             btnExit.UseVisualStyleBackColor = true;
             btnExit.Visible = false;
+            btnExit.Click += btnExit_Click;
             // 
             // lblVersion
             // 

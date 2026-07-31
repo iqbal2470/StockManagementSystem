@@ -7,6 +7,7 @@ using StockManagementSystem.Forms.BackupRestore;
 using StockManagementSystem.Forms.Brands;
 using StockManagementSystem.Forms.Categories;
 using StockManagementSystem.Forms.History;
+using StockManagementSystem.Forms.LicenseActivation;
 using StockManagementSystem.Forms.Products;
 using StockManagementSystem.Forms.Purchase;
 using StockManagementSystem.Forms.Reports;
@@ -41,7 +42,7 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private bool _navigationLocked = false;
 
-       
+
         private IconButton? currentButton;
         public FrmDashboard(IDashboardService dashboardService, IStockTransactionService stockTransactionService)
         {
@@ -125,58 +126,58 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
-        
 
-           
-                // existing code
-                //    MessageBox.Show(
-                //$"Form Height = {this.Height}\n" +
-                //$"Desktop Height = {pnlDesktop.Height}\n" +
-                //$"Dashboard Height = {pnlDashboard.Height}\n" +
-                //$"Footer Top = {pnlFooter.Top}\n" +
-                //$"Footer Bottom = {pnlFooter.Bottom}"
-                //);
-                pnlDashboard.AutoScroll = true;
-                pnlDashboard.HorizontalScroll.Enabled = false;
-                pnlDashboard.HorizontalScroll.Visible = false;
-                pnlDashboard.AutoScrollMinSize = new Size(0, 1200);
 
-                pnlDashboard.Visible = true;
-                pnlDesktop.Visible = false;
 
-                lblTitle.Text = "Dashboard";
+            // existing code
+            //    MessageBox.Show(
+            //$"Form Height = {this.Height}\n" +
+            //$"Desktop Height = {pnlDesktop.Height}\n" +
+            //$"Dashboard Height = {pnlDashboard.Height}\n" +
+            //$"Footer Top = {pnlFooter.Top}\n" +
+            //$"Footer Bottom = {pnlFooter.Bottom}"
+            //);
+            pnlDashboard.AutoScroll = true;
+            pnlDashboard.HorizontalScroll.Enabled = false;
+            pnlDashboard.HorizontalScroll.Visible = false;
+            pnlDashboard.AutoScrollMinSize = new Size(0, 1200);
 
-                lblUserName.Text = "Admin";
+            pnlDashboard.Visible = true;
+            pnlDesktop.Visible = false;
 
-                lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
+            lblTitle.Text = "Dashboard";
 
-                timerClock.Start();
+            lblUserName.Text = "Admin";
 
-                SetMenuText(true);
+            lblDateTime.Text = DateTime.Now.ToString("dd MMM yyyy hh:mm:ss tt");
 
-                SetButtonLayout(true);
-                FormatRecentStockGrid();
-                //LoadRecentStockDummyData();
+            timerClock.Start();
 
-                await LoadRecentStockAsync();
+            SetMenuText(true);
 
-                cmbDuration.Items.Clear();
+            SetButtonLayout(true);
+            FormatRecentStockGrid();
+            //LoadRecentStockDummyData();
 
-                //cmbDuration.Items.Add("Top 5");
-                //cmbDuration.Items.Add("Top 10");
-                //cmbDuration.Items.Add("Top 20");
+            await LoadRecentStockAsync();
 
-                //cmbDuration.SelectedIndex = 1; // Default Top 10
-                cmbDuration.Items.Add("Today");
-                cmbDuration.Items.Add("This Week");
-                cmbDuration.Items.Add("This Month");
-                cmbDuration.Items.Add("This Year");
-                cmbDuration.SelectedIndex = 2; // Default This Month
-                await LoadTopSellingProductsAsync();
-                await LoadDashboardAsync();
-                //await LoadRecentStockAsync();
-                _isFormLoaded = true;
-            
+            cmbDuration.Items.Clear();
+
+            //cmbDuration.Items.Add("Top 5");
+            //cmbDuration.Items.Add("Top 10");
+            //cmbDuration.Items.Add("Top 20");
+
+            //cmbDuration.SelectedIndex = 1; // Default Top 10
+            cmbDuration.Items.Add("Today");
+            cmbDuration.Items.Add("This Week");
+            cmbDuration.Items.Add("This Month");
+            cmbDuration.Items.Add("This Year");
+            cmbDuration.SelectedIndex = 2; // Default This Month
+            await LoadTopSellingProductsAsync();
+            await LoadDashboardAsync();
+            //await LoadRecentStockAsync();
+            _isFormLoaded = true;
+
         }
 
         //public async Task RefreshDashboardAsync()
@@ -412,7 +413,7 @@ namespace StockManagementSystem.Forms.Dashboard
 
         private async Task LoadStockChartAsync()
         {
-           // MessageBox.Show("LoadStockChartAsync Called");
+            // MessageBox.Show("LoadStockChartAsync Called");
             var data = await _dashboardService.GetStockChartAsync();
 
             int total = data.Sum(x => x.Total);
@@ -721,6 +722,8 @@ namespace StockManagementSystem.Forms.Dashboard
             btnHistory.Text = expanded ? " History" : "";
             btnSetting.Text = expanded ? " Settings" : "";
             btnLogOut.Text = expanded ? " LogOut" : "";
+            btnRenewLicense.Text = expanded ? " Renew License" : "";
+            btnLicenseInformation.Text = expanded ? " License Information" : "";
             btnBackupRestore.Text = expanded ? " Backup/Restore" : "";
         }
 
@@ -1114,13 +1117,13 @@ namespace StockManagementSystem.Forms.Dashboard
             try
             {
                 OpenChildForm(Program.Services.GetRequiredService<FrmHistory>());
-}
+            }
             finally
             {
                 _isLoading = false;
             }
 
-            
+
         }
 
         private void btnBackupRestore_Click(object sender, EventArgs e)
@@ -1132,17 +1135,58 @@ namespace StockManagementSystem.Forms.Dashboard
 
             try
             {
-                 ActivateButton(btnBackupRestore);
-            OpenChildForm(Program.Services.GetRequiredService<FrmBackupRestore>());
+                ActivateButton(btnBackupRestore);
+                OpenChildForm(Program.Services.GetRequiredService<FrmBackupRestore>());
 
-            lblTitle.Text = "Backup and Restore data";
-}
+                lblTitle.Text = "Backup and Restore data";
+            }
             finally
             {
                 _isLoading = false;
             }
 
-           
+
+        }
+
+        private void btnRenewLicense_Click(object sender, EventArgs e)
+        {
+            if (!TryLockNavigation())
+                return;
+
+            ActivateButton(btnRenewLicense);
+
+            var frm = Program.Services.GetRequiredService<FrmLicenseRenewal>();
+
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
+
+            lblTitle.Text = "License Renewal";
+
+            //using FrmLicenseRenewal frm = new();
+
+            //frm.ShowDialog();
+        }
+
+        private void btnLicenseInformation_Click(object sender, EventArgs e)
+        {
+            if (!TryLockNavigation())
+                return;
+
+            ActivateButton(btnLicenseInformation);
+
+            var frm = Program.Services.GetRequiredService<FrmLicenseInfo>();
+
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
+
+            lblTitle.Text = "License Information";
+
+
+            //using FrmLicenseInfo frm = new();
+
+            //frm.ShowDialog();
         }
     }
 }

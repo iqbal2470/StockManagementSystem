@@ -1,4 +1,5 @@
 using StockManagementSystem.Helpers;
+using StockManagementSystem.Licensing;
 using StockManagementSystem.Models.Common;
 using StockManagementSystem.Services.UserServices;
 
@@ -132,6 +133,18 @@ namespace StockManagementSystem
         {
             this.ActiveControl = txtUserName;
             txtUserName.Focus();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            string text = "Hello License";
+
+            string encrypted = CryptoHelper.Encrypt(text);
+
+            string decrypted = CryptoHelper.Decrypt(encrypted);
+
+            MessageBox.Show(
+                $"Encrypted:\n{encrypted}\n\nDecrypted:\n{decrypted}");
         }
     }
 }

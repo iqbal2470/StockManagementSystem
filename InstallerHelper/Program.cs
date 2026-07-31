@@ -165,7 +165,81 @@ Console.WriteLine();
 // Example:
 // C:\Users\<User>\AppData\Local\Temp\is-XXXX.tmp\SqlServer\SQLEXPR_x64_ENU
 
-if (args.Length < 2)
+
+
+//if (args.Length < 2)
+//{
+//    InstallerLogger.Error("Invalid installer arguments.");
+//    Console.WriteLine();
+//    Console.WriteLine("Press any key to exit...");
+//    Console.ReadKey();
+//    return;
+//}
+
+//string installPath = args[0];
+//string sqlFolder = args[1];
+
+//string sqlSetupPath = Path.Combine(
+//    sqlFolder,
+//    "SETUP.exe");
+
+//string appSettingsPath = Path.Combine(
+//    installPath,
+//    "appsettings.json");
+
+//string applicationPath = Path.Combine(
+//    installPath,
+//    "StockManagementSystem.exe");
+
+//InstallerService installer = new();
+
+//InstallerResult result = installer.Install(
+//    sqlSetupPath,
+//    appSettingsPath,
+//    applicationPath);
+
+//if (result.Success)
+//{
+//    InstallerLogger.Success(result.Message);
+//    Environment.Exit(0);
+//}
+//else
+//{
+//    InstallerLogger.Error(result.Message);
+//    Environment.Exit(1);
+//}
+
+
+InstallerService installer = new();
+
+InstallerResult result;
+
+if (args.Length == 1 &&
+    args[0].Equals("uninstall", StringComparison.OrdinalIgnoreCase))
+{
+    result = installer.Uninstall();
+}
+else if (args.Length >= 2)
+{
+    string installPath = args[0];
+    string sqlFolder = args[1];
+
+    string sqlSetupPath = Path.Combine(sqlFolder, "SETUP.exe");
+
+    string appSettingsPath = Path.Combine(
+        installPath,
+        "appsettings.json");
+
+    string applicationPath = Path.Combine(
+        installPath,
+        "StockManagementSystem.exe");
+
+    result = installer.Install(
+        sqlSetupPath,
+        appSettingsPath,
+        applicationPath);
+}
+else
 {
     InstallerLogger.Error("Invalid installer arguments.");
     Console.WriteLine();
@@ -173,28 +247,6 @@ if (args.Length < 2)
     Console.ReadKey();
     return;
 }
-
-string installPath = args[0];
-string sqlFolder = args[1];
-
-string sqlSetupPath = Path.Combine(
-    sqlFolder,
-    "SETUP.exe");
-
-string appSettingsPath = Path.Combine(
-    installPath,
-    "appsettings.json");
-
-string applicationPath = Path.Combine(
-    installPath,
-    "StockManagementSystem.exe");
-
-InstallerService installer = new();
-
-InstallerResult result = installer.Install(
-    sqlSetupPath,
-    appSettingsPath,
-    applicationPath);
 
 if (result.Success)
 {
@@ -206,6 +258,8 @@ else
     InstallerLogger.Error(result.Message);
     Environment.Exit(1);
 }
+
+
 //if (result.Success)
 //{
 //    InstallerLogger.Success(result.Message);

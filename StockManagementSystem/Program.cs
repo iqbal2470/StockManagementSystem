@@ -9,6 +9,7 @@ using StockManagementSystem.Forms.Brands;
 using StockManagementSystem.Forms.Categories;
 using StockManagementSystem.Forms.Dashboard;
 using StockManagementSystem.Forms.History;
+using StockManagementSystem.Forms.LicenseActivation;
 using StockManagementSystem.Forms.Login;
 using StockManagementSystem.Forms.Products;
 using StockManagementSystem.Forms.Purchase;
@@ -22,6 +23,10 @@ using StockManagementSystem.Interfaces;
 using StockManagementSystem.Interfaces;
 using StockManagementSystem.Repositories;
 using StockManagementSystem.Repositories;
+
+//using StockManagementSystem.Services;
+
+//using StockManagementSystem.Services;
 using StockManagementSystem.Services.BackupServices;
 using StockManagementSystem.Services.BrandServices;
 using StockManagementSystem.Services.CategoryServices;
@@ -110,6 +115,9 @@ namespace StockManagementSystem
                     services.AddTransient<FrmCreateAdmin>();
                     services.AddTransient<FrmDashboard>();
                     services.AddTransient<FrmBrand>();
+                    services.AddTransient<FrmLicenseActivation>();
+                    services.AddTransient<FrmLicenseInfo>();
+                    services.AddTransient<FrmLicenseRenewal>();
                 })
                 .Build();
         }
@@ -139,8 +147,22 @@ namespace StockManagementSystem
 
             Services = host.Services;
 
+
             using (var scope = Services.CreateScope())
             {
+
+                // License Check
+                if (!StockManagementSystem.Services.LicenseService.IsLicenseValid())
+                {
+                    var activation = scope.ServiceProvider
+                                          .GetRequiredService<FrmLicenseActivation>();
+
+                    if (activation.ShowDialog() != DialogResult.OK)
+                    {
+                        return;
+                    }
+                }
+
                 var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
                 bool userExists = userService.AnyUserExistsAsync()
@@ -159,10 +181,30 @@ namespace StockManagementSystem
                 }
 
                 var login = scope.ServiceProvider.GetRequiredService<FrmLogin>();
+                //var login = scope.ServiceProvider.GetRequiredService<FrmLicenseActivation>();
 
                 if (login.ShowDialog() != DialogResult.OK)
                 {
                     return;
+                }
+
+                if (!StockManagementSystem.Services.LicenseService.IsLifetimeLicense())
+                {
+                    int remainingDays = StockManagementSystem.Services.LicenseService.GetRemainingDays();
+
+                    if (remainingDays >= 0 &&
+                        remainingDays <= 7 &&
+                        StockManagementSystem.Services.LicenseWarningService.ShouldShowWarning())
+                    {
+                        MessageBox.Show(
+                            $"Your license will expire in {remainingDays} day(s).\n\n" +
+                            "Please contact Team Arrive to renew your license.",
+                            "License Expiry Warning",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+
+                        StockManagementSystem.Services.LicenseWarningService.SaveWarningDate();
+                    }
                 }
 
                 Application.Run(scope.ServiceProvider.GetRequiredService<FrmDashboard>());
