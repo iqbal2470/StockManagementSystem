@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,38 @@ namespace StockManagementSystem.Forms.LicenseActivation
         private void FrmLicenseRenewal_Load(object sender, EventArgs e)
         {
             LoadingCompleted?.Invoke();
+
+            MakePictureCircular(picProducts);
+
+            //CenterPanel();
+        }
+        //private void CenterPanel()
+        //{
+        //    pnlRenewLicense.Left = (pnlRenewLicense1.ClientSize.Width - pnlRenewLicense.Width) / 2;
+        //    pnlRenewLicense.Top = (pnlRenewLicense1.ClientSize.Height - pnlRenewLicense.Height) / 2;
+        //}
+
+        private void MakePictureCircular(PictureBox pictureBox)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
+            pictureBox.Region = new Region(path);
+
+            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+        private void picProducts_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlRenewLicense1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlRenewLicense1_Resize(object sender, EventArgs e)
+        {
+            //CenterPanel();
         }
     }
 }

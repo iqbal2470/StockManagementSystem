@@ -118,6 +118,7 @@ namespace StockManagementSystem
                     services.AddTransient<FrmLicenseActivation>();
                     services.AddTransient<FrmLicenseInfo>();
                     services.AddTransient<FrmLicenseRenewal>();
+                    services.AddTransient<FrmProductNew>();
                 })
                 .Build();
         }

@@ -719,7 +719,7 @@ namespace StockManagementSystem.Forms.Dashboard
             btnSales.Text = expanded ? " Sales" : "";
             btnStock.Text = expanded ? " Stock" : "";
             btnReports.Text = expanded ? " Reports" : "";
-            btnHistory.Text = expanded ? " History" : "";
+            btnHistory.Text = expanded ? " Activity Log" : "";
             btnSetting.Text = expanded ? " Settings" : "";
             btnLogOut.Text = expanded ? " LogOut" : "";
             btnRenewLicense.Text = expanded ? " Renew License" : "";
@@ -905,13 +905,14 @@ namespace StockManagementSystem.Forms.Dashboard
 
             ActivateButton(btnProduct);
 
-            var frm = Program.Services.GetRequiredService<FrmProduct>();
+            //var frm = Program.Services.GetRequiredService<FrmProduct>();
+            var frm = Program.Services.GetRequiredService<FrmProductNew>();
 
             frm.LoadingCompleted += OnChildFormLoaded;
 
             OpenChildForm(frm);
 
-            lblTitle.Text = "Product";
+            lblTitle.Text = "Product New";
 
         }
 
@@ -1104,7 +1105,7 @@ namespace StockManagementSystem.Forms.Dashboard
 
             OpenChildForm(frm);
 
-            lblTitle.Text = "History";
+            lblTitle.Text = "Activity Log";
         }
 
         private void lnkViewAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1187,6 +1188,23 @@ namespace StockManagementSystem.Forms.Dashboard
             //using FrmLicenseInfo frm = new();
 
             //frm.ShowDialog();
+        }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            if (!TryLockNavigation())
+                return;
+
+            ActivateButton(btnProduct);
+
+            var frm = Program.Services.GetRequiredService<FrmProduct>();
+            //var frm = Program.Services.GetRequiredService<FrmProductNew>();
+
+            frm.LoadingCompleted += OnChildFormLoaded;
+
+            OpenChildForm(frm);
+
+            lblTitle.Text = "Product";
         }
     }
 }

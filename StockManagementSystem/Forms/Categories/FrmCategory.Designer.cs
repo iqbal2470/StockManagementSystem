@@ -124,7 +124,7 @@
             txtCategoryName.BorderStyle = BorderStyle.FixedSingle;
             txtCategoryName.Location = new Point(17, 35);
             txtCategoryName.Name = "txtCategoryName";
-            txtCategoryName.PlaceholderText = "Enter category name..";
+            txtCategoryName.PlaceholderText = " Enter category name..";
             txtCategoryName.Size = new Size(355, 31);
             txtCategoryName.TabIndex = 2;
             // 
@@ -284,7 +284,7 @@
             txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearch.Location = new Point(921, 11);
             txtSearch.Name = "txtSearch";
-            txtSearch.PlaceholderText = "Search here....";
+            txtSearch.PlaceholderText = " Search here....";
             txtSearch.Size = new Size(376, 31);
             txtSearch.TabIndex = 11;
             txtSearch.TextChanged += txtSearch_TextChanged;
@@ -302,7 +302,7 @@
             // 
             // pnlMain
             // 
-            pnlMain.BackColor = Color.WhiteSmoke;
+            pnlMain.BackColor = Color.FromArgb(236, 241, 252);
             pnlMain.Controls.Add(panel9);
             pnlMain.Controls.Add(panel8);
             pnlMain.Controls.Add(pnlEntryFields);
@@ -748,7 +748,7 @@
             AccessibleName = "";
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
+            BackColor = Color.FromArgb(236, 241, 252);
             ClientSize = new Size(1317, 690);
             Controls.Add(pnlMain);
             FormBorderStyle = FormBorderStyle.FixedSingle;

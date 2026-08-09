@@ -22,6 +22,7 @@ namespace StockManagementSystem.Repositories
         public async Task<List<Product>> GetAllProductsAsync()
         {
             return await _context.Products
+                .AsNoTracking()
                 .Where(x => x.IsActive)
                 .Include(x => x.Category)
                 .Include(x => x.Brand)

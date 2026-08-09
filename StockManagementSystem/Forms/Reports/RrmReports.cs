@@ -1,11 +1,10 @@
 ﻿using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Spreadsheet;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using QuestPDF.Fluent;
-using System.Drawing;
-using System.Drawing.Imaging;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SkiaSharp;
@@ -15,8 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using DocumentFormat.OpenXml.Spreadsheet;
-
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using Color = System.Drawing.Color;
 using Colors = QuestPDF.Helpers.Colors;
 using IContainer = QuestPDF.Infrastructure.IContainer;
@@ -913,6 +913,56 @@ namespace StockManagementSystem.Forms.Reports
 
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
+            //if (dgvReport.Rows.Count == 0)
+            //{
+            //    MessageBox.Show("No data available to export.",
+            //        "Information",
+            //        MessageBoxButtons.OK,
+            //        MessageBoxIcon.Information);
+
+            //    return;
+            //}
+
+            //using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            //{
+            //    saveFileDialog.Filter = "Excel Workbook|*.xlsx";
+            //    saveFileDialog.FileName = "Report.xlsx";
+
+            //    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        using (XLWorkbook workbook = new XLWorkbook())
+            //        {
+            //            var worksheet = workbook.Worksheets.Add("Report");
+
+            //            // Header
+            //            for (int i = 0; i < dgvReport.Columns.Count; i++)
+            //            {
+            //                worksheet.Cell(1, i + 1).Value = dgvReport.Columns[i].HeaderText;
+            //                worksheet.Cell(1, i + 1).Style.Font.Bold = true;
+            //            }
+
+            //            // Data
+            //            for (int i = 0; i < dgvReport.Rows.Count; i++)
+            //            {
+            //                for (int j = 0; j < dgvReport.Columns.Count; j++)
+            //                {
+            //                    worksheet.Cell(i + 2, j + 1).Value =
+            //                        dgvReport.Rows[i].Cells[j].Value?.ToString();
+            //                }
+            //            }
+
+            //            worksheet.Columns().AdjustToContents();
+
+            //            workbook.SaveAs(saveFileDialog.FileName);
+            //        }
+
+            //        MessageBox.Show("Excel exported successfully.",
+            //            "Success",
+            //            MessageBoxButtons.OK,
+            //            MessageBoxIcon.Information);
+            //    }
+            //}
+
             if (dgvReport.Rows.Count == 0)
             {
                 MessageBox.Show("No data available to export.",
@@ -925,42 +975,125 @@ namespace StockManagementSystem.Forms.Reports
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.Filter = "Excel Workbook|*.xlsx";
-                saveFileDialog.FileName = "Report.xlsx";
+                saveFileDialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx";
+                saveFileDialog.FileName = $"Report_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                using (XLWorkbook workbook = new XLWorkbook())
                 {
-                    using (XLWorkbook workbook = new XLWorkbook())
+                    var worksheet = workbook.Worksheets.Add("Report");
+
+                    // ==========================
+                    // Report Title
+                    // ==========================
+
+                    worksheet.Range("A1:H1").Merge();
+                    worksheet.Cell("A1").Value = cmbReportType.Text.ToUpper() + " REPORT";
+                    worksheet.Cell("A1").Style.Font.Bold = true;
+                    worksheet.Cell("A1").Style.Font.FontSize = 18;
+                    worksheet.Cell("A1").Style.Font.FontColor = XLColor.White;
+                    worksheet.Cell("A1").Style.Fill.BackgroundColor = XLColor.DarkBlue;
+                    worksheet.Cell("A1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell("A1").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+
+                    worksheet.Row(1).Height = 28;
+
+                    // ==========================
+                    // Date
+                    // ==========================
+
+                    worksheet.Range("A2:H2").Merge();
+                    worksheet.Cell("A2").Value =
+                        $"Generated : {DateTime.Now:dd-MMM-yyyy hh:mm tt}";
+                    worksheet.Cell("A2").Style.Alignment.Horizontal =
+                        XLAlignmentHorizontalValues.Right;
+                    worksheet.Cell("A2").Style.Font.Italic = true;
+                    worksheet.Cell("A2").Style.Font.FontColor = XLColor.DimGray;
+
+                    // ==========================
+                    // Header
+                    // ==========================
+
+                    int headerRow = 4;
+
+                    for (int i = 0; i < dgvReport.Columns.Count; i++)
                     {
-                        var worksheet = workbook.Worksheets.Add("Report");
+                        var cell = worksheet.Cell(headerRow, i + 1);
 
-                        // Header
-                        for (int i = 0; i < dgvReport.Columns.Count; i++)
-                        {
-                            worksheet.Cell(1, i + 1).Value = dgvReport.Columns[i].HeaderText;
-                            worksheet.Cell(1, i + 1).Style.Font.Bold = true;
-                        }
+                        cell.Value = dgvReport.Columns[i].HeaderText;
 
-                        // Data
-                        for (int i = 0; i < dgvReport.Rows.Count; i++)
-                        {
-                            for (int j = 0; j < dgvReport.Columns.Count; j++)
-                            {
-                                worksheet.Cell(i + 2, j + 1).Value =
-                                    dgvReport.Rows[i].Cells[j].Value?.ToString();
-                            }
-                        }
-
-                        worksheet.Columns().AdjustToContents();
-
-                        workbook.SaveAs(saveFileDialog.FileName);
+                        cell.Style.Font.Bold = true;
+                        cell.Style.Font.FontColor = XLColor.White;
+                        cell.Style.Fill.BackgroundColor = XLColor.DarkBlue;
+                        cell.Style.Alignment.Horizontal =
+                            XLAlignmentHorizontalValues.Center;
+                        cell.Style.Alignment.Vertical =
+                            XLAlignmentVerticalValues.Center;
                     }
 
-                    MessageBox.Show("Excel exported successfully.",
-                        "Success",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    // ==========================
+                    // Data
+                    // ==========================
+
+                    int row = 5;
+
+                    for (int i = 0; i < dgvReport.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < dgvReport.Columns.Count; j++)
+                        {
+                            worksheet.Cell(row, j + 1).Value =
+                                dgvReport.Rows[i].Cells[j].Value?.ToString();
+                        }
+
+                        row++;
+                    }
+
+                    // ==========================
+                    // Create Excel Table
+                    // ==========================
+
+                    var tableRange =
+                        worksheet.Range(headerRow, 1, row - 1, dgvReport.Columns.Count);
+
+                    var table = tableRange.CreateTable();
+
+                    table.Theme = XLTableTheme.TableStyleMedium2;
+
+                    // ==========================
+                    // Borders
+                    // ==========================
+
+                    tableRange.Style.Border.OutsideBorder =
+                        XLBorderStyleValues.Thin;
+
+                    tableRange.Style.Border.InsideBorder =
+                        XLBorderStyleValues.Thin;
+
+                    // ==========================
+                    // Alignment
+                    // ==========================
+
+                    worksheet.Columns().Style.Alignment.Horizontal =
+                        XLAlignmentHorizontalValues.Center;
+
+                    worksheet.Columns().AdjustToContents();
+
+                    worksheet.SheetView.FreezeRows(4);
+
+                    workbook.SaveAs(saveFileDialog.FileName);
                 }
+
+                MessageBox.Show("Excel exported successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                Process.Start(new ProcessStartInfo(saveFileDialog.FileName)
+                {
+                    UseShellExecute = true
+                });
             }
         }
 

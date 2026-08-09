@@ -26,6 +26,9 @@ namespace InstallerHelper
         {
             try
             {
+                InstallerLogger.Info("========== INSTALL START ==========");
+                InstallerLogger.Info("Step 1 : Checking SQL Server...");
+
                 // 1. SQL Installed?
                 if (!_sqlInstaller.IsSqlInstalled())
                 {
@@ -43,7 +46,28 @@ namespace InstallerHelper
                             Message = "SQL Server installation failed."
                         };
                     }
+
+                    // 👇 YE CODE YAHAN ADD KARO
+                    InstallerLogger.Info("Waiting for SQL Server service...");
+
+                    for (int i = 0; i < 60; i++)
+                    {
+                        var tempInstances = SqlInstanceHelper.GetSqlInstances();
+
+                        if (tempInstances.Count > 0)
+                        {
+                            InstallerLogger.Success("SQL Server instance detected.");
+                            break;
+                        }
+
+                        Thread.Sleep(1000);
+                    }
+
                 }
+
+                InstallerLogger.Success("SQL Server installation completed.");
+
+                InstallerLogger.Info("Step 2 : Detecting SQL Instance...");
 
                 // 2. Detect Instance
                 var instances = SqlInstanceHelper.GetSqlInstances();
@@ -56,6 +80,9 @@ namespace InstallerHelper
 
                 if (instances.Count == 0)
                 {
+
+                    InstallerLogger.Error("No SQL Instance Found.");
+
                     return new InstallerResult
                     {
                         Success = false,
@@ -86,6 +113,8 @@ namespace InstallerHelper
                 //Console.WriteLine($"Selected Instance : {selectedInstance}");
                 InstallerLogger.Info($"Selected Instance : {selectedInstance}");
 
+                InstallerLogger.Info("Step 3 : Creating Database...");
+
                 // 3. Create Database
                 //if (!_databaseManager.CreateDatabase(selectedInstance, InstallerConstants.DatabaseName))
                 //    return false;
@@ -99,12 +128,16 @@ namespace InstallerHelper
                     };
                 }
 
+                InstallerLogger.Success("Database created successfully.");
+
                 // 4. Update Connection String
                 //if (!_connectionStringManager.UpdateConnectionString(
                 //    appSettingsPath,
                 //    selectedInstance,
                 //    InstallerConstants.DatabaseName))
                 //    return false;
+
+                InstallerLogger.Info("Step 4 : Updating appsettings.json...");
 
                 if (!_connectionStringManager.UpdateConnectionString(
     appSettingsPath,
@@ -117,6 +150,9 @@ namespace InstallerHelper
                         Message = "Failed to update appsettings.json."
                     };
                 }
+
+                InstallerLogger.Success("Connection string updated.");
+                InstallerLogger.Info("Step 5 : Launching Application...");
 
 
                 //if (!_launcher.Launch(applicationPath))

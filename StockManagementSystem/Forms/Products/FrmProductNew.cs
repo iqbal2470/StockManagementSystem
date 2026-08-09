@@ -20,8 +20,9 @@ using ZXing.Windows.Compatibility;
 
 namespace StockManagementSystem.Forms.Products
 {
-    public partial class FrmProduct : BaseForm
+    public partial class FrmProductNew : BaseForm
     {
+        
         private string _imagePath = "";
         private int _productId = 0;
         private bool _isNewImageSelected = false;
@@ -42,7 +43,7 @@ namespace StockManagementSystem.Forms.Products
         private readonly ICategoryService _categoryService;
         private readonly IBrandService _brandService;
         private readonly IUnitService _unitService;
-        public FrmProduct(IProductService productService, ICategoryService categoryService, IBrandService brandService, IUnitService unitService)
+        public FrmProductNew(IProductService productService, ICategoryService categoryService, IBrandService brandService, IUnitService unitService)
         {
             InitializeComponent();
 
@@ -408,7 +409,7 @@ namespace StockManagementSystem.Forms.Products
         //    await LoadProducts();
         //}
 
-        private async void FrmProduct_Load(object sender, EventArgs e)
+        private async void FrmProductNew_Load(object sender, EventArgs e)
         {
 
 
@@ -457,7 +458,7 @@ namespace StockManagementSystem.Forms.Products
 
 
                 pnlMain.AutoScroll = true;
-                pnlMain.AutoScrollMinSize = new Size(0, 1200);
+                pnlMain.AutoScrollMinSize = new Size(0, 1100);
 
                 // Grid formatting sirf ek baar
                 FormatGrid();
@@ -949,9 +950,9 @@ namespace StockManagementSystem.Forms.Products
                 _isLoading = false;
             }
 
-            
+
         }
-        private  void ClearForm()
+        private void ClearForm()
         {
             txtProductName.Clear();
             txtVehicleModel.Clear();
@@ -1106,7 +1107,7 @@ namespace StockManagementSystem.Forms.Products
                 _isLoading = false;
             }
 
-           
+
         }
 
         private async void btnUpdate_Click(object sender, EventArgs e)
@@ -1198,7 +1199,7 @@ namespace StockManagementSystem.Forms.Products
                 _isLoading = false;
             }
 
-            
+
         }
 
         private async void btnDelete_Click(object sender, EventArgs e)
@@ -1272,7 +1273,7 @@ namespace StockManagementSystem.Forms.Products
                 _isLoading = false;
             }
 
-           
+
         }
 
 
@@ -1569,7 +1570,7 @@ namespace StockManagementSystem.Forms.Products
 
 
 
-            
+
         }
 
         private async void chkAutoBarcode_CheckedChanged(object sender, EventArgs e)
@@ -1622,32 +1623,32 @@ namespace StockManagementSystem.Forms.Products
             try
             {
                 try
-            {
-                _isClearingForm = true;
+                {
+                    _isClearingForm = true;
 
-                ClearForm();
+                    ClearForm();
 
-                SetAddMode();
+                    SetAddMode();
 
-                SetButtonAddMode();
+                    SetButtonAddMode();
 
-                await GenerateProductCode();
+                    await GenerateProductCode();
 
-                await GenerateNewBarcode();
+                    await GenerateNewBarcode();
 
-                await LoadProducts();
+                    await LoadProducts();
 
-                dgvProducts.ClearSelection();
+                    dgvProducts.ClearSelection();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    _isClearingForm = false;
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                _isClearingForm = false;
-            }
-}
             finally
             {
                 _isLoading = false;
@@ -1671,7 +1672,7 @@ namespace StockManagementSystem.Forms.Products
             //}
 
 
-            
+
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
@@ -1727,4 +1728,5 @@ namespace StockManagementSystem.Forms.Products
 
 
     }
+
 }

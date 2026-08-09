@@ -32,16 +32,23 @@
             panel2 = new Panel();
             panel5 = new Panel();
             panel4 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            pnlRenewLicense1 = new Panel();
+            label1 = new Label();
+            panel6 = new Panel();
             txtLicenseFile = new TextBox();
             label2 = new Label();
+            label3 = new Label();
             btnBrowse = new FontAwesome.Sharp.IconButton();
             btnRenew = new FontAwesome.Sharp.IconButton();
-            panel3 = new Panel();
-            label1 = new Label();
+            picProducts = new PictureBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel4.SuspendLayout();
-            panel3.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            pnlRenewLicense1.SuspendLayout();
+            panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picProducts).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -57,7 +64,6 @@
             // 
             panel2.Controls.Add(panel5);
             panel2.Controls.Add(panel4);
-            panel2.Controls.Add(panel3);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
@@ -74,86 +80,156 @@
             // 
             // panel4
             // 
-            panel4.Controls.Add(txtLicenseFile);
-            panel4.Controls.Add(label2);
-            panel4.Controls.Add(btnBrowse);
-            panel4.Controls.Add(btnRenew);
+            panel4.Controls.Add(tableLayoutPanel1);
             panel4.Dock = DockStyle.Fill;
-            panel4.Location = new Point(0, 69);
+            panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(800, 381);
+            panel4.Size = new Size(800, 450);
             panel4.TabIndex = 15;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(pnlRenewLicense1, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.Padding = new Padding(15);
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(800, 450);
+            tableLayoutPanel1.TabIndex = 14;
+            // 
+            // pnlRenewLicense1
+            // 
+            pnlRenewLicense1.BackColor = Color.White;
+            pnlRenewLicense1.Controls.Add(label1);
+            pnlRenewLicense1.Controls.Add(panel6);
+            pnlRenewLicense1.Controls.Add(picProducts);
+            pnlRenewLicense1.Controls.Add(label2);
+            pnlRenewLicense1.Controls.Add(btnRenew);
+            pnlRenewLicense1.Controls.Add(label3);
+            pnlRenewLicense1.Controls.Add(btnBrowse);
+            pnlRenewLicense1.Dock = DockStyle.Fill;
+            pnlRenewLicense1.Location = new Point(25, 25);
+            pnlRenewLicense1.Margin = new Padding(10);
+            pnlRenewLicense1.Name = "pnlRenewLicense1";
+            pnlRenewLicense1.Padding = new Padding(20);
+            pnlRenewLicense1.Size = new Size(750, 400);
+            pnlRenewLicense1.TabIndex = 0;
+            pnlRenewLicense1.Resize += pnlRenewLicense1_Resize;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            label1.Location = new Point(245, 70);
+            label1.Name = "label1";
+            label1.Size = new Size(162, 30);
+            label1.TabIndex = 27;
+            label1.Text = "Renew License";
+            // 
+            // panel6
+            // 
+            panel6.BackColor = Color.White;
+            panel6.BorderStyle = BorderStyle.FixedSingle;
+            panel6.Controls.Add(txtLicenseFile);
+            panel6.Location = new Point(226, 175);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(257, 32);
+            panel6.TabIndex = 29;
             // 
             // txtLicenseFile
             // 
-            txtLicenseFile.Location = new Point(238, 65);
+            txtLicenseFile.BackColor = Color.White;
+            txtLicenseFile.BorderStyle = BorderStyle.None;
+            txtLicenseFile.Location = new Point(7, 2);
             txtLicenseFile.Name = "txtLicenseFile";
+            txtLicenseFile.PlaceholderText = "  No file selected";
             txtLicenseFile.ReadOnly = true;
-            txtLicenseFile.Size = new Size(239, 31);
+            txtLicenseFile.Size = new Size(239, 24);
             txtLicenseFile.TabIndex = 11;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label2.Location = new Point(120, 68);
+            label2.Location = new Point(112, 178);
             label2.Name = "label2";
             label2.Size = new Size(108, 25);
             label2.TabIndex = 10;
             label2.Text = "License File";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 8F);
+            label3.ForeColor = Color.DimGray;
+            label3.Location = new Point(245, 107);
+            label3.Name = "label3";
+            label3.Size = new Size(395, 21);
+            label3.TabIndex = 28;
+            label3.Text = "Upload your license file to renew your  software license.";
+            // 
             // btnBrowse
             // 
+            btnBrowse.BackColor = Color.FromArgb(39, 102, 243);
+            btnBrowse.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal;
             btnBrowse.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnBrowse.IconChar = FontAwesome.Sharp.IconChar.None;
-            btnBrowse.IconColor = Color.Black;
+            btnBrowse.ForeColor = Color.White;
+            btnBrowse.IconChar = FontAwesome.Sharp.IconChar.File;
+            btnBrowse.IconColor = Color.White;
             btnBrowse.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnBrowse.Location = new Point(497, 61);
+            btnBrowse.IconSize = 23;
+            btnBrowse.Location = new Point(489, 171);
             btnBrowse.Name = "btnBrowse";
-            btnBrowse.Size = new Size(179, 38);
+            btnBrowse.Padding = new Padding(5);
+            btnBrowse.Size = new Size(179, 40);
             btnBrowse.TabIndex = 12;
             btnBrowse.Text = "Browse...";
-            btnBrowse.UseVisualStyleBackColor = true;
+            btnBrowse.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBrowse.UseVisualStyleBackColor = false;
             btnBrowse.Click += btnBrowse_Click;
             // 
             // btnRenew
             // 
+            btnRenew.BackColor = Color.FromArgb(39, 102, 243);
             btnRenew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnRenew.IconChar = FontAwesome.Sharp.IconChar.None;
-            btnRenew.IconColor = Color.Black;
+            btnRenew.ForeColor = Color.White;
+            btnRenew.IconChar = FontAwesome.Sharp.IconChar.RotateRight;
+            btnRenew.IconColor = Color.White;
             btnRenew.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnRenew.Location = new Point(259, 178);
+            btnRenew.IconSize = 25;
+            btnRenew.Location = new Point(272, 249);
+            btnRenew.Margin = new Padding(5);
             btnRenew.Name = "btnRenew";
-            btnRenew.Size = new Size(249, 42);
+            btnRenew.Padding = new Padding(5);
+            btnRenew.Size = new Size(221, 43);
             btnRenew.TabIndex = 13;
-            btnRenew.Text = "Renew";
-            btnRenew.UseVisualStyleBackColor = true;
+            btnRenew.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnRenew.UseVisualStyleBackColor = false;
             btnRenew.Click += btnRenew_Click;
             // 
-            // panel3
+            // picProducts
             // 
-            panel3.Controls.Add(label1);
-            panel3.Dock = DockStyle.Top;
-            panel3.Location = new Point(0, 0);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(800, 69);
-            panel3.TabIndex = 14;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label1.Location = new Point(293, 20);
-            label1.Name = "label1";
-            label1.Size = new Size(179, 32);
-            label1.TabIndex = 7;
-            label1.Text = "Renew License";
+            picProducts.BackColor = Color.FromArgb(39, 102, 243);
+            picProducts.BackgroundImageLayout = ImageLayout.Stretch;
+            picProducts.Image = Properties.Resources.key;
+            picProducts.Location = new Point(112, 49);
+            picProducts.Name = "picProducts";
+            picProducts.Padding = new Padding(35);
+            picProducts.Size = new Size(95, 95);
+            picProducts.SizeMode = PictureBoxSizeMode.StretchImage;
+            picProducts.TabIndex = 26;
+            picProducts.TabStop = false;
+            picProducts.Click += picProducts_Click;
             // 
             // FrmLicenseRenewal
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(236, 241, 252);
             ClientSize = new Size(800, 450);
             Controls.Add(panel1);
             Name = "FrmLicenseRenewal";
@@ -163,9 +239,12 @@
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel4.ResumeLayout(false);
-            panel4.PerformLayout();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
+            tableLayoutPanel1.ResumeLayout(false);
+            pnlRenewLicense1.ResumeLayout(false);
+            pnlRenewLicense1.PerformLayout();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picProducts).EndInit();
             ResumeLayout(false);
         }
 
@@ -176,10 +255,15 @@
         private FontAwesome.Sharp.IconButton btnBrowse;
         private TextBox txtLicenseFile;
         private Label label2;
-        private Label label1;
         private Panel panel2;
         private Panel panel5;
         private Panel panel4;
-        private Panel panel3;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Panel pnlRenewLicense1;
+        private PictureBox picProducts;
+        private Label label3;
+        private Label label1;
+        private Panel panel6;
+        private Panel pnlRenewLicense;
     }
 }

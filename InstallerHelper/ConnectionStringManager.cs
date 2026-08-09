@@ -19,6 +19,10 @@ namespace InstallerHelper
         {
             try
             {
+                InstallerLogger.Info($"AppSettings Path : {appSettingsPath}");
+                InstallerLogger.Info($"SQL Instance : {instanceName}");
+
+
                 if (!File.Exists(appSettingsPath))
                     throw new FileNotFoundException(
                         "appsettings.json not found.",
@@ -42,12 +46,16 @@ namespace InstallerHelper
                 root["ConnectionStrings"]![InstallerConstants.ConnectionName]
     = connectionString;
 
+                File.SetAttributes(appSettingsPath, FileAttributes.Normal);
+
                 File.WriteAllText(
                     appSettingsPath,
                     root.ToJsonString(new JsonSerializerOptions
                     {
                         WriteIndented = true
                     }));
+
+                InstallerLogger.Success("appsettings.json updated successfully.");
 
                 return true;
             }

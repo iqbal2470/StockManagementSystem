@@ -41,9 +41,10 @@
             label1 = new Label();
             pnlSidebar = new Panel();
             pnlMenu = new Panel();
+            iconButton1 = new FontAwesome.Sharp.IconButton();
+            btnLogOut = new FontAwesome.Sharp.IconButton();
             btnRenewLicense = new FontAwesome.Sharp.IconButton();
             btnLicenseInformation = new FontAwesome.Sharp.IconButton();
-            btnLogOut = new FontAwesome.Sharp.IconButton();
             panel1 = new Panel();
             pictureBox9 = new PictureBox();
             btnBackupRestore = new FontAwesome.Sharp.IconButton();
@@ -250,9 +251,10 @@
             // pnlMenu
             // 
             pnlMenu.AutoScroll = true;
+            pnlMenu.Controls.Add(iconButton1);
+            pnlMenu.Controls.Add(btnLogOut);
             pnlMenu.Controls.Add(btnRenewLicense);
             pnlMenu.Controls.Add(btnLicenseInformation);
-            pnlMenu.Controls.Add(btnLogOut);
             pnlMenu.Controls.Add(panel1);
             pnlMenu.Controls.Add(btnBackupRestore);
             pnlMenu.Controls.Add(btnSetting);
@@ -272,6 +274,53 @@
             pnlMenu.Size = new Size(250, 980);
             pnlMenu.TabIndex = 0;
             // 
+            // iconButton1
+            // 
+            iconButton1.Dock = DockStyle.Top;
+            iconButton1.FlatAppearance.BorderSize = 0;
+            iconButton1.FlatStyle = FlatStyle.Flat;
+            iconButton1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            iconButton1.ForeColor = SystemColors.ControlLightLight;
+            iconButton1.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
+            iconButton1.IconColor = Color.White;
+            iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconButton1.IconSize = 24;
+            iconButton1.ImageAlign = ContentAlignment.MiddleLeft;
+            iconButton1.Location = new Point(0, 510);
+            iconButton1.Name = "iconButton1";
+            iconButton1.Padding = new Padding(15, 0, 0, 0);
+            iconButton1.Size = new Size(250, 34);
+            iconButton1.TabIndex = 23;
+            iconButton1.Text = "LogOut";
+            iconButton1.TextAlign = ContentAlignment.MiddleLeft;
+            iconButton1.TextImageRelation = TextImageRelation.ImageBeforeText;
+            iconButton1.UseVisualStyleBackColor = true;
+            iconButton1.Visible = false;
+            iconButton1.Click += iconButton1_Click;
+            // 
+            // btnLogOut
+            // 
+            btnLogOut.Dock = DockStyle.Top;
+            btnLogOut.FlatAppearance.BorderSize = 0;
+            btnLogOut.FlatStyle = FlatStyle.Flat;
+            btnLogOut.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnLogOut.ForeColor = SystemColors.ControlLightLight;
+            btnLogOut.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
+            btnLogOut.IconColor = Color.White;
+            btnLogOut.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLogOut.IconSize = 24;
+            btnLogOut.ImageAlign = ContentAlignment.MiddleLeft;
+            btnLogOut.Location = new Point(0, 476);
+            btnLogOut.Name = "btnLogOut";
+            btnLogOut.Padding = new Padding(15, 0, 0, 0);
+            btnLogOut.Size = new Size(250, 34);
+            btnLogOut.TabIndex = 20;
+            btnLogOut.Text = "LogOut";
+            btnLogOut.TextAlign = ContentAlignment.MiddleLeft;
+            btnLogOut.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnLogOut.UseVisualStyleBackColor = true;
+            btnLogOut.Click += btnLogout_Click;
+            // 
             // btnRenewLicense
             // 
             btnRenewLicense.Dock = DockStyle.Top;
@@ -279,12 +328,12 @@
             btnRenewLicense.FlatStyle = FlatStyle.Flat;
             btnRenewLicense.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnRenewLicense.ForeColor = SystemColors.ControlLightLight;
-            btnRenewLicense.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
+            btnRenewLicense.IconChar = FontAwesome.Sharp.IconChar.RotateRight;
             btnRenewLicense.IconColor = Color.White;
             btnRenewLicense.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnRenewLicense.IconSize = 24;
             btnRenewLicense.ImageAlign = ContentAlignment.MiddleLeft;
-            btnRenewLicense.Location = new Point(0, 476);
+            btnRenewLicense.Location = new Point(0, 442);
             btnRenewLicense.Name = "btnRenewLicense";
             btnRenewLicense.Padding = new Padding(15, 0, 0, 0);
             btnRenewLicense.Size = new Size(250, 34);
@@ -302,12 +351,12 @@
             btnLicenseInformation.FlatStyle = FlatStyle.Flat;
             btnLicenseInformation.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnLicenseInformation.ForeColor = SystemColors.ControlLightLight;
-            btnLicenseInformation.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
+            btnLicenseInformation.IconChar = FontAwesome.Sharp.IconChar.IdCardClip;
             btnLicenseInformation.IconColor = Color.White;
             btnLicenseInformation.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnLicenseInformation.IconSize = 24;
             btnLicenseInformation.ImageAlign = ContentAlignment.MiddleLeft;
-            btnLicenseInformation.Location = new Point(0, 442);
+            btnLicenseInformation.Location = new Point(0, 408);
             btnLicenseInformation.Name = "btnLicenseInformation";
             btnLicenseInformation.Padding = new Padding(15, 0, 0, 0);
             btnLicenseInformation.Size = new Size(250, 34);
@@ -317,29 +366,6 @@
             btnLicenseInformation.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnLicenseInformation.UseVisualStyleBackColor = true;
             btnLicenseInformation.Click += btnLicenseInformation_Click;
-            // 
-            // btnLogOut
-            // 
-            btnLogOut.Dock = DockStyle.Top;
-            btnLogOut.FlatAppearance.BorderSize = 0;
-            btnLogOut.FlatStyle = FlatStyle.Flat;
-            btnLogOut.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnLogOut.ForeColor = SystemColors.ControlLightLight;
-            btnLogOut.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
-            btnLogOut.IconColor = Color.White;
-            btnLogOut.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnLogOut.IconSize = 24;
-            btnLogOut.ImageAlign = ContentAlignment.MiddleLeft;
-            btnLogOut.Location = new Point(0, 408);
-            btnLogOut.Name = "btnLogOut";
-            btnLogOut.Padding = new Padding(15, 0, 0, 0);
-            btnLogOut.Size = new Size(250, 34);
-            btnLogOut.TabIndex = 20;
-            btnLogOut.Text = "LogOut";
-            btnLogOut.TextAlign = ContentAlignment.MiddleLeft;
-            btnLogOut.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnLogOut.UseVisualStyleBackColor = true;
-            btnLogOut.Click += btnLogout_Click;
             // 
             // panel1
             // 
@@ -405,6 +431,7 @@
             btnSetting.TextAlign = ContentAlignment.MiddleLeft;
             btnSetting.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSetting.UseVisualStyleBackColor = true;
+            btnSetting.Visible = false;
             // 
             // btnHistory
             // 
@@ -413,7 +440,7 @@
             btnHistory.FlatStyle = FlatStyle.Flat;
             btnHistory.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnHistory.ForeColor = SystemColors.ControlLightLight;
-            btnHistory.IconChar = FontAwesome.Sharp.IconChar.ChartColumn;
+            btnHistory.IconChar = FontAwesome.Sharp.IconChar.ClockRotateLeft;
             btnHistory.IconColor = Color.White;
             btnHistory.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnHistory.IconSize = 24;
@@ -423,7 +450,7 @@
             btnHistory.Padding = new Padding(15, 0, 0, 0);
             btnHistory.Size = new Size(250, 34);
             btnHistory.TabIndex = 15;
-            btnHistory.Text = "History";
+            btnHistory.Text = "Activity Log";
             btnHistory.TextAlign = ContentAlignment.MiddleLeft;
             btnHistory.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnHistory.UseVisualStyleBackColor = true;
@@ -829,6 +856,7 @@
             // 
             // tblBottomSection
             // 
+            tblBottomSection.BackColor = Color.FromArgb(236, 241, 252);
             tblBottomSection.ColumnCount = 2;
             tblBottomSection.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
             tblBottomSection.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
@@ -1049,6 +1077,7 @@
             // 
             // tblCharts
             // 
+            tblCharts.BackColor = Color.FromArgb(236, 241, 252);
             tblCharts.ColumnCount = 2;
             tblCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62.065815F));
             tblCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 37.934185F));
@@ -1944,6 +1973,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(236, 241, 252);
             ClientSize = new Size(1364, 1050);
             Controls.Add(pnlMain);
             Controls.Add(pnlHeader);
@@ -2168,5 +2198,6 @@
         private Panel panel12;
         private FontAwesome.Sharp.IconButton btnRenewLicense;
         private FontAwesome.Sharp.IconButton btnLicenseInformation;
+        private FontAwesome.Sharp.IconButton iconButton1;
     }
 }

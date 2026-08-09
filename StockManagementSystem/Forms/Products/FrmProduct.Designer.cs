@@ -900,6 +900,7 @@
             // tableLayoutPanel4
             // 
             tableLayoutPanel4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tableLayoutPanel4.BackColor = Color.White;
             tableLayoutPanel4.ColumnCount = 2;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
@@ -966,6 +967,7 @@
             // 
             // tableLayoutPanel3
             // 
+            tableLayoutPanel3.BackColor = Color.White;
             tableLayoutPanel3.ColumnCount = 4;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
@@ -1034,6 +1036,7 @@
             // 
             // panel6
             // 
+            panel6.BackColor = Color.White;
             panel6.Controls.Add(label20);
             panel6.Controls.Add(pictureBox3);
             panel6.Dock = DockStyle.Top;
@@ -1096,6 +1099,7 @@
             // panel1
             // 
             panel1.AutoSize = true;
+            panel1.BackColor = Color.White;
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(label19);
@@ -1166,6 +1170,7 @@
             // pnlLowStock
             // 
             pnlLowStock.AutoSize = true;
+            pnlLowStock.BackColor = Color.White;
             pnlLowStock.BorderStyle = BorderStyle.FixedSingle;
             pnlLowStock.Controls.Add(panel8);
             pnlLowStock.Controls.Add(label17);
@@ -1236,6 +1241,7 @@
             // pnlCurrentStock
             // 
             pnlCurrentStock.AutoSize = true;
+            pnlCurrentStock.BackColor = Color.White;
             pnlCurrentStock.BorderStyle = BorderStyle.FixedSingle;
             pnlCurrentStock.Controls.Add(panel7);
             pnlCurrentStock.Controls.Add(label15);
@@ -1306,6 +1312,7 @@
             // pnlTotalProducts
             // 
             pnlTotalProducts.AutoSize = true;
+            pnlTotalProducts.BackColor = Color.White;
             pnlTotalProducts.BorderStyle = BorderStyle.FixedSingle;
             pnlTotalProducts.Controls.Add(panel2);
             pnlTotalProducts.Controls.Add(lblProductDesc);
@@ -1378,7 +1385,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            BackColor = Color.White;
+            BackColor = Color.FromArgb(236, 241, 252);
             ClientSize = new Size(1450, 1050);
             Controls.Add(pnlMain);
             Font = new Font("Segoe UI", 9F);

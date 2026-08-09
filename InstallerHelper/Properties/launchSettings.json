@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "InstallerHelper": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Program Files\\TEAMARRIVE\\Stock Management System\" \"C:\\Users\\HomePC\\source\\repos\\Installer\\Prerequisites\\SqlServer\\SQLEXPR_x64_ENU\""
+    }
+  }
+}

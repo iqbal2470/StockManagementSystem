@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,7 +72,18 @@ namespace StockManagementSystem.Forms.LicenseActivation
                 lblStatus.Text = "Expired";
             }
 
+            //MakePictureCircular(picProducts);
+
             LoadingCompleted?.Invoke();
         }
+
+        //private void MakePictureCircular(PictureBox pictureBox)
+        //{
+        //    GraphicsPath path = new GraphicsPath();
+        //    path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
+        //    pictureBox.Region = new Region(path);
+
+        //    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+        //}
     }
 }

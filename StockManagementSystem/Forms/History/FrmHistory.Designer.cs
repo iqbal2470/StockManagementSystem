@@ -384,7 +384,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.WhiteSmoke;
+            BackColor = Color.FromArgb(236, 241, 252);
             ClientSize = new Size(1037, 632);
             Controls.Add(pnlMain);
             Name = "FrmHistory";

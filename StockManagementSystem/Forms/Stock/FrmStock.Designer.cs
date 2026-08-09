@@ -701,6 +701,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(236, 241, 252);
             ClientSize = new Size(1223, 716);
             Controls.Add(pnlMain);
             Name = "FrmStock";

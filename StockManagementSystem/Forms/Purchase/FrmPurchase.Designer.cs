@@ -29,6 +29,18 @@
         private void InitializeComponent()
         {
             dgvPurchases = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
+            colSrNo = new DataGridViewTextBoxColumn();
+            colPurchaseNo = new DataGridViewTextBoxColumn();
+            colPurchaseDate = new DataGridViewTextBoxColumn();
+            colProductId = new DataGridViewTextBoxColumn();
+            colProductName = new DataGridViewTextBoxColumn();
+            colPurchasePrice = new DataGridViewTextBoxColumn();
+            colQuantity = new DataGridViewTextBoxColumn();
+            colTotalAmount = new DataGridViewTextBoxColumn();
+            colCreatedDate = new DataGridViewTextBoxColumn();
+            colUpdatedDate = new DataGridViewTextBoxColumn();
+            colRemarks = new DataGridViewTextBoxColumn();
             txtSearch = new TextBox();
             btnClear = new FontAwesome.Sharp.IconButton();
             btnDelete = new FontAwesome.Sharp.IconButton();
@@ -63,18 +75,6 @@
             panel6 = new Panel();
             label20 = new Label();
             pictureBox3 = new PictureBox();
-            Id = new DataGridViewTextBoxColumn();
-            colSrNo = new DataGridViewTextBoxColumn();
-            colPurchaseNo = new DataGridViewTextBoxColumn();
-            colPurchaseDate = new DataGridViewTextBoxColumn();
-            colProductId = new DataGridViewTextBoxColumn();
-            colProductName = new DataGridViewTextBoxColumn();
-            colPurchasePrice = new DataGridViewTextBoxColumn();
-            colQuantity = new DataGridViewTextBoxColumn();
-            colTotalAmount = new DataGridViewTextBoxColumn();
-            colCreatedDate = new DataGridViewTextBoxColumn();
-            colUpdatedDate = new DataGridViewTextBoxColumn();
-            colRemarks = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvPurchases).BeginInit();
             pnlMain.SuspendLayout();
             panel3.SuspendLayout();
@@ -101,6 +101,112 @@
             dgvPurchases.Size = new Size(1225, 342);
             dgvPurchases.TabIndex = 74;
             dgvPurchases.CellClick += dgvPurchases_CellClick;
+            // 
+            // Id
+            // 
+            Id.DataPropertyName = "Id";
+            Id.HeaderText = "Id";
+            Id.MinimumWidth = 8;
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            Id.Width = 150;
+            // 
+            // colSrNo
+            // 
+            colSrNo.HeaderText = "S.No";
+            colSrNo.MinimumWidth = 8;
+            colSrNo.Name = "colSrNo";
+            colSrNo.ReadOnly = true;
+            colSrNo.Width = 150;
+            // 
+            // colPurchaseNo
+            // 
+            colPurchaseNo.DataPropertyName = "PurchaseNo";
+            colPurchaseNo.HeaderText = "Purchase No";
+            colPurchaseNo.MinimumWidth = 8;
+            colPurchaseNo.Name = "colPurchaseNo";
+            colPurchaseNo.ReadOnly = true;
+            colPurchaseNo.Width = 150;
+            // 
+            // colPurchaseDate
+            // 
+            colPurchaseDate.DataPropertyName = "PurchaseDate";
+            colPurchaseDate.HeaderText = "Date";
+            colPurchaseDate.MinimumWidth = 8;
+            colPurchaseDate.Name = "colPurchaseDate";
+            colPurchaseDate.ReadOnly = true;
+            colPurchaseDate.Width = 150;
+            // 
+            // colProductId
+            // 
+            colProductId.DataPropertyName = "ProductId";
+            colProductId.HeaderText = "Product Id";
+            colProductId.MinimumWidth = 8;
+            colProductId.Name = "colProductId";
+            colProductId.ReadOnly = true;
+            colProductId.Width = 150;
+            // 
+            // colProductName
+            // 
+            colProductName.HeaderText = "Product Name";
+            colProductName.MinimumWidth = 8;
+            colProductName.Name = "colProductName";
+            colProductName.ReadOnly = true;
+            colProductName.Width = 150;
+            // 
+            // colPurchasePrice
+            // 
+            colPurchasePrice.DataPropertyName = "PurchasePrice";
+            colPurchasePrice.HeaderText = "Price";
+            colPurchasePrice.MinimumWidth = 8;
+            colPurchasePrice.Name = "colPurchasePrice";
+            colPurchasePrice.ReadOnly = true;
+            colPurchasePrice.Width = 150;
+            // 
+            // colQuantity
+            // 
+            colQuantity.DataPropertyName = "Quantity";
+            colQuantity.HeaderText = "Qty";
+            colQuantity.MinimumWidth = 8;
+            colQuantity.Name = "colQuantity";
+            colQuantity.ReadOnly = true;
+            colQuantity.Width = 150;
+            // 
+            // colTotalAmount
+            // 
+            colTotalAmount.DataPropertyName = "TotalAmount";
+            colTotalAmount.HeaderText = "Total";
+            colTotalAmount.MinimumWidth = 8;
+            colTotalAmount.Name = "colTotalAmount";
+            colTotalAmount.ReadOnly = true;
+            colTotalAmount.Width = 150;
+            // 
+            // colCreatedDate
+            // 
+            colCreatedDate.DataPropertyName = "CreatedDate";
+            colCreatedDate.HeaderText = "Created";
+            colCreatedDate.MinimumWidth = 8;
+            colCreatedDate.Name = "colCreatedDate";
+            colCreatedDate.ReadOnly = true;
+            colCreatedDate.Width = 150;
+            // 
+            // colUpdatedDate
+            // 
+            colUpdatedDate.DataPropertyName = "UpdatedDate";
+            colUpdatedDate.HeaderText = "Updated";
+            colUpdatedDate.MinimumWidth = 8;
+            colUpdatedDate.Name = "colUpdatedDate";
+            colUpdatedDate.ReadOnly = true;
+            colUpdatedDate.Width = 150;
+            // 
+            // colRemarks
+            // 
+            colRemarks.DataPropertyName = "Remarks";
+            colRemarks.HeaderText = "Remarks";
+            colRemarks.MinimumWidth = 8;
+            colRemarks.Name = "colRemarks";
+            colRemarks.ReadOnly = true;
+            colRemarks.Width = 150;
             // 
             // txtSearch
             // 
@@ -486,116 +592,11 @@
             pictureBox3.TabIndex = 2;
             pictureBox3.TabStop = false;
             // 
-            // Id
-            // 
-            Id.DataPropertyName = "Id";
-            Id.HeaderText = "Id";
-            Id.MinimumWidth = 8;
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            Id.Width = 150;
-            // 
-            // colSrNo
-            // 
-            colSrNo.HeaderText = "S.No";
-            colSrNo.MinimumWidth = 8;
-            colSrNo.Name = "colSrNo";
-            colSrNo.ReadOnly = true;
-            colSrNo.Width = 150;
-            // 
-            // colPurchaseNo
-            // 
-            colPurchaseNo.DataPropertyName = "PurchaseNo";
-            colPurchaseNo.HeaderText = "Purchase No";
-            colPurchaseNo.MinimumWidth = 8;
-            colPurchaseNo.Name = "colPurchaseNo";
-            colPurchaseNo.ReadOnly = true;
-            colPurchaseNo.Width = 150;
-            // 
-            // colPurchaseDate
-            // 
-            colPurchaseDate.DataPropertyName = "PurchaseDate";
-            colPurchaseDate.HeaderText = "Date";
-            colPurchaseDate.MinimumWidth = 8;
-            colPurchaseDate.Name = "colPurchaseDate";
-            colPurchaseDate.ReadOnly = true;
-            colPurchaseDate.Width = 150;
-            // 
-            // colProductId
-            // 
-            colProductId.DataPropertyName = "ProductId";
-            colProductId.HeaderText = "Product Id";
-            colProductId.MinimumWidth = 8;
-            colProductId.Name = "colProductId";
-            colProductId.ReadOnly = true;
-            colProductId.Width = 150;
-            // 
-            // colProductName
-            // 
-            colProductName.HeaderText = "Product Name";
-            colProductName.MinimumWidth = 8;
-            colProductName.Name = "colProductName";
-            colProductName.ReadOnly = true;
-            colProductName.Width = 150;
-            // 
-            // colPurchasePrice
-            // 
-            colPurchasePrice.DataPropertyName = "PurchasePrice";
-            colPurchasePrice.HeaderText = "Price";
-            colPurchasePrice.MinimumWidth = 8;
-            colPurchasePrice.Name = "colPurchasePrice";
-            colPurchasePrice.ReadOnly = true;
-            colPurchasePrice.Width = 150;
-            // 
-            // colQuantity
-            // 
-            colQuantity.DataPropertyName = "Quantity";
-            colQuantity.HeaderText = "Qty";
-            colQuantity.MinimumWidth = 8;
-            colQuantity.Name = "colQuantity";
-            colQuantity.ReadOnly = true;
-            colQuantity.Width = 150;
-            // 
-            // colTotalAmount
-            // 
-            colTotalAmount.DataPropertyName = "TotalAmount";
-            colTotalAmount.HeaderText = "Total";
-            colTotalAmount.MinimumWidth = 8;
-            colTotalAmount.Name = "colTotalAmount";
-            colTotalAmount.ReadOnly = true;
-            colTotalAmount.Width = 150;
-            // 
-            // colCreatedDate
-            // 
-            colCreatedDate.DataPropertyName = "CreatedDate";
-            colCreatedDate.HeaderText = "Created";
-            colCreatedDate.MinimumWidth = 8;
-            colCreatedDate.Name = "colCreatedDate";
-            colCreatedDate.ReadOnly = true;
-            colCreatedDate.Width = 150;
-            // 
-            // colUpdatedDate
-            // 
-            colUpdatedDate.DataPropertyName = "UpdatedDate";
-            colUpdatedDate.HeaderText = "Updated";
-            colUpdatedDate.MinimumWidth = 8;
-            colUpdatedDate.Name = "colUpdatedDate";
-            colUpdatedDate.ReadOnly = true;
-            colUpdatedDate.Width = 150;
-            // 
-            // colRemarks
-            // 
-            colRemarks.DataPropertyName = "Remarks";
-            colRemarks.HeaderText = "Remarks";
-            colRemarks.MinimumWidth = 8;
-            colRemarks.Name = "colRemarks";
-            colRemarks.ReadOnly = true;
-            colRemarks.Width = 150;
-            // 
             // FrmPurchase
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(236, 241, 252);
             ClientSize = new Size(1253, 801);
             Controls.Add(pnlMain);
             Name = "FrmPurchase";

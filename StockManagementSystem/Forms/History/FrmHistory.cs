@@ -327,7 +327,76 @@ namespace StockManagementSystem.Forms.History
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            if (dgvHistory.Rows.Count == 0)
+            //if (dgvHistory.Rows.Count == 0)
+            //{
+            //    MessageBox.Show("No records available to export.",
+            //        "Information",
+            //        MessageBoxButtons.OK,
+            //        MessageBoxIcon.Information);
+
+            //    return;
+            //}
+
+            //using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            //{
+            //    saveFileDialog.Filter = "Excel Workbook|*.xlsx";
+            //    saveFileDialog.FileName = $"History_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+
+            //    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        using (var workbook = new XLWorkbook())
+            //        {
+            //            var worksheet = workbook.Worksheets.Add("History");
+
+            //            // Headers
+            //            for (int i = 0; i < dgvHistory.Columns.Count; i++)
+            //            {
+            //                worksheet.Cell(1, i + 1).Value = dgvHistory.Columns[i].HeaderText;
+            //                worksheet.Cell(1, i + 1).Style.Font.Bold = true;
+            //            }
+
+            //            // Data
+            //            //for (int i = 0; i < dgvHistory.Rows.Count; i++)
+            //            //{
+            //            //    for (int j = 0; j < dgvHistory.Columns.Count; j++)
+            //            //    {
+            //            //        worksheet.Cell(i + 2, j + 1).Value =
+            //            //            dgvHistory.Rows[i].Cells[j].Value?.ToString();
+            //            //    }
+            //            //}
+            //            int row = 2;
+
+            //            foreach (var item in _filteredHistoryList)
+            //            {
+            //                worksheet.Cell(row, 1).Value = item.CreatedDate.ToString("dd-MM-yyyy hh:mm tt");
+            //                worksheet.Cell(row, 2).Value = item.Product?.ProductName;
+            //                worksheet.Cell(row, 3).Value = item.TransactionType.ToString();
+            //                worksheet.Cell(row, 4).Value = item.Quantity;
+            //                worksheet.Cell(row, 5).Value = item.PreviousStock;
+            //                worksheet.Cell(row, 6).Value = item.CurrentStock;
+            //                worksheet.Cell(row, 7).Value = item.ReferenceNo;
+            //                worksheet.Cell(row, 8).Value = item.Remarks;
+
+            //                row++;
+            //            }
+            //            worksheet.Columns().AdjustToContents();
+
+            //            workbook.SaveAs(saveFileDialog.FileName);
+            //        }
+
+            //        MessageBox.Show("History exported successfully.",
+            //            "Success",
+            //            MessageBoxButtons.OK,
+            //            MessageBoxIcon.Information);
+
+            //        Process.Start(new ProcessStartInfo(saveFileDialog.FileName)
+            //        {
+            //            UseShellExecute = true
+            //        });
+            //    }
+            //}
+
+            if (_filteredHistoryList == null || _filteredHistoryList.Count == 0)
             {
                 MessageBox.Show("No records available to export.",
                     "Information",
@@ -339,61 +408,157 @@ namespace StockManagementSystem.Forms.History
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.Filter = "Excel Workbook|*.xlsx";
+                saveFileDialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx";
                 saveFileDialog.FileName = $"History_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                using (XLWorkbook workbook = new XLWorkbook())
                 {
-                    using (var workbook = new XLWorkbook())
+                    var worksheet = workbook.Worksheets.Add("History");
+
+                    // ==========================
+                    // Report Title
+                    // ==========================
+
+                    worksheet.Range("A1:H1").Merge();
+                    worksheet.Cell("A1").Value = "STOCK TRANSACTION HISTORY";
+                    worksheet.Cell("A1").Style.Font.Bold = true;
+                    worksheet.Cell("A1").Style.Font.FontSize = 18;
+                    worksheet.Cell("A1").Style.Font.FontColor = XLColor.White;
+                    worksheet.Cell("A1").Style.Fill.BackgroundColor = XLColor.DarkBlue;
+                    worksheet.Cell("A1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell("A1").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+
+                    worksheet.Row(1).Height = 28;
+
+                    // ==========================
+                    // Generated Date
+                    // ==========================
+
+                    worksheet.Range("A2:H2").Merge();
+                    worksheet.Cell("A2").Value = $"Generated : {DateTime.Now:dd-MMM-yyyy hh:mm tt}";
+                    worksheet.Cell("A2").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                    worksheet.Cell("A2").Style.Font.Italic = true;
+                    worksheet.Cell("A2").Style.Font.FontColor = XLColor.DimGray;
+
+                    // ==========================
+                    // Headers
+                    // ==========================
+
+                    int headerRow = 4;
+
+                    string[] headers =
                     {
-                        var worksheet = workbook.Worksheets.Add("History");
+                "Date",
+                "Product",
+                "Type",
+                "Quantity",
+                "Previous Stock",
+                "Current Stock",
+                "Reference No",
+                "Remarks"
+            };
 
-                        // Headers
-                        for (int i = 0; i < dgvHistory.Columns.Count; i++)
-                        {
-                            worksheet.Cell(1, i + 1).Value = dgvHistory.Columns[i].HeaderText;
-                            worksheet.Cell(1, i + 1).Style.Font.Bold = true;
-                        }
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        var cell = worksheet.Cell(headerRow, i + 1);
 
-                        // Data
-                        //for (int i = 0; i < dgvHistory.Rows.Count; i++)
-                        //{
-                        //    for (int j = 0; j < dgvHistory.Columns.Count; j++)
-                        //    {
-                        //        worksheet.Cell(i + 2, j + 1).Value =
-                        //            dgvHistory.Rows[i].Cells[j].Value?.ToString();
-                        //    }
-                        //}
-                        int row = 2;
-
-                        foreach (var item in _filteredHistoryList)
-                        {
-                            worksheet.Cell(row, 1).Value = item.CreatedDate.ToString("dd-MM-yyyy hh:mm tt");
-                            worksheet.Cell(row, 2).Value = item.Product?.ProductName;
-                            worksheet.Cell(row, 3).Value = item.TransactionType.ToString();
-                            worksheet.Cell(row, 4).Value = item.Quantity;
-                            worksheet.Cell(row, 5).Value = item.PreviousStock;
-                            worksheet.Cell(row, 6).Value = item.CurrentStock;
-                            worksheet.Cell(row, 7).Value = item.ReferenceNo;
-                            worksheet.Cell(row, 8).Value = item.Remarks;
-
-                            row++;
-                        }
-                        worksheet.Columns().AdjustToContents();
-
-                        workbook.SaveAs(saveFileDialog.FileName);
+                        cell.Value = headers[i];
+                        cell.Style.Font.Bold = true;
+                        cell.Style.Font.FontColor = XLColor.White;
+                        cell.Style.Fill.BackgroundColor = XLColor.DarkBlue;
+                        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                     }
 
-                    MessageBox.Show("History exported successfully.",
-                        "Success",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    // ==========================
+                    // Data
+                    // ==========================
 
-                    Process.Start(new ProcessStartInfo(saveFileDialog.FileName)
+                    int row = 5;
+
+                    foreach (var item in _filteredHistoryList)
                     {
-                        UseShellExecute = true
-                    });
+                        worksheet.Cell(row, 1).Value = item.CreatedDate;
+                        worksheet.Cell(row, 1).Style.DateFormat.Format = "dd-MMM-yyyy hh:mm tt";
+
+                        worksheet.Cell(row, 2).Value = item.Product?.ProductName;
+
+                        worksheet.Cell(row, 3).Value = item.TransactionType.ToString();
+
+                        worksheet.Cell(row, 4).Value = item.Quantity;
+
+                        worksheet.Cell(row, 5).Value = item.PreviousStock;
+
+                        worksheet.Cell(row, 6).Value = item.CurrentStock;
+
+                        worksheet.Cell(row, 7).Value = item.ReferenceNo;
+
+                        worksheet.Cell(row, 8).Value = item.Remarks;
+
+                        row++;
+                    }
+
+                    // ==========================
+                    // Create Excel Table
+                    // ==========================
+
+                    var tableRange = worksheet.Range(4, 1, row - 1, 8);
+
+                    var table = tableRange.CreateTable();
+
+                    table.Theme = XLTableTheme.TableStyleMedium2;
+
+                    // ==========================
+                    // Borders
+                    // ==========================
+
+                    tableRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    tableRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                    // ==========================
+                    // Alignment
+                    // ==========================
+
+                    worksheet.Column(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Column(3).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Column(4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Column(5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Column(6).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Column(7).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    worksheet.Column(8).Style.Alignment.WrapText = true;
+
+                    // ==========================
+                    // Freeze Header
+                    // ==========================
+
+                    worksheet.SheetView.FreezeRows(4);
+
+                    // ==========================
+                    // Auto Width
+                    // ==========================
+
+                    worksheet.Columns().AdjustToContents();
+
+                    // ==========================
+                    // Save
+                    // ==========================
+
+                    workbook.SaveAs(saveFileDialog.FileName);
                 }
+
+                MessageBox.Show("History exported successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                Process.Start(new ProcessStartInfo(saveFileDialog.FileName)
+                {
+                    UseShellExecute = true
+                });
             }
         }
 
