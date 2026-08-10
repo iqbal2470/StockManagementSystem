@@ -43,16 +43,30 @@ namespace LicenseGeneratorTool
             string privateKey = rsa.ExportRSAPrivateKeyPem();
             string publicKey = rsa.ExportRSAPublicKeyPem();
 
-            File.WriteAllText("PrivateKey.pem", privateKey);
-            File.WriteAllText("PublicKey.pem", publicKey);
+            string privateKeyPath = Path.GetFullPath("PrivateKey.pem");
+            string publicKeyPath = Path.GetFullPath("PublicKey.pem");
 
+            File.WriteAllText(privateKeyPath, privateKey);
+            File.WriteAllText(publicKeyPath, publicKey);
+            //File.WriteAllText("PrivateKey.pem", privateKey);
+            //File.WriteAllText("PublicKey.pem", publicKey);
+
+            //MessageBox.Show(
+            //    "RSA Keys generated successfully.\n\n" +
+            //    "PrivateKey.pem\n" +
+            //    "PublicKey.pem",
+            //    "Success",
+            //    MessageBoxButtons.OK,
+            //    MessageBoxIcon.Information);
             MessageBox.Show(
-                "RSA Keys generated successfully.\n\n" +
-                "PrivateKey.pem\n" +
-                "PublicKey.pem",
-                "Success",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+           "RSA Keys generated successfully!\n\n" +
+           "PRIVATE KEY:\n" +
+           privateKeyPath + "\n\n" +
+           "PUBLIC KEY:\n" +
+           publicKeyPath,
+           "RSA Keys Location",
+           MessageBoxButtons.OK,
+           MessageBoxIcon.Information);
         }
         private void btnGenerateLicense_Click(object sender, EventArgs e)
         {

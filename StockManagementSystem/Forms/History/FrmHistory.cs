@@ -759,7 +759,7 @@ namespace StockManagementSystem.Forms.History
                             {
                                 try
                                 {
-                                    var logo = Properties.Resources.storemangeimg_1_removebg_preview;
+                                    var logo = Properties.Resources.bg_stockmh2;
 
                                     if (logo != null)
                                     {
@@ -795,14 +795,14 @@ namespace StockManagementSystem.Forms.History
                             {
                                 col.Item()
                                     .AlignCenter()
-                                    .Text("CAR ACCESSORY MANAGEMENT STORE")
+                                    .Text("Stock Monitoring Hub")
                                     .FontSize(18)
                                     .Bold();
 
-                                col.Item()
-                                    .AlignCenter()
-                                    .Text("Car Accessories & Auto Parts")
-                                    .FontSize(10);
+                                //col.Item()
+                                //    .AlignCenter()
+                                //    .Text("Car Accessories & Auto Parts")
+                                //    .FontSize(10);
 
                                 col.Item()
                                     .AlignCenter()

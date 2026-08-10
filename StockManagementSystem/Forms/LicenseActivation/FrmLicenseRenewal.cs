@@ -1,4 +1,5 @@
-﻿using StockManagementSystem.Services;
+﻿using StockManagementSystem.Models.Common;
+using StockManagementSystem.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ using System.Windows.Forms;
 
 namespace StockManagementSystem.Forms.LicenseActivation
 {
-    public partial class FrmLicenseRenewal : Form
+    public partial class FrmLicenseRenewal : BaseForm
     {
         public event Action? LoadingCompleted;
 

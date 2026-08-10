@@ -378,11 +378,12 @@
             // 
             // pictureBox9
             // 
+            pictureBox9.BackColor = Color.Transparent;
             pictureBox9.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox9.Image = Properties.Resources.ChatGPT_Image_Jul_23__2026__03_25_17_PM_removebg_preview;
+            pictureBox9.Image = Properties.Resources.bg_stockmh2;
             pictureBox9.Location = new Point(0, 3);
             pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(250, 202);
+            pictureBox9.Size = new Size(250, 241);
             pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox9.TabIndex = 17;
             pictureBox9.TabStop = false;
@@ -674,11 +675,12 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.ChatGPT_Image_Jul_23__2026__03_25_17_PM_removebg_preview;
-            pictureBox1.Location = new Point(-28, -22);
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.bg_stockmh2;
+            pictureBox1.Location = new Point(-28, 0);
             pictureBox1.Margin = new Padding(0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(297, 126);
+            pictureBox1.Size = new Size(297, 70);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -1982,7 +1984,7 @@
             MinimumSize = new Size(1200, 700);
             Name = "FrmDashboard";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Car Accessories Management Store";
+            Text = "Stock Monitoring Hub";
             WindowState = FormWindowState.Maximized;
             Load += FrmDashboard_Load;
             pnlSidebar.ResumeLayout(false);

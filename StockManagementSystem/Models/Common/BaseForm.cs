@@ -11,6 +11,8 @@ namespace StockManagementSystem.Models.Common
         public BaseForm()
         {
             this.Icon = Properties.Resources.caraccessory_icon;
+           
         }
+
     }
 }

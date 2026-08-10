@@ -55,8 +55,8 @@
             // picLogo
             // 
             picLogo.BackColor = Color.Transparent;
-            picLogo.Image = Properties.Resources.storemangeimg_1_removebg_preview;
-            picLogo.Location = new Point(169, 12);
+            picLogo.Image = Properties.Resources.bg_stockmh1;
+            picLogo.Location = new Point(169, 9);
             picLogo.Name = "picLogo";
             picLogo.Size = new Size(375, 141);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
@@ -195,7 +195,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label1.Location = new Point(263, 142);
+            label1.Location = new Point(276, 142);
             label1.Name = "label1";
             label1.Size = new Size(163, 30);
             label1.TabIndex = 12;
@@ -208,7 +208,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 8F);
             label4.ForeColor = Color.DimGray;
-            label4.Location = new Point(272, 177);
+            label4.Location = new Point(285, 177);
             label4.Name = "label4";
             label4.Size = new Size(143, 21);
             label4.TabIndex = 13;
@@ -219,9 +219,7 @@
             // 
             pnlLogin.BackColor = Color.Transparent;
             pnlLogin.Controls.Add(label5);
-            pnlLogin.Controls.Add(label1);
             pnlLogin.Controls.Add(picLogo);
-            pnlLogin.Controls.Add(label4);
             pnlLogin.Controls.Add(label2);
             pnlLogin.Controls.Add(label3);
             pnlLogin.Controls.Add(panel2);
@@ -229,6 +227,8 @@
             pnlLogin.Controls.Add(panel1);
             pnlLogin.Controls.Add(btnExit);
             pnlLogin.Controls.Add(lblVersion);
+            pnlLogin.Controls.Add(label1);
+            pnlLogin.Controls.Add(label4);
             pnlLogin.Dock = DockStyle.Fill;
             pnlLogin.Location = new Point(0, 0);
             pnlLogin.Name = "pnlLogin";

@@ -36,10 +36,10 @@
             btnBrowse = new FontAwesome.Sharp.IconButton();
             btnActivate = new FontAwesome.Sharp.IconButton();
             panel1 = new Panel();
-            label3 = new Label();
             panel4 = new Panel();
             label4 = new Label();
             picLogo = new PictureBox();
+            label3 = new Label();
             panel1.SuspendLayout();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -147,18 +147,6 @@
             panel1.Size = new Size(719, 477);
             panel1.TabIndex = 7;
             // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 8F);
-            label3.ForeColor = Color.DimGray;
-            label3.Location = new Point(232, 163);
-            label3.Name = "label3";
-            label3.Size = new Size(236, 21);
-            label3.TabIndex = 1;
-            label3.Text = "Admin Master License Activation";
-            // 
             // panel4
             // 
             panel4.Controls.Add(label4);
@@ -183,7 +171,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             label4.ForeColor = Color.CornflowerBlue;
-            label4.Location = new Point(269, 133);
+            label4.Location = new Point(280, 133);
             label4.Name = "label4";
             label4.Size = new Size(163, 30);
             label4.TabIndex = 14;
@@ -193,13 +181,25 @@
             // picLogo
             // 
             picLogo.BackColor = Color.Transparent;
-            picLogo.Image = Properties.Resources.storemangeimg_1_removebg_preview;
-            picLogo.Location = new Point(175, 3);
+            picLogo.Image = Properties.Resources.bg_stockmh1;
+            picLogo.Location = new Point(173, 3);
             picLogo.Name = "picLogo";
             picLogo.Size = new Size(375, 141);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
             picLogo.TabIndex = 13;
             picLogo.TabStop = false;
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 8F);
+            label3.ForeColor = Color.DimGray;
+            label3.Location = new Point(243, 163);
+            label3.Name = "label3";
+            label3.Size = new Size(236, 21);
+            label3.TabIndex = 1;
+            label3.Text = "Admin Master License Activation";
             // 
             // FrmLicenseActivation
             // 

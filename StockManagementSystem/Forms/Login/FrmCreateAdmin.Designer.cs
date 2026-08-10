@@ -225,7 +225,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label5.Location = new Point(260, 163);
+            label5.Location = new Point(270, 163);
             label5.Name = "label5";
             label5.Size = new Size(163, 30);
             label5.TabIndex = 24;
@@ -235,8 +235,8 @@
             // picLogo
             // 
             picLogo.BackColor = Color.Transparent;
-            picLogo.Image = Properties.Resources.storemangeimg_1_removebg_preview;
-            picLogo.Location = new Point(166, 33);
+            picLogo.Image = Properties.Resources.bg_stockmh1;
+            picLogo.Location = new Point(163, 29);
             picLogo.Name = "picLogo";
             picLogo.Size = new Size(375, 141);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
@@ -249,7 +249,7 @@
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Segoe UI", 8F);
             label6.ForeColor = Color.DimGray;
-            label6.Location = new Point(269, 198);
+            label6.Location = new Point(279, 198);
             label6.Name = "label6";
             label6.Size = new Size(143, 21);
             label6.TabIndex = 25;
